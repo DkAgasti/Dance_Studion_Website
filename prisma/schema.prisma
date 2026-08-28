@@ -42,6 +42,7 @@ enum MediaType {
   PHOTO
   CERTIFICATE
   REVIEW
+  MILESTONE
 }
 
 enum VideoSource {
@@ -279,6 +280,7 @@ model Media {
   imageUrl    String?
   caption     String?
   category    String?
+  body        String?
   rating      Int?
   authorName  String?
   featured    Boolean      @default(false)

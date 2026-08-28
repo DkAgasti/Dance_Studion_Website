@@ -16,7 +16,11 @@ export default function FounderSpotlight() {
         >
           <p className="eyebrow text-brand-end">The Founder</p>
           <h2 className="h1-display mt-4 text-balance">
-            TRISHNA <span className="text-gradient-brand">THE VISIONARY</span>
+            TRISHNA
+            <br />
+            <span className="text-outline">THE</span>
+            <br />
+            <span className="text-outline">VISIONARY</span>
           </h2>
           <div className="mt-8 flex flex-col gap-4 text-lg text-muted-foreground">
             <p>
@@ -30,7 +34,7 @@ export default function FounderSpotlight() {
               now successful performers themselves.
             </p>
           </div>
-          <blockquote className="glass font-display mt-10 rounded-3xl p-10 text-xl leading-snug text-foreground/90 md:text-2xl">
+          <blockquote className="glass font-display mt-10 rounded-3xl border-l-4 border-l-brand-lime p-10 text-xl leading-snug text-foreground/90 md:text-2xl">
             &ldquo;Dance isn&apos;t just about the steps; it&apos;s about
             the soul finding its voice through the rhythm of the
             universe.&rdquo;
@@ -49,6 +53,8 @@ export default function FounderSpotlight() {
             className="bg-gradient-brand absolute -inset-10 rounded-full opacity-20 blur-[100px]"
           />
           <ImageWithFallback
+            src="https://res.cloudinary.com/fexwwils/image/upload/v1787894856/trishma.jpg" // 👈 yahan apna image URL daalo
+            alt="Trishna, founder of ASM"
             gradient="from-brand-mid/25 via-surface to-brand-start/20"
             className="relative aspect-[504/630] w-full rounded-3xl border border-border shadow-2xl"
           />

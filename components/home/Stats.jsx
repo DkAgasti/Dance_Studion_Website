@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { motion, useInView, useReducedMotion, animate } from "framer-motion";
 import { cn } from "@/lib/utils";
 
@@ -61,27 +61,9 @@ function StatItem({ value, suffix, label, color, delay }) {
 }
 
 // Home page stats section — students trained, reviews, styles, years running.
-// Values come from GET /api/settings (managed in Admin > Content >
-// Homepage), falling back to defaults until that's set.
+// Hardcoded (no longer admin-editable — the Homepage content tab was removed).
 export default function Stats() {
-  const [stats, setStats] = useState(DEFAULT_STATS);
-
-  useEffect(() => {
-    let cancelled = false;
-    fetch("/api/settings")
-      .then((res) => res.json())
-      .then(({ settings }) => {
-        if (!cancelled && settings?.stats?.length) {
-          setStats(settings.stats);
-        }
-      })
-      .catch(() => {
-        // keep the default stats
-      });
-    return () => {
-      cancelled = true;
-    };
-  }, []);
+  const stats = DEFAULT_STATS;
 
   return (
     <section className="container-page pt-16 pb-4 md:pt-20 md:pb-6">
