@@ -73,6 +73,8 @@ export default function AsmIntro() {
           className="relative min-h-[320px] md:min-h-full"
         >
           <ImageWithFallback
+            src="https://res.cloudinary.com/fexwwils/image/upload/v1787894857/ASM-DANCE-STUDIO-REEL-11-1.jpg"
+            alt="ASM giving back to community"
             gradient="from-brand-lime/20 via-surface to-brand-mid/20"
             className="absolute inset-0 rounded-3xl border border-border"
           />
