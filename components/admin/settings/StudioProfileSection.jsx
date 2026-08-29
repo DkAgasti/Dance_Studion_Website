@@ -127,6 +127,7 @@ export default function StudioProfileSection() {
               label={uploading ? "Uploading..." : "LOGO"}
               className="absolute inset-0 size-24 !p-2 text-[10px] font-bold tracking-wide uppercase"
               onFile={handleLogo}
+              onUrl={set("logoUrl")}
             />
           ) : null}
         </div>

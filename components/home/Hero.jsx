@@ -18,7 +18,7 @@ const HERO_SUBTEXT =
 const HERO_IMAGE_URL ="https://res.cloudinary.com/fexwwils/image/upload/v1787773374/home_dance.png";
 const HERO_SMOKE_URL = "https://res.cloudinary.com/fexwwils/image/upload/v1787823332/hero-smoke.png";
 
-const HEADING_CLASS ="font-display font-bold uppercase leading-[0.85] tracking-tight text-[clamp(2.75rem,1.5rem+5.5vw,8rem)]";
+const HEADING_CLASS = "font-display font-bold uppercase leading-[1.05] tracking-tight text-5xl md:text-7xl";
 
 export default function Hero() {
   return (

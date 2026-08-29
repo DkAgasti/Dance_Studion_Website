@@ -70,6 +70,7 @@ function TrainerForm({ trainer, onSubmit }) {
           label={uploading ? "Uploading..." : form.photoUrl ? "Photo uploaded" : "Upload Photo"}
           hint="JPG or PNG"
           onFile={handlePhoto}
+          onUrl={(url) => setForm((f) => ({ ...f, photoUrl: url }))}
         />
         <div className="flex flex-col gap-1.5">
           <Label htmlFor="tr-name">Name</Label>

@@ -35,7 +35,7 @@ export default function PricingFAQ() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-80px" }}
         transition={{ duration: 0.6, ease: "easeOut" }}
-        className="h2-display text-center uppercase"
+        className="h2-display text-2xl text-center uppercase md:text-3xl"
       >
         Pricing <span className="text-brand-lime">FAQs</span>
       </motion.h2>

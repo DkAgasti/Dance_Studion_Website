@@ -146,6 +146,7 @@ function ReelForm({ reel, onSubmit }) {
           }
           hint="Shown as the reel's cover photo on the homepage"
           onFile={handleThumbnail}
+          onUrl={(url) => setForm((f) => ({ ...f, imageUrl: url }))}
         />
 
         <div className="flex flex-col gap-1.5">
