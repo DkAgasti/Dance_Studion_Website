@@ -71,6 +71,7 @@ export async function GET(request) {
         subject: "ASM Dance Studio — Fee Payment Reminder",
         html: feeReminderEmail({
           studentName: fee.student.name,
+          guardianName: fee.student.guardian,
           amount: fee.amount,
           dueDate: fee.dueDate.toDateString(),
           type,

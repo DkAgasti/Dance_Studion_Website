@@ -59,6 +59,19 @@ function timeAgo(isoString) {
   return `${diffYears} year${diffYears === 1 ? "" : "s"} ago`;
 }
 
+// Google's public "write a review" link comes back as
+// search.google.com/local/writereview?placeid=X — swap the path to get the
+// place's full reviews list instead (same placeid).
+function allReviewsUrl(profileUrl) {
+  if (!profileUrl) return null;
+  try {
+    const placeId = new URL(profileUrl).searchParams.get("placeid");
+    return placeId ? `https://search.google.com/local/reviews?placeid=${placeId}` : profileUrl;
+  } catch {
+    return profileUrl;
+  }
+}
+
 function GoogleReviewCard({ review }) {
   return (
     <div className="glass w-[280px] shrink-0 snap-start rounded-2xl p-5">
@@ -90,7 +103,8 @@ export default function Reviews() {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const scrollerRef = useRef(null);
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [activePage, setActivePage] = useState(0);
+  const [pageCount, setPageCount] = useState(1);
 
   useEffect(() => {
     let cancelled = false;
@@ -112,26 +126,56 @@ export default function Reviews() {
 
   const reviews = (data?.reviews ?? []).slice(0, MAX_REVIEWS);
 
+  // A "page" is however many cards fit in the visible track at once — prev/
+  // next and the dots move by a whole page, so the last dot always lines up
+  // with the actual scroll limit (no dead clicks near the end).
+  function getMetrics() {
+    const el = scrollerRef.current;
+    if (!el || !el.firstElementChild) return null;
+    const cardWidth = el.firstElementChild.getBoundingClientRect().width;
+    const step = cardWidth + 16;
+    const perPage = Math.max(1, Math.round(el.clientWidth / step));
+    const maxScroll = Math.max(0, el.scrollWidth - el.clientWidth);
+    const pages = Math.max(1, Math.ceil(reviews.length / perPage));
+    return { step, perPage, maxScroll, pages };
+  }
+
   useEffect(() => {
     const el = scrollerRef.current;
     if (!el) return;
-    function onScroll() {
-      const cardWidth = el.firstElementChild?.getBoundingClientRect().width ?? 1;
-      setActiveIndex(Math.round(el.scrollLeft / (cardWidth + 16)));
+
+    function sync() {
+      const m = getMetrics();
+      if (!m) return;
+      setPageCount(m.pages);
+      // Map scroll position proportionally onto the dots (rather than
+      // page * perPage * step) so the last dot always lines up exactly
+      // with maxScroll even when reviews.length isn't a clean multiple
+      // of perPage — otherwise "next" can stall a dot early.
+      const progress = m.maxScroll > 0 ? el.scrollLeft / m.maxScroll : 0;
+      const raw = Math.round(progress * (m.pages - 1));
+      setActivePage(Math.min(Math.max(raw, 0), m.pages - 1));
     }
-    el.addEventListener("scroll", onScroll, { passive: true });
-    return () => el.removeEventListener("scroll", onScroll);
+
+    sync();
+    el.addEventListener("scroll", sync, { passive: true });
+    window.addEventListener("resize", sync);
+    return () => {
+      el.removeEventListener("scroll", sync);
+      window.removeEventListener("resize", sync);
+    };
   }, [reviews.length]);
 
-  function scrollToIndex(i) {
+  function scrollToPage(page) {
     const el = scrollerRef.current;
-    if (!el) return;
-    const cardWidth = el.firstElementChild?.getBoundingClientRect().width ?? 0;
-    el.scrollTo({ left: i * (cardWidth + 16), behavior: "smooth" });
+    const m = getMetrics();
+    if (!el || !m) return;
+    const target = m.pages > 1 ? (page / (m.pages - 1)) * m.maxScroll : 0;
+    el.scrollTo({ left: Math.min(Math.max(target, 0), m.maxScroll), behavior: "smooth" });
   }
 
-  function scrollBy(dir) {
-    scrollToIndex(Math.min(Math.max(activeIndex + dir, 0), reviews.length - 1));
+  function scrollByPage(dir) {
+    scrollToPage(Math.min(Math.max(activePage + dir, 0), pageCount - 1));
   }
 
   return (
@@ -181,8 +225,8 @@ export default function Reviews() {
             <button
               type="button"
               aria-label="Previous review"
-              onClick={() => scrollBy(-1)}
-              disabled={activeIndex === 0}
+              onClick={() => scrollByPage(-1)}
+              disabled={activePage === 0}
               className="glass-strong absolute top-1/2 -left-3 z-10 flex size-9 -translate-y-1/2 items-center justify-center rounded-full disabled:opacity-30 md:-left-4"
             >
               <ChevronLeft className="size-4" />
@@ -201,27 +245,38 @@ export default function Reviews() {
             <button
               type="button"
               aria-label="Next review"
-              onClick={() => scrollBy(1)}
-              disabled={activeIndex >= reviews.length - 1}
+              onClick={() => scrollByPage(1)}
+              disabled={activePage >= pageCount - 1}
               className="glass-strong absolute top-1/2 -right-3 z-10 flex size-9 -translate-y-1/2 items-center justify-center rounded-full disabled:opacity-30 md:-right-4"
             >
               <ChevronRight className="size-4" />
             </button>
 
             <div className="mt-4 flex items-center justify-center gap-2">
-              {reviews.map((review, i) => (
+              {Array.from({ length: pageCount }).map((_, i) => (
                 <button
-                  key={review.id}
+                  key={i}
                   type="button"
-                  aria-label={`Go to review ${i + 1}`}
-                  onClick={() => scrollToIndex(i)}
+                  aria-label={`Go to page ${i + 1}`}
+                  onClick={() => scrollToPage(i)}
                   className={
                     "size-1.5 rounded-full transition-colors " +
-                    (i === activeIndex ? "bg-brand-lime" : "bg-border")
+                    (i === activePage ? "bg-brand-lime" : "bg-border")
                   }
                 />
               ))}
             </div>
+
+            {data.totalReviewCount > reviews.length ? (
+              <a
+                href={allReviewsUrl(data.profileUrl) ?? "#"}
+                target="_blank"
+                rel="noreferrer noopener"
+                className="mt-3 block text-center text-xs font-medium text-brand-end hover:underline"
+              >
+                See all {data.totalReviewCount} reviews on Google
+              </a>
+            ) : null}
           </div>
         </div>
       ) : null}
