@@ -88,6 +88,7 @@ function ClassForm({ danceClass, onSubmit }) {
           label={uploading ? "Uploading..." : "Upload Image"}
           hint="JPG or PNG"
           onFile={handlePhoto}
+          onUrl={(url) => setForm((f) => ({ ...f, imageUrl: url }))}
         />
 
         <div className="flex flex-col gap-1.5">

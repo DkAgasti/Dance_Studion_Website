@@ -24,7 +24,7 @@ export default function AsmIntro() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-80px" }}
         transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
-        className="h2-display mx-auto mt-12 max-w-4xl text-center text-balance"
+        className="h2-display mx-auto mt-12 max-w-4xl text-center text-balance text-2xl md:text-[26px]"
       >
         ASM (Achieve Show Makers) is more than a studio—it&apos;s a{" "}
         <span className="text-brand-lime">movement</span> dedicated to

@@ -1,7 +1,6 @@
 "use client";
 
 import { motion } from "framer-motion";
-import ImageWithFallback from "@/components/media/ImageWithFallback";
 
 // "Dance Classes" hero — heading + intro left, dancer photo + decorative
 // shapes right.
@@ -14,7 +13,7 @@ export default function ClassesHero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: "easeOut" }}
         >
-          <h1 className="h1-display text-balance">
+          <h1 className="h1-display text-balance text-6xl md:text-8xl">
             DANCE
             <br />
             <span className="text-gradient-brand">CLASSES</span>
@@ -29,27 +28,15 @@ export default function ClassesHero() {
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.7, ease: "easeOut", delay: 0.15 }}
-          className="relative mx-auto aspect-square w-full max-w-sm"
+          className="relative mx-auto w-full max-w-xl"
         >
-          <div
-            aria-hidden
-            className="bg-gradient-brand absolute inset-8 rounded-full opacity-20 blur-[80px]"
-          />
-          <div
-            aria-hidden
-            className="bg-gradient-brand absolute inset-10 rotate-12 rounded-[3rem] border-2 border-transparent [background:linear-gradient(var(--background),var(--background))_padding-box,linear-gradient(135deg,var(--brand-start),var(--brand-mid),var(--brand-end))_border-box] opacity-70"
-          />
-          <div
-            aria-hidden
-            className="absolute top-6 left-2 grid grid-cols-3 gap-1.5 opacity-40"
-          >
-            {Array.from({ length: 9 }).map((_, i) => (
-              <span key={i} className="size-1.5 rounded-full bg-brand-mid" />
-            ))}
-          </div>
-          <ImageWithFallback
-            gradient="from-brand-start/25 via-surface to-brand-mid/25"
-            className="absolute inset-6 rounded-3xl border border-border shadow-2xl"
+          {/* 👈 yahan apna image URL daalo */}
+          <motion.img
+            animate={{ y: [0, -18, 0] }}
+            transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
+            src="https://res.cloudinary.com/fexwwils/image/upload/v1787894856/dance_classes.png"
+            alt="Dancers at ASM Dance Studio"
+            className="mx-auto w-full"
           />
         </motion.div>
       </div>

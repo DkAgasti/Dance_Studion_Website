@@ -59,7 +59,7 @@ export default function CorporateForm() {
       >
         <div className="text-center">
           <p className="eyebrow text-brand-lime">Corporate Wellness</p>
-          <h2 className="h2-display mt-4 text-balance">
+          <h2 className="h2-display mt-4 text-2xl text-balance md:text-3xl">
             Request a Corporate <span className="text-brand-lime">Session</span>
           </h2>
           <p className="mt-3 text-muted-foreground">

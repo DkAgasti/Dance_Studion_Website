@@ -18,7 +18,7 @@ export default function NotSureCTA() {
         className="bg-gradient-brand flex flex-col items-start gap-8 rounded-3xl p-8 sm:p-10 md:flex-row md:items-center md:justify-between md:rounded-4xl md:p-12"
       >
         <div>
-          <h2 className="h2-display text-white uppercase">
+          <h2 className="h2-display text-2xl text-white uppercase md:text-3xl">
             Not Sure Which Class?
           </h2>
           <p className="mt-3 max-w-md text-white/85">

@@ -46,10 +46,8 @@ export default function PhotosTab() {
     };
   }, []);
 
-  async function handleUpload(file) {
-    setUploading(true);
+  async function savePhoto(url) {
     try {
-      const { url } = await uploadFile(file, "photos");
       const res = await fetch("/api/media", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -58,6 +56,16 @@ export default function PhotosTab() {
       if (!res.ok) throw new Error("Failed to save photo.");
       const { media } = await res.json();
       setPhotos((prev) => [media, ...prev]);
+    } catch (err) {
+      setError(err.message);
+    }
+  }
+
+  async function handleUpload(file) {
+    setUploading(true);
+    try {
+      const { url } = await uploadFile(file, "photos");
+      await savePhoto(url);
     } catch (err) {
       setError(err.message);
     } finally {
@@ -128,6 +136,7 @@ export default function PhotosTab() {
             hint="JPG or PNG, max 10MB"
             className="aspect-square"
             onFile={handleUpload}
+            onUrl={savePhoto}
           />
 
           {photos.map((photo, i) => (
