@@ -39,14 +39,15 @@ function StyleTile({ style, position, index }) {
           <h3 className="h4-display">{style.name}</h3>
         </div>
       ) : (
-        <div className="group relative h-full overflow-hidden rounded-xl border border-border">
+        <div className="group relative h-full overflow-hidden rounded-xl border border-border transition-shadow duration-500 hover:shadow-2xl hover:shadow-brand-mid/20">
           <ImageWithFallback
             src={style.imageUrl}
             gradient={style.gradient}
             className="absolute inset-0"
+            imgClassName="transition-transform duration-700 ease-out group-hover:scale-110"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/10 to-transparent" />
-          <div className="absolute inset-0 flex flex-col justify-end p-6">
+          <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/10 to-transparent transition-opacity duration-500 group-hover:from-background/95" />
+          <div className="absolute inset-0 flex flex-col justify-end p-6 transition-transform duration-500 ease-out group-hover:-translate-y-1.5">
             {style.badge ? (
               <span className="glass mb-4 inline-flex w-fit rounded-full px-3 py-1 text-xs font-bold tracking-wide text-white uppercase">
                 {style.badge}
@@ -56,7 +57,7 @@ function StyleTile({ style, position, index }) {
               {style.name}
             </h3>
             {style.description ? (
-              <p className="mt-2 max-w-md text-sm text-white/70">
+              <p className="mt-2 max-w-md text-sm text-white/70 opacity-0 transition-opacity duration-500 group-hover:opacity-100">
                 {style.description}
               </p>
             ) : null}
