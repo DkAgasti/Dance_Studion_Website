@@ -17,7 +17,7 @@ export default function CTABand({
   className,
 }) {
   return (
-    <section className={cn("container-page", className)}>
+    <section className={cn("container-page pt-8 pb-16 md:pt-12 md:pb-20", className)}>
       <motion.div
         initial={{ opacity: 0, y: 32 }}
         whileInView={{ opacity: 1, y: 0 }}

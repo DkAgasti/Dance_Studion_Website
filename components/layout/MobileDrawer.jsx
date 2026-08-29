@@ -1,13 +1,17 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/config/site";
+import { cn } from "@/lib/utils";
 
 // Mobile navigation drawer for the public site, toggled from <Navbar>.
 export default function MobileDrawer({ open, onClose }) {
+  const pathname = usePathname();
+
   return (
     <AnimatePresence>
       {open ? (
@@ -42,16 +46,27 @@ export default function MobileDrawer({ open, onClose }) {
             </div>
 
             <nav className="flex flex-col gap-1">
-              {siteConfig.navLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  onClick={onClose}
-                  className="rounded-lg px-3 py-3 text-lg font-medium text-foreground/90 transition-colors hover:bg-white/5"
-                >
-                  {link.label}
-                </Link>
-              ))}
+              {siteConfig.navLinks.map((link) => {
+                const isActive =
+                  link.href === "/"
+                    ? pathname === "/"
+                    : pathname === link.href || pathname.startsWith(`${link.href}/`);
+                return (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    onClick={onClose}
+                    className={cn(
+                      "rounded-lg px-3 py-3 text-lg font-medium transition-colors",
+                      isActive
+                        ? "border border-white/15 bg-white/10 text-foreground shadow-lg backdrop-blur-xl"
+                        : "text-foreground/90 hover:bg-white/5"
+                    )}
+                  >
+                    {link.label}
+                  </Link>
+                );
+              })}
             </nav>
 
             <Button
