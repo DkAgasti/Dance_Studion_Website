@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import { motion, useAnimationControls } from "framer-motion";
 import { Loader2 } from "lucide-react";
 import ImageWithFallback from "@/components/media/ImageWithFallback";
 import SectionHeading from "@/components/shared/SectionHeading";
@@ -13,14 +13,18 @@ const GRADIENTS = [
   "from-brand-lime/25 via-surface to-brand-end/15",
 ];
 
-function TrainerCard({ trainer, gradient, index }) {
+function TrainerCard({ trainer, gradient, index, className }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-60px" }}
       transition={{ duration: 0.5, delay: index * 0.1, ease: "easeOut" }}
-      className="group relative aspect-[325/434] overflow-hidden rounded-2xl border border-border"
+      whileHover={{ y: -8, scale: 1.03 }}
+      className={
+        "group relative aspect-[325/434] w-[260px] shrink-0 overflow-hidden rounded-2xl border border-border shadow-lg transition-shadow duration-300 hover:shadow-2xl hover:shadow-brand-lime/10 " +
+        (className ?? "")
+      }
     >
       <ImageWithFallback src={trainer.photoUrl} gradient={gradient} className="absolute inset-0" />
       <div className="absolute inset-0 bg-gradient-to-t from-background/95 via-background/20 to-transparent" />
@@ -45,6 +49,15 @@ function TrainerCard({ trainer, gradient, index }) {
 export default function MeetTheMasters() {
   const [trainers, setTrainers] = useState([]);
   const [loading, setLoading] = useState(true);
+  const marqueeControls = useAnimationControls();
+  const marqueeDuration = useRef(0);
+
+  function startMarquee() {
+    marqueeControls.start({
+      x: ["0%", "-50%"],
+      transition: { duration: marqueeDuration.current, repeat: Infinity, ease: "linear" },
+    });
+  }
 
   useEffect(() => {
     let cancelled = false;
@@ -64,6 +77,14 @@ export default function MeetTheMasters() {
     };
   }, []);
 
+  useEffect(() => {
+    if (trainers.length > 3) {
+      marqueeDuration.current = trainers.length * 4;
+      startMarquee();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [trainers.length]);
+
   if (!loading && !trainers.length) return null;
 
   return (
@@ -80,6 +101,23 @@ export default function MeetTheMasters() {
           <Loader2 className="size-4 animate-spin" />
           Loading trainers...
         </div>
+      ) : trainers.length > 3 ? (
+        <div
+          className="mt-16 overflow-hidden"
+          onMouseEnter={() => marqueeControls.stop()}
+          onMouseLeave={startMarquee}
+        >
+          <motion.div className="flex w-max gap-6" animate={marqueeControls} initial={{ x: "0%" }}>
+            {[...trainers, ...trainers].map((trainer, i) => (
+              <TrainerCard
+                key={`${trainer.id}-${i}`}
+                trainer={trainer}
+                gradient={GRADIENTS[i % GRADIENTS.length]}
+                index={i}
+              />
+            ))}
+          </motion.div>
+        </div>
       ) : (
         <div className="mt-16 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {trainers.map((trainer, i) => (
@@ -88,6 +126,7 @@ export default function MeetTheMasters() {
               trainer={trainer}
               gradient={GRADIENTS[i % GRADIENTS.length]}
               index={i}
+              className="sm:w-auto"
             />
           ))}
         </div>

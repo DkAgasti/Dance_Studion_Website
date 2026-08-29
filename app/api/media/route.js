@@ -5,7 +5,7 @@ import { prisma } from "@/lib/db";
 import { getCurrentUser } from "@/lib/auth";
 import { mediaSchema } from "@/lib/validations/media";
 
-const VALID_TYPES = ["REEL", "PHOTO", "CERTIFICATE", "REVIEW"];
+const VALID_TYPES = ["REEL", "PHOTO", "CERTIFICATE", "REVIEW", "MILESTONE"];
 
 export async function GET(request) {
   const { searchParams } = new URL(request.url);

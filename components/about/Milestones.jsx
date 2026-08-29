@@ -1,35 +1,31 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
+import { Loader2 } from "lucide-react";
 import ImageWithFallback from "@/components/media/ImageWithFallback";
 import { cn } from "@/lib/utils";
 
-const EVENTS = [
-  {
-    year: "2016",
-    title: "The Foundation",
-    body: "ASM was born in a small studio in Patia with just 5 passionate students and a big dream.",
-    color: "text-brand-start",
-    dot: "bg-brand-start",
-    gradient: "from-[#3a2a1f] via-surface to-[#7a5320]",
-  },
-  {
-    year: "2019",
-    title: "The First Big Stage",
-    body: "Our first major annual performance featuring 100+ students on a professional stage.",
-    color: "text-brand-mid",
-    dot: "bg-brand-mid",
-    gradient: "from-[#1c1140] via-surface to-[#3a1f6b]",
-  },
-  {
-    year: "2023",
-    title: "National Recognition",
-    body: 'Awarded "Best Dance Academy in Odisha" at the National Art & Performance Awards.',
-    color: "text-brand-lime",
-    dot: "bg-brand-lime",
-    gradient: "from-[#2a2a0f] via-surface to-[#5a5a1a]",
-  },
+// How many milestones are revealed at a time as the timeline is scrolled —
+// keeps a long history from dumping every entry on screen at once.
+const PAGE_SIZE = 2;
+
+const STYLES = [
+  { color: "text-brand-start", dot: "bg-brand-start", gradient: "from-[#3a2a1f] via-surface to-[#7a5320]" },
+  { color: "text-brand-mid", dot: "bg-brand-mid", gradient: "from-[#1c1140] via-surface to-[#3a1f6b]" },
+  { color: "text-brand-lime", dot: "bg-brand-lime", gradient: "from-[#2a2a0f] via-surface to-[#5a5a1a]" },
 ];
+
+function toEvent(m, i) {
+  const style = STYLES[i % STYLES.length];
+  return {
+    year: m.category,
+    title: m.caption,
+    body: m.body,
+    imageUrl: m.url,
+    ...style,
+  };
+}
 
 function Milestone({ event, index }) {
   const reversed = index % 2 === 1;
@@ -82,6 +78,8 @@ function Milestone({ event, index }) {
           className="flex-1"
         >
           <ImageWithFallback
+            src={event.imageUrl}
+            alt={event.title}
             gradient={event.gradient}
             className="aspect-video w-full rounded-xl border border-border"
           />
@@ -91,8 +89,64 @@ function Milestone({ event, index }) {
   );
 }
 
-// "Milestones" — alternating timeline of ASM's history.
+// Invisible marker sitting just below the last revealed milestone — once it
+// scrolls into view inside the timeline's own scroll container, the parent
+// reveals the next page of events. Uses a raw IntersectionObserver (rather
+// than framer's useInView) so it can watch the scrollable div as its root
+// instead of the window.
+function LoadMoreTrigger({ scrollRootRef, onReveal }) {
+  const ref = useRef(null);
+
+  useEffect(() => {
+    const node = ref.current;
+    if (!node) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          onReveal();
+          observer.disconnect();
+        }
+      },
+      { root: scrollRootRef.current, rootMargin: "200px" }
+    );
+    observer.observe(node);
+    return () => observer.disconnect();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  return <div ref={ref} aria-hidden className="h-px w-full" />;
+}
+
+// "Milestones" — alternating timeline of ASM's history. Events come from
+// GET /api/media?type=MILESTONE (managed in Admin > Content > Milestones).
+// Revealed a page at a time as the user scrolls, so a long history doesn't
+// dump dozens of entries on screen at once.
 export default function Milestones() {
+  const [milestones, setMilestones] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
+  const scrollRef = useRef(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetch("/api/media?type=MILESTONE")
+      .then((res) => (res.ok ? res.json() : { media: [] }))
+      .then((body) => {
+        if (!cancelled) setMilestones(body.media ?? []);
+      })
+      .catch(() => {
+        // network/DB hiccup — leave milestones empty rather than crash
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  if (!loading && !milestones.length) return null;
+
   return (
     <section className="border-y border-border bg-white/[0.02]">
       <div className="container-page section-y">
@@ -106,15 +160,35 @@ export default function Milestones() {
           Milestones
         </motion.h2>
 
-        <div className="relative mt-20 flex flex-col gap-20">
-          <span
-            aria-hidden
-            className="absolute inset-y-0 left-1/2 hidden w-px -translate-x-1/2 bg-border md:block"
-          />
-          {EVENTS.map((event, i) => (
-            <Milestone key={event.year} event={event} index={i} />
-          ))}
-        </div>
+        {loading ? (
+          <div className="mt-14 flex items-center justify-center gap-2 py-12 text-sm text-muted-foreground">
+            <Loader2 className="size-4 animate-spin" />
+            Loading milestones...
+          </div>
+        ) : (
+          <div
+            ref={scrollRef}
+            className="relative mt-20 max-h-[900px] overflow-y-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          >
+            <div className="relative flex flex-col gap-20">
+              <span
+                aria-hidden
+                className="absolute inset-y-0 left-1/2 hidden w-px -translate-x-1/2 bg-border md:block"
+              />
+              {milestones.slice(0, visibleCount).map((m, i) => (
+                <Milestone key={m.id} event={toEvent(m, i)} index={i} />
+              ))}
+              {visibleCount < milestones.length ? (
+                <LoadMoreTrigger
+                  scrollRootRef={scrollRef}
+                  onReveal={() =>
+                    setVisibleCount((c) => Math.min(c + PAGE_SIZE, milestones.length))
+                  }
+                />
+              ) : null}
+            </div>
+          </div>
+        )}
       </div>
     </section>
   );
