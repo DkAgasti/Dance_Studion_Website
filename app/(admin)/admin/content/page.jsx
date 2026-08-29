@@ -8,7 +8,8 @@ import ReelsTab from "@/components/admin/content/ReelsTab";
 import PhotosTab from "@/components/admin/content/PhotosTab";
 import TestimonialsTab from "@/components/admin/content/TestimonialsTab";
 import TrainersTab from "@/components/admin/content/TrainersTab";
-import HomepageTab from "@/components/admin/content/HomepageTab";
+import ServicesTab from "@/components/admin/content/ServicesTab";
+import MilestonesTab from "@/components/admin/content/MilestonesTab";
 import AnnouncementsTab from "@/components/admin/content/AnnouncementsTab";
 import { CONTENT_TABS } from "@/components/admin/content/contentData";
 
@@ -18,7 +19,8 @@ const ADD_LABEL = {
   photos: null,
   testimonials: "Add Testimonial",
   trainers: "Add Trainer",
-  homepage: null,
+  services: "Add Service",
+  milestones: "Add Milestone",
   announcements: null,
 };
 
@@ -27,11 +29,15 @@ export default function AdminContentPage() {
   const reelsRef = useRef(null);
   const testimonialsRef = useRef(null);
   const trainersRef = useRef(null);
+  const servicesRef = useRef(null);
+  const milestonesRef = useRef(null);
 
   const refByTab = {
     reels: reelsRef,
     testimonials: testimonialsRef,
     trainers: trainersRef,
+    services: servicesRef,
+    milestones: milestonesRef,
   };
 
   const addLabel = ADD_LABEL[activeTab];
@@ -73,8 +79,11 @@ export default function AdminContentPage() {
         <div className={activeTab === "trainers" ? "" : "hidden"}>
           <TrainersTab ref={trainersRef} />
         </div>
-        <div className={activeTab === "homepage" ? "" : "hidden"}>
-          <HomepageTab />
+        <div className={activeTab === "services" ? "" : "hidden"}>
+          <ServicesTab ref={servicesRef} />
+        </div>
+        <div className={activeTab === "milestones" ? "" : "hidden"}>
+          <MilestonesTab ref={milestonesRef} />
         </div>
         <div className={activeTab === "announcements" ? "" : "hidden"}>
           <AnnouncementsTab />
