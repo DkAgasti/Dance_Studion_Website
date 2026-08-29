@@ -16,17 +16,28 @@ const item = {
 const HERO_SUBTEXT =
   "Classical to freestyle. Kids to pros. Bhubaneswar's home of dance & fitness.";
 const HERO_IMAGE_URL ="https://res.cloudinary.com/fexwwils/image/upload/v1787773374/home_dance.png";
-const HERO_SMOKE_URL = "https://res.cloudinary.com/fexwwils/image/upload/v1787823332/hero-smoke.png";
+// 👈 yahan apna smoke video URL daalo
+const HERO_SMOKE_VIDEO_URL = "https://res.cloudinary.com/fexwwils/video/upload/v1788000662/From_Klickpin.com-_Earthy_flower_field_vibes_that_feel_fresh_and_shareable_on_a_budget_to_refresh_your_mood-pin-id-624100460884464450.mp4";
 
 const HEADING_CLASS = "font-display font-bold uppercase leading-[1.05] tracking-tight text-5xl md:text-7xl";
 
 export default function Hero() {
   return (
-    <section className="relative overflow-hidden pt-40 pb-24 md:pt-52 md:pb-32 lg:pt-36 lg:pb-16">
-      <div className="pointer-events-none absolute inset-0 -z-10" aria-hidden>
+    <section className="relative overflow-hidden pt-40 pb-4 md:pt-52 md:pb-32 lg:pt-36 lg:pb-16">
+      <div className="pointer-events-none absolute inset-0 -z-20" aria-hidden>
         <div className="absolute top-0 left-1/2 h-[520px] w-[1200px] -translate-x-1/2 rounded-full bg-gradient-brand opacity-[0.15] blur-[120px]" />
         <div className="absolute -right-40 top-24 h-[500px] w-[500px] rounded-full bg-brand-mid opacity-[0.18] blur-[110px]" />
       </div>
+
+      <video
+        src={HERO_SMOKE_VIDEO_URL}
+        autoPlay
+        muted
+        loop
+        playsInline
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 -z-10 size-full object-cover opacity-30 mix-blend-screen"
+      />
 
       <div className="container-page relative grid grid-cols-1 items-center gap-12 lg:max-w-[1360px] lg:grid-cols-[1fr_1fr] lg:items-stretch lg:gap-0">
         <motion.div
@@ -90,19 +101,12 @@ export default function Hero() {
           initial={{ opacity: 0, scale: 0.97 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.7, ease: "easeOut", delay: 0.15 }}
-          className="relative flex items-center justify-center lg:absolute lg:inset-y-0 lg:right-0 lg:block"
+          className="relative flex translate-y-4 items-center justify-center lg:absolute lg:inset-y-0 lg:right-0 lg:block"
         >
-          <img
-            src={HERO_SMOKE_URL}
-            alt=""
-            aria-hidden="true"
-            className="pointer-events-none absolute top-1/2 left-1/2 -z-10 w-[160%] max-w-none -translate-x-1/2 -translate-y-1/2 opacity-80"
-          />
-
           <img
             src={HERO_IMAGE_URL}
             alt=""
-            className="h-auto max-h-[65vh] w-auto max-w-full object-contain lg:h-full lg:w-auto lg:max-w-none lg:max-h-none lg:object-contain lg:object-bottom lg:translate-x-[13.5%]"
+            className="h-auto max-h-[71vh] w-auto max-w-full object-contain lg:h-[110%] lg:w-auto lg:max-w-none lg:max-h-none lg:translate-x-[13.5%] lg:translate-y-4 lg:object-contain lg:object-bottom"
           />
         </motion.div>
       </div>
