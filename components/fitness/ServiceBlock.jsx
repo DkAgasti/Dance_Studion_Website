@@ -36,6 +36,8 @@ export default function ServiceBlock({ service, reverse = false }) {
           transition={{ duration: 0.6, ease: "easeOut" }}
         >
           <ImageWithFallback
+            src={service.imageUrl}
+            alt={service.name}
             gradient={service.gradient}
             className="aspect-4/3 w-full rounded-3xl border border-border shadow-2xl"
           />
@@ -63,7 +65,7 @@ export default function ServiceBlock({ service, reverse = false }) {
           </p>
 
           <ul className="mt-8 grid grid-cols-2 gap-x-6 gap-y-3">
-            {service.benefits.map((benefit) => (
+            {(service.benefits ?? []).map((benefit) => (
               <li key={benefit} className="flex items-center gap-2.5">
                 <span
                   style={{ backgroundColor: hex }}
