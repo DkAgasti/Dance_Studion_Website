@@ -1,15 +1,17 @@
 "use client";
 
 import { motion } from "framer-motion";
-import ImageWithFallback from "@/components/media/ImageWithFallback";
 
-// "Our Story" hero — full-bleed atmospheric banner opening the About page.
 export default function StoryHero() {
   return (
-    <section className="relative flex h-[70vh] min-h-[520px] w-full items-center overflow-hidden">
-      <ImageWithFallback
-        gradient="from-brand-start/20 via-surface to-brand-mid/25"
-        className="absolute inset-0"
+    <section className="relative flex h-[70vh] min-h-[520px] w-full items-end overflow-hidden pb-2">
+      <video
+        src="https://res.cloudinary.com/fexwwils/video/upload/v1787983921/From_Klickpin.com-_Try_this_guide_to_cozy_glowy_skin_ideas_perfect_for_saving_sharing_and_recreating_later_with_smart_steps_cute_details_and_cozy.mp4"
+        autoPlay
+        muted
+        loop
+        playsInline
+        className="absolute inset-0 size-full object-cover"
       />
       <div className="absolute inset-0 bg-gradient-to-t from-background via-background/70 to-background/30" />
 
@@ -21,11 +23,11 @@ export default function StoryHero() {
       >
         <p className="eyebrow">Our Story</p>
         <h1 className="h1-display mx-auto mt-4 max-w-3xl text-balance">
-          More Than <span className="text-gradient-brand">A Studio.</span>
+          More Than <span className="text-gradient-brand">A Studio</span>
         </h1>
         <p className="mx-auto mt-6 max-w-xl text-lg text-muted-foreground md:text-xl">
           From a single studio in Patia to Bhubaneswar&apos;s home of dance
-          and fitness.
+          and fitness
         </p>
       </motion.div>
     </section>

@@ -23,5 +23,16 @@
 		// Enable image optimization
 		// see https://opennext.js.org/cloudflare/howtos/image
 		"binding": "IMAGES"
+	},
+	// Fires the Worker's scheduled() handler once daily at 03:00 UTC.
+	// NOTE: a Cron Trigger invokes scheduled(), not an HTTP fetch — the default
+	// OpenNext worker has no scheduled() export, so this alone will NOT call
+	// /api/cron/fee-reminders. Either add a custom `scheduled` handler to the
+	// OpenNext worker entry that fetches that route with the CRON_SECRET, or
+	// skip this trigger and instead call the route from an external scheduler
+	// (e.g. a GitHub Actions cron workflow, or cron-job.org) that hits
+	// https://<your-domain>/api/cron/fee-reminders?secret=$CRON_SECRET daily.
+	"triggers": {
+		"crons": ["0 3 * * *"]
 	}
 }

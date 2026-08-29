@@ -1,5 +1,19 @@
-// Gallery page — photo/video showcase of the studio.
-// TODO: Render a media grid with <Lightbox />.
+import GalleryHero from "@/components/gallery/GalleryHero";
+import PhotoCarouselGallery from "@/components/gallery/PhotoCarouselGallery";
+import GalleryQuoteBand from "@/components/gallery/GalleryQuoteBand";
+
+export const metadata = {
+  title: "Gallery — ASM Dance Studio",
+  description:
+    "A visual diary of ASM — studio life, performances, and moments from Bhubaneswar's home of dance and fitness.",
+};
+
 export default function GalleryPage() {
-  return null;
+  return (
+    <>
+      <GalleryHero />
+      <PhotoCarouselGallery />
+      <GalleryQuoteBand />
+    </>
+  );
 }

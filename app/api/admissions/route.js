@@ -36,6 +36,9 @@ export async function POST(request) {
   const data = parsed.data;
   const className = interestName(data.classInterest);
   const planName = pricingPlans.find((p) => p.slug === data.plan)?.name ?? data.plan;
+  const studentName = `${data.firstName} ${data.lastName}`;
+  const guardianName = data.guardianName || studentName;
+  const address = `${data.addressLine1}, ${data.city}, ${data.state} ${data.pincode}`;
 
   const notes = [
     data.preferredBatchNote ? `Preferred batch/timing: ${data.preferredBatchNote}` : null,
@@ -47,7 +50,7 @@ export async function POST(request) {
   try {
     const admission = await prisma.admission.create({
       data: {
-        studentName: `${data.firstName} ${data.lastName}`,
+        studentName,
         dob: new Date(data.dob),
         gender: data.gender,
         guardianName: data.guardianName || null,
@@ -56,7 +59,7 @@ export async function POST(request) {
         guardianEmail: data.guardianEmail || null,
         phone: data.phone,
         email: data.email,
-        address: `${data.addressLine1}, ${data.city}, ${data.state} ${data.pincode}`,
+        address,
         classInterest: className,
         planName,
         consent: data.medicalConsent,
@@ -69,26 +72,32 @@ export async function POST(request) {
     try {
       await sendEmail({
         to: data.email,
-        subject: "We've received your ASM Dance Studio admission request",
+        subject: "We've received your admission request — ASM Dance Studio",
         html: admissionReceivedEmail({
-          name: data.firstName,
-          classInterest: className,
-          plan: planName,
+          guardianName,
+          studentName,
+          phone: data.phone,
+          id: admission.id,
         }),
       });
       if (process.env.ADMIN_NOTIFICATION_EMAIL) {
+        const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "";
         await sendEmail({
           to: process.env.ADMIN_NOTIFICATION_EMAIL,
-          subject: `New admission request from ${data.firstName} ${data.lastName}`,
+          subject: `New admission request from ${studentName}`,
           html: adminNotificationEmail({
             title: "New Admission Request",
+            intro: "New admission request received on the website.",
             rows: [
-              { label: "Student", value: `${data.firstName} ${data.lastName}` },
+              { label: "Student", value: studentName },
+              { label: "Guardian", value: guardianName },
               { label: "Phone", value: data.phone },
               { label: "Email", value: data.email },
-              { label: "Class", value: className },
-              { label: "Plan", value: planName },
+              { label: "Address", value: address },
+              { label: "Source", value: admission.source },
+              { label: "Submitted", value: admission.createdAt.toLocaleString("en-IN") },
             ],
+            cta: { label: "Review and Approve/Reject from the admin dashboard", href: `${siteUrl}/admin/admissions` },
           }),
         });
       }

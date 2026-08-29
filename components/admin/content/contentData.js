@@ -7,6 +7,7 @@ export const CONTENT_TABS = [
   { key: "photos", label: "Photos" },
   { key: "testimonials", label: "Testimonials" },
   { key: "trainers", label: "Trainers" },
+  { key: "services", label: "Services" },
   { key: "milestones", label: "Milestones" },
   { key: "announcements", label: "Announcements" },
 ];

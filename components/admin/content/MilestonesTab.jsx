@@ -71,6 +71,7 @@ function MilestoneForm({ milestone, onSubmit }) {
           label={uploading ? "Uploading..." : form.url ? "Photo uploaded" : "Upload Photo"}
           hint="JPG or PNG"
           onFile={handleUpload}
+          onUrl={(url) => setForm((f) => ({ ...f, url }))}
         />
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">

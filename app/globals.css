@@ -115,7 +115,7 @@
   --brand-purple: #a22eb9;
   --whatsapp: #25d366;
 
-  --font-display: var(--font-space-grotesk);
+  --font-display: var(--font-playfair);
   --font-body: var(--font-inter);
 }
 
@@ -202,7 +202,7 @@
     @apply text-xs font-bold tracking-[0.14em] text-muted-foreground uppercase;
   }
   .h1-display {
-    @apply font-display text-[clamp(2.75rem,3.2rem+4vw,6.875rem)] leading-[0.92] font-bold tracking-tight uppercase;
+    @apply font-display text-5xl leading-[1.05] font-bold tracking-tight uppercase md:text-7xl;
   }
   .h2-display {
     @apply font-display text-[clamp(2.25rem,1.8rem+2.8vw,4rem)] leading-[1.02] font-bold tracking-tight;

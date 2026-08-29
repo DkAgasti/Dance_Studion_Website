@@ -40,7 +40,7 @@ export default function ClassesFAQ() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-80px" }}
         transition={{ duration: 0.6, ease: "easeOut" }}
-        className="h2-display text-center uppercase"
+        className="h2-display text-2xl text-center uppercase md:text-3xl"
       >
         Common Questions
       </motion.h2>

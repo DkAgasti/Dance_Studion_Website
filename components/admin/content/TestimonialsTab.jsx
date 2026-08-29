@@ -67,6 +67,7 @@ function TestimonialForm({ testimonial, onSubmit }) {
           label={uploading ? "Uploading..." : form.imageUrl ? "Photo uploaded" : "Upload Photo"}
           hint="Reviewer's photo shown next to their name"
           onFile={handlePhoto}
+          onUrl={(url) => setForm((f) => ({ ...f, imageUrl: url }))}
         />
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
