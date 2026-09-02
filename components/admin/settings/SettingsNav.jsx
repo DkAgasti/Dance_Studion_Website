@@ -1,13 +1,12 @@
 "use client";
 
-import { Store, Share2, Tag, BellRing, Bell, Users, Palette } from "lucide-react";
+import { Store, Share2, Tag, Bell, Users, Palette } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export const SETTINGS_SECTIONS = [
   { key: "profile", label: "Studio Profile", icon: Store },
   { key: "social", label: "Social & Map", icon: Share2 },
   { key: "plans", label: "Plans & Pricing", icon: Tag },
-  { key: "reminders", label: "Fee Reminders", icon: BellRing },
   { key: "notifications", label: "Notifications", icon: Bell },
   { key: "team", label: "Team & Roles", icon: Users },
   { key: "branding", label: "Branding", icon: Palette },

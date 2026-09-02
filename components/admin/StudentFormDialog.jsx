@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -19,14 +19,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { classOptions, planOptions } from "@/components/admin/studentsData";
+import { planOptions } from "@/components/admin/studentsData";
 
 const EMPTY_FORM = {
   name: "",
   email: "",
   phone: "",
-  className: "",
-  batch: "",
+  batchId: "",
   plan: "",
   guardianName: "",
   guardianPhone: "",
@@ -39,8 +38,7 @@ function studentToForm(student) {
     name: student.name,
     email: student.email ?? "",
     phone: student.phone,
-    className: student.className ?? "",
-    batch: student.batchLabel ?? "",
+    batchId: student.batchId ?? "",
     plan: student.planLabel ?? "",
     guardianName: student.guardian ?? "",
     guardianPhone: student.guardianPhone ?? "",
@@ -48,11 +46,35 @@ function studentToForm(student) {
   };
 }
 
+function batchLabel(batch) {
+  return `${batch.name} — ${batch.days} • ${batch.time}`;
+}
+
 // The actual form body — mounted fresh (via `key` on the caller) each time
 // the dialog opens, so its state is seeded once from `student` with no
 // effect needed to re-sync it.
 function StudentForm({ student, onSubmit }) {
   const [form, setForm] = useState(() => studentToForm(student));
+  const [batches, setBatches] = useState([]);
+  const [loadingBatches, setLoadingBatches] = useState(true);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetch("/api/batches")
+      .then((res) => (res.ok ? res.json() : { batches: [] }))
+      .then((body) => {
+        if (!cancelled) setBatches(body.batches ?? []);
+      })
+      .catch(() => {
+        // network hiccup — leave batches empty rather than crash
+      })
+      .finally(() => {
+        if (!cancelled) setLoadingBatches(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   function set(key) {
     return (value) => setForm((f) => ({ ...f, [key]: value }));
@@ -64,7 +86,7 @@ function StudentForm({ student, onSubmit }) {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="w-full min-w-0">
       <DialogHeader>
         <DialogTitle>{student ? "Edit Student" : "Add Student"}</DialogTitle>
         <DialogDescription>
@@ -105,32 +127,29 @@ function StudentForm({ student, onSubmit }) {
               onChange={(e) => set("phone")(e.target.value)}
             />
           </div>
-          <div className="flex flex-col gap-1.5">
-            <Label>Class</Label>
-            <Select value={form.className} onValueChange={set("className")}>
+          <div className="flex min-w-0 flex-col gap-1.5 sm:col-span-2">
+            <Label>Batch</Label>
+            <Select value={form.batchId} onValueChange={set("batchId")}>
               <SelectTrigger className="w-full">
-                <SelectValue placeholder="Select a class" />
+                <SelectValue
+                  placeholder={loadingBatches ? "Loading batches..." : "Select a batch"}
+                />
               </SelectTrigger>
               <SelectContent>
-                {classOptions.map((c) => (
-                  <SelectItem key={c} value={c}>
-                    {c}
+                {batches.map((b) => (
+                  <SelectItem key={b.id} value={b.id}>
+                    {batchLabel(b)}
                   </SelectItem>
                 ))}
               </SelectContent>
             </Select>
+            {!loadingBatches && !batches.length ? (
+              <p className="text-xs text-muted-foreground">
+                No batches yet — create one under Admin → Batches first.
+              </p>
+            ) : null}
           </div>
-          <div className="flex flex-col gap-1.5">
-            <Label htmlFor="s-batch">Batch</Label>
-            <Input
-              id="s-batch"
-              placeholder="e.g. Mon/Wed/Fri (6 PM)"
-              required
-              value={form.batch}
-              onChange={(e) => set("batch")(e.target.value)}
-            />
-          </div>
-          <div className="flex flex-col gap-1.5">
+          <div className="flex min-w-0 flex-col gap-1.5">
             <Label>Plan</Label>
             <Select value={form.plan} onValueChange={set("plan")}>
               <SelectTrigger className="w-full">

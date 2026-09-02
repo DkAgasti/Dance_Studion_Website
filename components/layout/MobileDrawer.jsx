@@ -5,6 +5,8 @@ import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import StudioLogo from "@/components/shared/StudioLogo";
+import BookingLink from "@/components/shared/BookingLink";
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
 
@@ -32,9 +34,10 @@ export default function MobileDrawer({ open, onClose }) {
             className="glass fixed inset-y-0 right-0 z-50 flex w-[80%] max-w-sm flex-col gap-8 border-l border-white/10 bg-background/95 p-6 lg:hidden"
           >
             <div className="flex items-center justify-between">
-              <span className="font-display text-xl font-bold text-gradient-brand">
-                ASM
-              </span>
+              <StudioLogo
+                className="font-display text-xl font-bold text-gradient-brand"
+                imgClassName="h-12 w-auto object-contain"
+              />
               <button
                 type="button"
                 onClick={onClose}
@@ -69,14 +72,25 @@ export default function MobileDrawer({ open, onClose }) {
               })}
             </nav>
 
-            <Button
-              asChild
-              className="mt-auto h-12 rounded-full bg-brand-lime font-bold text-background hover:bg-brand-lime/90"
-            >
-              <Link href="/book-trial" onClick={onClose}>
-                Book Free Trial
-              </Link>
-            </Button>
+            <div className="mt-auto flex flex-col gap-3">
+              <Button
+                asChild
+                variant="outline"
+                className="h-12 rounded-full border-border font-bold"
+              >
+                <BookingLink href="/admissions" onClick={onClose}>
+                  Admissions
+                </BookingLink>
+              </Button>
+              <Button
+                asChild
+                className="h-12 rounded-full bg-brand-lime font-bold text-background hover:bg-brand-lime/90"
+              >
+                <BookingLink href="/book-trial" onClick={onClose}>
+                  Book Free Trial
+                </BookingLink>
+              </Button>
+            </div>
           </motion.div>
         </>
       ) : null}

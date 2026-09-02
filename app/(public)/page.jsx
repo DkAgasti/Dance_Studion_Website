@@ -21,7 +21,7 @@ export default function HomePage() {
       <Founder />
       <ReelsCarousel />
       <Reviews />
-      <CTABand />
+      <CTABand className="pt-2 md:pt-12" />
     </>
   );
 }

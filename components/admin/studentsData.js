@@ -6,6 +6,7 @@ export const feeStatusMeta = {
   paid: { label: "Paid", dot: "bg-brand-lime", text: "text-brand-lime" },
   overdue: { label: "Overdue", dot: "bg-brand-start", text: "text-brand-start" },
   "due-soon": { label: "Due soon", dot: "bg-brand-mid", text: "text-brand-mid" },
+  "no-fee": { label: "No Fee Set", dot: "bg-muted-foreground", text: "text-muted-foreground" },
 };
 
 export const classOptions = [

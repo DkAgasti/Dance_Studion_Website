@@ -2,12 +2,15 @@
 
 import StepHeading from "@/components/forms/trial/StepHeading";
 import Chip from "@/components/forms/trial/Chip";
-import { classCatalog, fitnessClasses } from "@/config/classes";
+import { classCatalog } from "@/config/classes";
 
 const DANCE_OPTIONS = classCatalog.map((c) => ({ key: c.slug, label: c.name }));
-const FITNESS_OPTIONS = fitnessClasses.map((c) => ({ key: c.slug, label: c.name }));
 
-export default function StepInterest({ value, onChange }) {
+export default function StepInterest({ value, onChange, services = [] }) {
+  // Fitness options come from the real, admin-managed Service records (not
+  // the static config catalog) so the slug picked here matches a real
+  // service — needed so Step 4 can look up that service's actual times.
+  const FITNESS_OPTIONS = services.map((s) => ({ key: s.slug, label: s.name }));
   return (
     <div>
       <StepHeading

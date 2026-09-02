@@ -6,7 +6,10 @@ import { planSchema } from "@/lib/validations/settings";
 
 export async function GET() {
   const plans = await prisma.plan.findMany({ orderBy: [{ order: "asc" }, { createdAt: "asc" }] });
-  return Response.json({ plans });
+  return Response.json(
+    { plans },
+    { headers: { "Cache-Control": "public, max-age=60, stale-while-revalidate=300" } }
+  );
 }
 
 export async function POST(request) {

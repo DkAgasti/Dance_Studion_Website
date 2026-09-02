@@ -9,7 +9,10 @@ export async function GET() {
   const services = await prisma.service.findMany({
     orderBy: [{ order: "asc" }, { createdAt: "asc" }],
   });
-  return Response.json({ services });
+  return Response.json(
+    { services },
+    { headers: { "Cache-Control": "public, max-age=60, stale-while-revalidate=300" } }
+  );
 }
 
 export async function POST(request) {

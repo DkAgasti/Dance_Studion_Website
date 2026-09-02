@@ -22,6 +22,8 @@ const GRID_POSITION = [
   "md:[grid-column:4/5] md:[grid-row:3/4]", // Freestyle
 ];
 
+const MOBILE_VISIBLE_COUNT = 3;
+
 function StyleTile({ style, position, index }) {
   const Icon = style.iconName ? ICONS[style.iconName] : null;
 
@@ -31,7 +33,11 @@ function StyleTile({ style, position, index }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-60px" }}
       transition={{ duration: 0.5, delay: (index % 4) * 0.06, ease: "easeOut" }}
-      className={cn("h-64 md:h-auto", position)}
+      className={cn(
+        "h-64 md:h-auto",
+        index >= MOBILE_VISIBLE_COUNT && "hidden md:block",
+        position
+      )}
     >
       {style.layout === "icon" && !style.imageUrl ? (
         <div className="glass-tile flex h-full flex-col items-center justify-center gap-3 rounded-xl p-6 text-center transition-colors hover:border-white/20">
@@ -44,6 +50,7 @@ function StyleTile({ style, position, index }) {
             src={style.imageUrl}
             gradient={style.gradient}
             className="absolute inset-0"
+            imgClassName="transition-transform duration-700 ease-out group-hover:scale-110"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/10 to-transparent" />
           <div className="absolute inset-0 flex flex-col justify-end p-6">
@@ -80,7 +87,7 @@ export default function StyleGrid() {
         <Button
           asChild
           variant="outline"
-          className="h-[52px] w-fit gap-2 self-start rounded-full border-border px-6 font-bold md:self-auto"
+          className="hidden h-[52px] w-fit gap-2 self-start rounded-full border-border px-6 font-bold md:inline-flex md:self-auto"
         >
           <Link href="/classes">
             View All Styles
@@ -99,6 +106,17 @@ export default function StyleGrid() {
           />
         ))}
       </div>
+
+      <Button
+        asChild
+        variant="outline"
+        className="mt-6 h-[52px] w-full gap-2 rounded-full border-border px-6 font-bold md:hidden"
+      >
+        <Link href="/classes">
+          View All Styles
+          <ArrowRight className="size-4" />
+        </Link>
+      </Button>
     </section>
   );
 }

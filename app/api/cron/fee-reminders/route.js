@@ -42,48 +42,52 @@ export async function GET(request) {
 
   const summary = { checked: fees.length, sent: 0, byType: { T5: 0, T3: 0, T1: 0, OVERDUE: 0 } };
 
-  for (const fee of fees) {
-    const daysUntilDue = daysUntil(fee.dueDate, today);
-    const type = reminderTypeFor(daysUntilDue);
-    if (!type) continue;
+  // Each fee is independent, so process them concurrently instead of one
+  // sequential await chain per fee.
+  await Promise.all(
+    fees.map(async (fee) => {
+      const daysUntilDue = daysUntil(fee.dueDate, today);
+      const type = reminderTypeFor(daysUntilDue);
+      if (!type) return;
 
-    if (type === "OVERDUE" && fee.status !== "OVERDUE") {
-      await prisma.fee.update({ where: { id: fee.id }, data: { status: "OVERDUE" } });
-    }
+      if (type === "OVERDUE" && fee.status !== "OVERDUE") {
+        await prisma.fee.update({ where: { id: fee.id }, data: { status: "OVERDUE" } });
+      }
 
-    const alreadySent =
-      type === "OVERDUE"
-        ? await prisma.reminderLog.findFirst({
-            where: { feeId: fee.id, type: "OVERDUE", sentAt: { gte: today } },
-          })
-        : await prisma.reminderLog.findFirst({ where: { feeId: fee.id, type } });
+      const alreadySent =
+        type === "OVERDUE"
+          ? await prisma.reminderLog.findFirst({
+              where: { feeId: fee.id, type: "OVERDUE", sentAt: { gte: today } },
+            })
+          : await prisma.reminderLog.findFirst({ where: { feeId: fee.id, type } });
 
-    if (alreadySent) continue;
+      if (alreadySent) return;
 
-    if (!fee.student.email) {
-      await prisma.reminderLog.create({ data: { feeId: fee.id, type, channel: "email" } });
-      continue;
-    }
+      if (!fee.student.email) {
+        await prisma.reminderLog.create({ data: { feeId: fee.id, type, channel: "email" } });
+        return;
+      }
 
-    try {
-      await sendEmail({
-        to: fee.student.email,
-        subject: "ASM Dance Studio — Fee Payment Reminder",
-        html: feeReminderEmail({
-          studentName: fee.student.name,
-          guardianName: fee.student.guardian,
-          amount: fee.amount,
-          dueDate: fee.dueDate.toDateString(),
-          type,
-        }),
-      });
-      await prisma.reminderLog.create({ data: { feeId: fee.id, type, channel: "email" } });
-      summary.sent += 1;
-      summary.byType[type] += 1;
-    } catch (error) {
-      console.error(`Failed to send fee reminder for fee ${fee.id}:`, error);
-    }
-  }
+      try {
+        await sendEmail({
+          to: fee.student.email,
+          subject: "ASM Dance Studio — Fee Payment Reminder",
+          html: await feeReminderEmail({
+            studentName: fee.student.name,
+            guardianName: fee.student.guardian,
+            amount: fee.amount,
+            dueDate: fee.dueDate.toDateString(),
+            type,
+          }),
+        });
+        await prisma.reminderLog.create({ data: { feeId: fee.id, type, channel: "email" } });
+        summary.sent += 1;
+        summary.byType[type] += 1;
+      } catch (error) {
+        console.error(`Failed to send fee reminder for fee ${fee.id}:`, error);
+      }
+    })
+  );
 
   return Response.json({ ok: true, ...summary });
 }

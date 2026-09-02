@@ -33,7 +33,7 @@ export async function POST(request) {
         await sendEmail({
           to: process.env.ADMIN_NOTIFICATION_EMAIL,
           subject: `New corporate session request from ${data.company}`,
-          html: adminNotificationEmail({
+          html: await adminNotificationEmail({
             title: "New Corporate Session Request",
             rows: [
               { label: "Name", value: data.name },

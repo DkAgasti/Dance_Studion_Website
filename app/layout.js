@@ -19,9 +19,12 @@ const playfairDisplay = Playfair_Display({
 });
 
 export const metadata = {
-  title: "ASM Dance Studio — Where Every Rhythm Finds a Home",
+  title: "asmdancestudioodisha",
   description:
     "Bhubaneswar's premier destination for dance and fitness excellence. Classical to freestyle, kids to pros — book your free trial class today.",
+  icons: {
+    icon: "https://res.cloudinary.com/fexwwils/image/upload/v1788188522/ASM_logo.jpg",
+  },
 };
 
 export default function RootLayout({ children }) {

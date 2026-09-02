@@ -29,6 +29,7 @@ const EMPTY = {
   ctaLabel: "",
   ctaHref: "",
   benefits: "",
+  timeSlots: "",
 };
 
 function toFormState(service) {
@@ -43,6 +44,7 @@ function toFormState(service) {
         ctaLabel: service.ctaLabel ?? "",
         ctaHref: service.ctaHref ?? "",
         benefits: (service.benefits ?? []).join("\n"),
+        timeSlots: (service.timeSlots ?? []).join("\n"),
       }
     : EMPTY;
 }
@@ -58,11 +60,15 @@ function ServiceForm({ service, onSubmit }) {
         .split("\n")
         .map((line) => line.trim())
         .filter(Boolean),
+      timeSlots: form.timeSlots
+        .split("\n")
+        .map((line) => line.trim())
+        .filter(Boolean),
     });
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="w-full min-w-0">
       <DialogHeader>
         <DialogTitle>{service ? "Edit Service" : "Add Service"}</DialogTitle>
         <DialogDescription>Service blocks shown on the /services page.</DialogDescription>
@@ -121,6 +127,20 @@ function ServiceForm({ service, onSubmit }) {
           />
         </div>
         <div className="flex flex-col gap-1.5">
+          <Label htmlFor="sv-time-slots">Session Times (one per line)</Label>
+          <Textarea
+            id="sv-time-slots"
+            rows={3}
+            placeholder={"e.g. Sat & Tue, 6:00 PM\nDaily, 4:00 PM"}
+            value={form.timeSlots}
+            onChange={(e) => setForm((f) => ({ ...f, timeSlots: e.target.value }))}
+          />
+          <p className="text-xs text-muted-foreground">
+            Shown on the /services page and offered as the time options when someone books a
+            trial for this service.
+          </p>
+        </div>
+        <div className="flex flex-col gap-1.5">
           <Label htmlFor="sv-accent">Accent Color</Label>
           <select
             id="sv-accent"
@@ -155,7 +175,7 @@ function ServiceForm({ service, onSubmit }) {
         </div>
       </div>
 
-      <DialogFooter className="mt-4">
+      <DialogFooter className="mx-0 mb-0 mt-4 rounded-none border-t-0 bg-transparent p-0">
         <Button type="submit" className="rounded-full bg-brand-end text-background hover:bg-brand-end/90">
           {service ? "Save Changes" : "Add Service"}
         </Button>
@@ -292,7 +312,7 @@ const ServicesTab = forwardRef(function ServicesTab(_props, ref) {
       </div>
 
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-        <DialogContent className="max-w-lg">
+        <DialogContent className="max-w-lg sm:max-w-lg">
           {dialogOpen ? (
             <ServiceForm key={editing?.id ?? "new"} service={editing} onSubmit={handleSubmit} />
           ) : null}

@@ -16,6 +16,16 @@ const TIME_LABEL = {
   night: "Night (7 - 9 PM)",
 };
 
+// `interest` may be a static config slug (dance styles) or a real DB
+// Service slug (fitness) — the two live in separate id spaces, so fall back
+// to a Service lookup when the config catalog doesn't recognize it.
+async function resolveInterestName(slug) {
+  const configName = interestName(slug);
+  if (configName !== slug) return configName;
+  const service = await prisma.service.findUnique({ where: { slug } });
+  return service?.name ?? slug;
+}
+
 export async function GET() {
   const user = await getCurrentUser();
   if (!user) {
@@ -60,36 +70,39 @@ export async function POST(request) {
     });
 
     try {
-      const className = interestName(data.interest);
-      if (data.email) {
-        await sendEmail({
-          to: data.email,
-          subject: "Your ASM Dance Studio trial class is booked!",
-          html: trialConfirmationEmail({
-            name: data.name,
-            interest: className,
-            date: data.date,
-            timeLabel: TIME_LABEL[data.timeSlot],
-          }),
-        });
-      }
-      if (process.env.ADMIN_NOTIFICATION_EMAIL) {
-        await sendEmail({
-          to: process.env.ADMIN_NOTIFICATION_EMAIL,
-          subject: `New trial booking from ${data.name}`,
-          html: adminNotificationEmail({
-            title: "New Trial Booking",
-            rows: [
-              { label: "Name", value: data.name },
-              { label: "Phone", value: data.phone },
-              { label: "Email", value: data.email || "—" },
-              { label: "Class", value: className },
-              { label: "Date", value: data.date },
-              { label: "Time", value: TIME_LABEL[data.timeSlot] },
-            ],
-          }),
-        });
-      }
+      const className = await resolveInterestName(data.interest);
+      const timeLabel = TIME_LABEL[data.timeSlot] ?? data.timeSlot;
+      await Promise.all([
+        data.email
+          ? sendEmail({
+              to: data.email,
+              subject: "Your ASM Dance Studio trial class is booked!",
+              html: await trialConfirmationEmail({
+                name: data.name,
+                interest: className,
+                date: data.date,
+                timeLabel,
+              }),
+            })
+          : Promise.resolve(),
+        process.env.ADMIN_NOTIFICATION_EMAIL
+          ? sendEmail({
+              to: process.env.ADMIN_NOTIFICATION_EMAIL,
+              subject: `New trial booking from ${data.name}`,
+              html: await adminNotificationEmail({
+                title: "New Trial Booking",
+                rows: [
+                  { label: "Name", value: data.name },
+                  { label: "Phone", value: data.phone },
+                  { label: "Email", value: data.email || "—" },
+                  { label: "Class", value: className },
+                  { label: "Date", value: data.date },
+                  { label: "Time", value: timeLabel },
+                ],
+              }),
+            })
+          : Promise.resolve(),
+      ]);
     } catch (emailError) {
       console.error("Failed to send trial booking emails:", emailError);
     }

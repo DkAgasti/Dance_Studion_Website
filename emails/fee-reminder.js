@@ -14,7 +14,7 @@ const REMINDER_INTRO = {
 };
 
 // Fee due/overdue reminder email, sent by the daily fee-reminders cron.
-export function feeReminderEmail({ studentName, guardianName, amount, dueDate, type }) {
+export async function feeReminderEmail({ studentName, guardianName, amount, dueDate, type }) {
   const greetingName = guardianName || studentName;
 
   if (type === "OVERDUE") {

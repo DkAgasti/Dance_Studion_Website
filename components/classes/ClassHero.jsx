@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import BookingLink from "@/components/shared/BookingLink";
 import { motion } from "framer-motion";
 import ImageWithFallback from "@/components/media/ImageWithFallback";
 import { Button } from "@/components/ui/button";
@@ -51,7 +51,7 @@ export default function ClassHero({ classItem }) {
             size="lg"
             className="bg-gradient-brand mt-8 h-[56px] rounded-full px-9 text-base font-bold text-white shadow-xl hover:brightness-110"
           >
-            <Link href="/book-trial">Book Free Trial</Link>
+            <BookingLink href="/book-trial">Book Free Trial</BookingLink>
           </Button>
         </motion.div>
       </div>

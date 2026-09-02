@@ -1,7 +1,7 @@
 import { emailLayout } from "./layout";
 
 // Confirmation email sent to the customer after a trial booking is saved.
-export function trialConfirmationEmail({ name, interest, date, timeLabel }) {
+export async function trialConfirmationEmail({ name, interest, date, timeLabel }) {
   const body = `
     <p>Hi ${name},</p>
     <p>Your free trial class request has been received. Our team will call you shortly to confirm your slot.</p>

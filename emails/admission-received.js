@@ -1,7 +1,7 @@
 import { emailLayout } from "./layout";
 
 // Confirmation email sent to the applicant/guardian after an admission is submitted.
-export function admissionReceivedEmail({ guardianName, studentName, phone, id }) {
+export async function admissionReceivedEmail({ guardianName, studentName, phone, id }) {
   const body = `
     <p>Hi ${guardianName},</p>
     <p>Thank you for submitting an admission request for <strong>${studentName}</strong> at ASM Dance Studio. We've received your details and our team will reach out shortly.</p>

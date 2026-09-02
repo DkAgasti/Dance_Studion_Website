@@ -2,14 +2,17 @@
 
 import { useRef, useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Award, Star, ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
+import { Award, Star, ChevronLeft, ChevronRight, Loader2, Trophy, FileBadge, BadgeCheck } from "lucide-react";
 import ImageWithFallback from "@/components/media/ImageWithFallback";
+import StudioLogo from "@/components/shared/StudioLogo";
 
 const ACHIEVEMENTS = [
   "Best Dance Academy 2024",
   "Excellence in Fitness 2023",
   "Community Choice Award",
 ];
+
+const ACHIEVEMENT_ICONS = [Trophy, FileBadge, BadgeCheck];
 
 const MAX_REVIEWS = 10;
 
@@ -105,6 +108,9 @@ export default function Reviews() {
   const scrollerRef = useRef(null);
   const [activePage, setActivePage] = useState(0);
   const [pageCount, setPageCount] = useState(1);
+  const [autoPaused, setAutoPaused] = useState(false);
+  const activePageRef = useRef(0);
+  const pageCountRef = useRef(1);
 
   useEffect(() => {
     let cancelled = false;
@@ -178,8 +184,29 @@ export default function Reviews() {
     scrollToPage(Math.min(Math.max(activePage + dir, 0), pageCount - 1));
   }
 
+  useEffect(() => {
+    activePageRef.current = activePage;
+  }, [activePage]);
+
+  useEffect(() => {
+    pageCountRef.current = pageCount;
+  }, [pageCount]);
+
+  // Auto-advance one page every few seconds, looping back to the start —
+  // paused while the user is hovering/interacting with the carousel.
+  useEffect(() => {
+    if (!reviews.length || autoPaused) return;
+    const id = setInterval(() => {
+      const next =
+        activePageRef.current >= pageCountRef.current - 1 ? 0 : activePageRef.current + 1;
+      scrollToPage(next);
+    }, 4000);
+    return () => clearInterval(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [reviews.length, autoPaused]);
+
   return (
-    <section className="container-page pb-20 md:pb-28">
+    <section className="container-page pb-8 md:pb-28">
       {loading ? (
         <div className="flex items-center justify-center gap-2 py-12 text-sm text-muted-foreground">
           <Loader2 className="size-4 animate-spin" />
@@ -187,15 +214,17 @@ export default function Reviews() {
         </div>
       ) : reviews.length ? (
         <div className="glass flex flex-col gap-8 rounded-3xl p-6 md:flex-row md:items-center md:p-8">
-          <div className="flex flex-col gap-3 md:w-56 md:shrink-0 md:border-r md:border-border md:pr-8">
+          <div className="flex flex-col items-center gap-3 text-center md:w-56 md:shrink-0 md:items-start md:border-r md:border-border md:pr-8 md:text-left">
             <div className="flex items-center gap-3">
-              <ImageWithFallback
-                gradient="from-brand-mid/25 via-surface to-brand-start/15"
-                className="size-12 shrink-0 rounded-full"
-              />
+              <div className="flex size-12 shrink-0 items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-brand-mid/25 via-surface to-brand-start/15">
+                <StudioLogo
+                  className="font-display text-xs font-bold text-gradient-brand"
+                  imgClassName="size-full object-cover"
+                />
+              </div>
               <p className="font-display font-bold">ASM Dance Studio</p>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center justify-center gap-2 md:justify-start">
               <span className="text-2xl font-bold text-brand-lime">
                 {data.averageRating?.toFixed(1)}
               </span>
@@ -204,7 +233,7 @@ export default function Reviews() {
             <p className="text-sm text-muted-foreground">
               Based on {data.totalReviewCount} reviews
             </p>
-            <p className="flex items-center gap-1.5 text-xs text-muted-foreground">
+            <p className="flex items-center justify-center gap-1.5 text-xs text-muted-foreground md:justify-start">
               powered by <GoogleIcon className="size-3.5" />
               <span className="font-medium text-foreground/80">Google</span>
             </p>
@@ -221,7 +250,11 @@ export default function Reviews() {
             </a>
           </div>
 
-          <div className="relative min-w-0 flex-1">
+          <div
+            className="relative min-w-0 flex-1"
+            onMouseEnter={() => setAutoPaused(true)}
+            onMouseLeave={() => setAutoPaused(false)}
+          >
             <button
               type="button"
               aria-label="Previous review"
@@ -286,13 +319,25 @@ export default function Reviews() {
         whileInView={{ opacity: 1 }}
         viewport={{ once: true, margin: "-60px" }}
         transition={{ duration: 0.5 }}
-        className="mt-16 flex flex-wrap items-center justify-center gap-x-12 gap-y-6"
+        className="mt-16 hidden flex-wrap items-center justify-center gap-x-12 gap-y-6 md:flex"
       >
         {ACHIEVEMENTS.map((label) => (
           <div key={label} className="flex items-center gap-2 text-sm text-muted-foreground">
             <Award className="size-6 text-brand-lime" strokeWidth={1.5} />
             {label}
           </div>
+        ))}
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true, margin: "-60px" }}
+        transition={{ duration: 0.5 }}
+        className="mt-10 flex items-center justify-center gap-x-14 md:hidden"
+      >
+        {ACHIEVEMENT_ICONS.map((Icon, i) => (
+          <Icon key={i} className="size-9 text-muted-foreground/60" strokeWidth={1.5} />
         ))}
       </motion.div>
     </section>

@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { useParams } from "next/navigation";
-import { ArrowLeft, Pencil, Mail, Phone, Users, Loader2 } from "lucide-react";
+import { useParams, useRouter } from "next/navigation";
+import { ArrowLeft, Pencil, Trash2, Mail, Phone, Users, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import ImageWithFallback from "@/components/media/ImageWithFallback";
 import StudentFormDialog from "@/components/admin/StudentFormDialog";
@@ -19,10 +19,14 @@ function formatDate(value) {
 // and an edit dialog. Data comes from GET/PATCH /api/students/[id].
 export default function AdminStudentDetailPage() {
   const { id } = useParams();
+  const router = useRouter();
   const [student, setStudent] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [editOpen, setEditOpen] = useState(false);
+  const [markingPaid, setMarkingPaid] = useState(false);
+  const [feeError, setFeeError] = useState(null);
+  const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
@@ -61,6 +65,53 @@ export default function AdminStudentDetailPage() {
       setEditOpen(false);
     } catch (err) {
       setError(err.message);
+    }
+  }
+
+  async function handleDelete() {
+    if (!window.confirm(`Delete ${student.name}? This also removes their fee history. This can't be undone.`)) {
+      return;
+    }
+    setDeleting(true);
+    try {
+      const res = await fetch(`/api/students/${id}`, { method: "DELETE" });
+      if (!res.ok) throw new Error("Failed to delete student.");
+      router.push("/admin/students");
+    } catch (err) {
+      setError(err.message);
+      setDeleting(false);
+    }
+  }
+
+  async function handleMarkFirstPaymentPaid(batch) {
+    setMarkingPaid(true);
+    setFeeError(null);
+    try {
+      const dueDate = new Date().toISOString().slice(0, 10);
+      const createRes = await fetch("/api/fees", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          studentId: student.id,
+          amount: batch.price,
+          dueDate,
+          note: "First payment",
+        }),
+      });
+      if (!createRes.ok) throw new Error("Failed to create fee record.");
+      const { fee } = await createRes.json();
+
+      const payRes = await fetch(`/api/fees/${fee.id}`, { method: "PATCH" });
+      if (!payRes.ok) throw new Error("Failed to mark fee as paid.");
+
+      const refreshed = await fetch(`/api/students/${id}`);
+      if (!refreshed.ok) throw new Error("Failed to refresh student.");
+      const body = await refreshed.json();
+      setStudent(body.student);
+    } catch (err) {
+      setFeeError(err.message);
+    } finally {
+      setMarkingPaid(false);
     }
   }
 
@@ -122,14 +173,25 @@ export default function AdminStudentDetailPage() {
             </div>
           </div>
         </div>
-        <Button
-          variant="outline"
-          className="w-fit gap-2 rounded-full border-border"
-          onClick={() => setEditOpen(true)}
-        >
-          <Pencil className="size-4" />
-          Edit Student
-        </Button>
+        <div className="flex gap-3">
+          <Button
+            variant="outline"
+            className="w-fit gap-2 rounded-full border-border"
+            onClick={() => setEditOpen(true)}
+          >
+            <Pencil className="size-4" />
+            Edit Student
+          </Button>
+          <Button
+            variant="outline"
+            disabled={deleting}
+            className="w-fit gap-2 rounded-full border-destructive/30 text-destructive hover:bg-destructive/10"
+            onClick={handleDelete}
+          >
+            <Trash2 className="size-4" />
+            {deleting ? "Deleting..." : "Delete Student"}
+          </Button>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
@@ -180,6 +242,27 @@ export default function AdminStudentDetailPage() {
               <span className={`size-1.5 rounded-full ${meta.dot}`} />
               {meta.label}
             </span>
+
+            {student.feeStatus === "no-fee" ? (
+              student.batch?.price != null ? (
+                <Button
+                  size="sm"
+                  onClick={() => handleMarkFirstPaymentPaid(student.batch)}
+                  disabled={markingPaid}
+                  className="mt-1 w-fit rounded-full bg-brand-lime text-background hover:bg-brand-lime/90"
+                >
+                  {markingPaid
+                    ? "Marking..."
+                    : `Mark ₹${student.batch.price.toLocaleString("en-IN")} as Paid`}
+                </Button>
+              ) : (
+                <p className="text-xs text-muted-foreground">
+                  No batch price on file for this student — create the fee manually from
+                  Admin → Fees.
+                </p>
+              )
+            ) : null}
+            {feeError ? <p className="text-xs text-destructive">{feeError}</p> : null}
           </div>
         </div>
       </div>

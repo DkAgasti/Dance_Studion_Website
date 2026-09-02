@@ -62,9 +62,10 @@ export default function StudentFilters({
         </SelectTrigger>
         <SelectContent>
           <SelectItem value="all">All Fee Statuses</SelectItem>
-          <SelectItem value="paid">Paid</SelectItem>
+          <SelectItem value="no-fee">No Fee Set</SelectItem>
           <SelectItem value="due-soon">Due soon</SelectItem>
           <SelectItem value="overdue">Overdue</SelectItem>
+          <SelectItem value="paid">Paid</SelectItem>
         </SelectContent>
       </Select>
     </div>

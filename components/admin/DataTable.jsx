@@ -21,7 +21,7 @@ export default function DataTable({ columns, rows, onRowClick, selectedId }) {
         <thead>
           <tr className="border-b border-border text-xs font-bold tracking-wide text-muted-foreground uppercase">
             {columns.map((col) => (
-              <th key={col.key} className="px-2 py-3 first:pl-0 last:pr-0">
+              <th key={col.key} className="px-2 py-3 whitespace-nowrap first:pl-0 last:pr-0">
                 {col.label}
               </th>
             ))}
@@ -39,7 +39,7 @@ export default function DataTable({ columns, rows, onRowClick, selectedId }) {
               )}
             >
               {columns.map((col) => (
-                <td key={col.key} className="px-2 py-3.5 text-sm first:pl-0 last:pr-0">
+                <td key={col.key} className="px-2 py-3.5 text-sm whitespace-nowrap first:pl-0 last:pr-0">
                   {col.render ? col.render(row) : row[col.key]}
                 </td>
               ))}

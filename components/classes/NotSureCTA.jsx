@@ -1,13 +1,17 @@
 "use client";
 
 import Link from "next/link";
+import BookingLink from "@/components/shared/BookingLink";
 import { motion } from "framer-motion";
 import { MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { siteConfig } from "@/config/site";
+import { useStudioSettings } from "@/lib/useStudioSettings";
 
 // "Not sure which class?" gradient promo card.
 export default function NotSureCTA() {
+  const settings = useStudioSettings();
+  const whatsapp = settings?.whatsapp;
+
   return (
     <section className="container-page pb-20 md:pb-28">
       <motion.div
@@ -32,17 +36,19 @@ export default function NotSureCTA() {
             asChild
             className="h-12 rounded-full bg-white px-8 font-bold text-background hover:bg-white/90"
           >
-            <Link href="/book-trial">Book Free Trial</Link>
+            <BookingLink href="/book-trial">Book Free Trial</BookingLink>
           </Button>
-          <Button
-            asChild
-            className="h-12 gap-2 rounded-full bg-background px-8 font-bold text-white hover:bg-background/80"
-          >
-            <Link href={`https://wa.me/${siteConfig.whatsapp}`}>
-              <MessageCircle className="size-4" />
-              Chat with Us
-            </Link>
-          </Button>
+          {whatsapp ? (
+            <Button
+              asChild
+              className="h-12 gap-2 rounded-full bg-background px-8 font-bold text-white hover:bg-background/80"
+            >
+              <Link href={`https://wa.me/${whatsapp}`}>
+                <MessageCircle className="size-4" />
+                Chat with Us
+              </Link>
+            </Button>
+          ) : null}
         </div>
       </motion.div>
     </section>

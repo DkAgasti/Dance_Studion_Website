@@ -20,7 +20,7 @@ export default function DetailPanel({
   actions = [],
 }) {
   return (
-    <div className="glass-tile flex h-fit w-full flex-col rounded-2xl p-6 lg:w-96 lg:shrink-0">
+    <div className="glass-tile pointer-events-auto flex h-full w-full flex-col overflow-y-auto rounded-2xl p-6 shadow-2xl">
       <div className="flex items-start justify-between">
         <h3 className="font-medium">{title}</h3>
         <button

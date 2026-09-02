@@ -4,6 +4,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import BookingLink from "@/components/shared/BookingLink";
 import { cn } from "@/lib/utils";
 
 // Full-width call-to-action band (used at page bottoms).
@@ -39,7 +40,7 @@ export default function CTABand({
             size="lg"
             className="h-[68px] rounded-full bg-white px-10 text-base font-bold text-background shadow-2xl hover:bg-white/90"
           >
-            <Link href={primaryHref}>{primaryLabel}</Link>
+            <BookingLink href={primaryHref}>{primaryLabel}</BookingLink>
           </Button>
           {secondaryHref ? (
             <Button

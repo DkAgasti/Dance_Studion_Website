@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { cn } from "@/lib/utils";
+import { cn, cldOptimize } from "@/lib/utils";
 
 // Wraps a plain <img> (Cloudinary already serves optimized/CDN'd images, so
 // next/image's remote-pattern allowlist isn't needed) with a gradient + icon
@@ -34,7 +34,7 @@ export default function ImageWithFallback({
       ) : (
         // eslint-disable-next-line @next/next/no-img-element
         <img
-          src={src}
+          src={cldOptimize(src)}
           alt={alt}
           className={cn("absolute inset-0 size-full object-cover", imgClassName)}
           onError={() => setErrored(true)}

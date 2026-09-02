@@ -2,7 +2,7 @@
 import { prisma } from "@/lib/db";
 import { getCurrentUser } from "@/lib/auth";
 import { batchSchema } from "@/lib/validations/batch";
-import { BATCH_INCLUDE, toBatchView, resolveClassId, resolveTrainerId } from "@/lib/batches";
+import { BATCH_INCLUDE, toBatchView, syncClassLevel, resolveTrainerId } from "@/lib/batches";
 
 export async function PATCH(request, { params }) {
   const user = await getCurrentUser();
@@ -24,15 +24,15 @@ export async function PATCH(request, { params }) {
   const data = parsed.data;
 
   try {
-    const [classId, trainerId] = await Promise.all([
-      resolveClassId(data.name, data.level),
+    const [, trainerId] = await Promise.all([
+      syncClassLevel(data.classId, data.level),
       resolveTrainerId(data.trainer),
     ]);
 
     const batch = await prisma.batch.update({
       where: { id },
       data: {
-        classId,
+        classId: data.classId,
         trainerId,
         day: data.days,
         startTime: data.time,

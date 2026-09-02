@@ -6,7 +6,7 @@ import ImageWithFallback from "@/components/media/ImageWithFallback";
 // "Trishna — The Visionary" founder spotlight — portrait, story, and quote.
 export default function FounderSpotlight() {
   return (
-    <section className="container-page section-y">
+    <section className="container-page section-y overflow-x-hidden">
       <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:items-center lg:gap-16">
         <motion.div
           initial={{ opacity: 0, x: -24 }}

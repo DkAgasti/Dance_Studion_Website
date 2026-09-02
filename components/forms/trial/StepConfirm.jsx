@@ -13,7 +13,9 @@ const TIME_LABEL = {
   night: "Night (7 - 9 PM)",
 };
 
-function interestName(slug) {
+function interestName(slug, services = []) {
+  const service = services.find((s) => s.slug === slug);
+  if (service) return service.name;
   const all = [...classCatalog, ...fitnessClasses];
   return all.find((c) => c.slug === slug)?.name ?? slug;
 }
@@ -27,7 +29,7 @@ function formatDate(value) {
   });
 }
 
-export default function StepConfirm({ values, onEdit }) {
+export default function StepConfirm({ values, onEdit, services = [] }) {
   const rows = [
     { label: "Booking For", value: BOOKING_FOR_LABEL[values.bookingFor], step: 1 },
     {
@@ -35,10 +37,10 @@ export default function StepConfirm({ values, onEdit }) {
       value: `${EXPERIENCE_LABEL[values.experienceLevel]} · ${AGE_LABEL[values.ageGroup]}`,
       step: 2,
     },
-    { label: "Interest", value: interestName(values.interest), step: 3 },
+    { label: "Interest", value: interestName(values.interest, services), step: 3 },
     {
       label: "Date & Time",
-      value: `${formatDate(values.date)} · ${TIME_LABEL[values.timeSlot]}`,
+      value: `${formatDate(values.date)} · ${TIME_LABEL[values.timeSlot] ?? values.timeSlot}`,
       step: 4,
     },
     {

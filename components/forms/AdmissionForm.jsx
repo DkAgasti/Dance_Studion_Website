@@ -1,8 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AnimatePresence, motion } from "framer-motion";
@@ -22,6 +20,7 @@ import StepPlanSelection from "@/components/forms/admission/StepPlanSelection";
 import StepMedicalConsent from "@/components/forms/admission/StepMedicalConsent";
 import AdmissionSuccess from "@/components/forms/admission/AdmissionSuccess";
 import { uploadFile } from "@/lib/uploadClient";
+import { useCloseRoute } from "@/lib/useCloseRoute";
 
 const STEPS = [
   { key: 1, label: "Student Details", icon: User },
@@ -43,8 +42,12 @@ const variants = {
 };
 
 // Multi-step enrollment/admission form.
-export default function AdmissionForm() {
-  const searchParams = useSearchParams();
+// `onClose`, when provided (i.e. rendered inside BookingModalProvider's
+// popup), closes just the popup; otherwise this falls back to router-based
+// "go back" for the standalone /admissions page.
+export default function AdmissionForm({ onClose }) {
+  const closeRoute = useCloseRoute();
+  const close = onClose || closeRoute;
   const [step, setStep] = useState(1);
   const [direction, setDirection] = useState(1);
   const [success, setSuccess] = useState(false);
@@ -53,6 +56,9 @@ export default function AdmissionForm() {
   const [photoFile, setPhotoFile] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState(null);
+  const [classes, setClasses] = useState([]);
+  const [classesLoading, setClassesLoading] = useState(true);
+  const scrollBodyRef = useRef(null);
 
   const {
     register,
@@ -69,24 +75,37 @@ export default function AdmissionForm() {
   });
 
   const values = useWatch({ control });
+  const selectedClass = classes.find((c) => c.id === values.classId) ?? null;
 
-  // Preselect a plan passed in from the pricing page (?plan=standard), and
-  // restore any progress saved locally.
+  // Restore any progress saved locally.
   useEffect(() => {
-    const planFromQuery = searchParams.get("plan");
     const saved = window.localStorage.getItem(STORAGE_KEY);
     if (saved) {
       try {
         reset(JSON.parse(saved));
-        return;
       } catch {
         // ignore corrupt saved state
       }
     }
-    if (planFromQuery) {
-      setValue("plan", planFromQuery, { shouldValidate: true });
-    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetch("/api/classes")
+      .then((res) => (res.ok ? res.json() : { classes: [] }))
+      .then((body) => {
+        if (!cancelled) setClasses(body.classes ?? []);
+      })
+      .catch(() => {
+        // network hiccup — leave classes empty rather than crash
+      })
+      .finally(() => {
+        if (!cancelled) setClassesLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   function set(field, value) {
@@ -96,6 +115,7 @@ export default function AdmissionForm() {
   function goTo(nextStep) {
     setDirection(nextStep > step ? 1 : -1);
     setStep(nextStep);
+    if (scrollBodyRef.current) scrollBodyRef.current.scrollTop = 0;
   }
 
   function saveProgress() {
@@ -126,13 +146,17 @@ export default function AdmissionForm() {
           body: JSON.stringify({ ...formValues, photoUrl }),
         });
 
+        const resBody = await res.json().catch(() => null);
         if (!res.ok) {
-          const resBody = await res.json().catch(() => null);
           throw new Error(resBody?.error || "Something went wrong. Please try again.");
         }
 
         window.localStorage.removeItem(STORAGE_KEY);
-        setSubmittedValues(formValues);
+        setSubmittedValues({
+          ...formValues,
+          className: resBody?.admission?.classInterest,
+          planName: resBody?.admission?.planName,
+        });
         setSuccess(true);
       } catch (err) {
         setSubmitError(err.message);
@@ -141,36 +165,56 @@ export default function AdmissionForm() {
       }
       return;
     }
+    if (step === 5 && selectedClass?.batches?.length && !values.batchId) {
+      return;
+    }
     const valid = await trigger(admissionStepFields[step]);
     if (valid) goTo(step + 1);
   }
 
   if (success) {
     return (
-      <div className="container-page pt-40 pb-20 md:pt-52">
-        <AdmissionSuccess values={submittedValues} />
+      <div className="w-full min-h-0 max-h-full">
+        <div className="relative mx-auto w-full max-w-2xl min-h-0 max-h-full overflow-x-hidden">
+          <div
+            aria-hidden
+            className="bg-gradient-brand absolute -inset-16 -z-10 rounded-full opacity-[0.12] blur-[100px]"
+          />
+          <div className="relative max-h-[calc(100dvh-2rem)] overflow-y-auto overscroll-contain rounded-3xl border-2 border-border-strong bg-popover p-6 shadow-2xl sm:p-10">
+            <button
+              type="button"
+              onClick={close}
+              aria-label="Close"
+              className="absolute top-6 right-6 z-10 flex size-9 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-white/10 hover:text-foreground"
+            >
+              <X className="size-5" />
+            </button>
+            <AdmissionSuccess values={submittedValues} />
+          </div>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="container-page pt-32 pb-20 md:pt-44">
-      <div className="relative mx-auto max-w-4xl">
+    <div className="w-full min-h-0 max-h-full">
+      <div className="relative mx-auto w-full max-w-4xl min-h-0 max-h-full overflow-x-hidden">
         <div
           aria-hidden
           className="bg-gradient-brand absolute -inset-16 -z-10 rounded-full opacity-[0.12] blur-[100px]"
         />
 
-        <div className="glass-strong relative overflow-hidden rounded-3xl">
-          <Link
-            href="/"
+        <div className="relative flex max-h-[calc(100dvh-2rem)] w-full min-h-0 flex-col overflow-hidden rounded-3xl border-2 border-border-strong bg-popover shadow-2xl">
+          <button
+            type="button"
+            onClick={close}
             aria-label="Close"
             className="absolute top-6 right-6 z-10 flex size-9 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-white/10 hover:text-foreground"
           >
             <X className="size-5" />
-          </Link>
+          </button>
 
-          <div className="flex flex-col lg:flex-row">
+          <div className="flex flex-1 min-h-0 flex-col lg:flex-row">
             {/* Sidebar stepper — desktop only */}
             <div className="hidden w-64 shrink-0 flex-col border-r border-border p-8 lg:flex">
               <p className="font-display text-lg font-bold">Admission Form</p>
@@ -223,7 +267,7 @@ export default function AdmissionForm() {
             </div>
 
             {/* Mobile progress bar */}
-            <div className="border-b border-border p-6 lg:hidden">
+            <div className="shrink-0 border-b border-border p-6 lg:hidden">
               <p className="text-xs font-bold text-muted-foreground">
                 Step {step} of {TOTAL_STEPS} — {STEPS[step - 1].label}
               </p>
@@ -237,62 +281,73 @@ export default function AdmissionForm() {
             </div>
 
             {/* Step content */}
-            <div className="flex flex-1 flex-col p-6 sm:p-10">
-              <div className="min-h-[400px] overflow-hidden">
-                <AnimatePresence mode="wait" custom={direction} initial={false}>
-                  <motion.div
-                    key={step}
-                    custom={direction}
-                    variants={variants}
-                    initial="enter"
-                    animate="center"
-                    exit="exit"
-                    transition={{ duration: 0.3, ease: "easeOut" }}
-                  >
-                    {step === 1 ? (
-                      <StepStudentDetails
-                        register={register}
-                        errors={errors}
-                        photoName={values.photoName}
-                        onPhotoChange={(name, file) => {
-                          set("photoName", name);
-                          setPhotoFile(file);
-                        }}
-                      />
-                    ) : null}
-                    {step === 2 ? (
-                      <StepGuardianInfo register={register} errors={errors} />
-                    ) : null}
-                    {step === 3 ? (
-                      <StepContactDetails register={register} errors={errors} />
-                    ) : null}
-                    {step === 4 ? (
-                      <StepClassSelection
-                        value={values.classInterest}
-                        onChange={(v) => set("classInterest", v)}
-                        register={register}
-                      />
-                    ) : null}
-                    {step === 5 ? (
-                      <StepPlanSelection value={values.plan} onChange={(v) => set("plan", v)} />
-                    ) : null}
-                    {step === 6 ? (
-                      <StepMedicalConsent
-                        register={register}
-                        errors={errors}
-                        consent={values.medicalConsent}
-                        onConsentChange={(v) => set("medicalConsent", v)}
-                      />
-                    ) : null}
-                  </motion.div>
-                </AnimatePresence>
+            <div className="flex flex-1 min-h-0 flex-col">
+              <div
+                ref={scrollBodyRef}
+                className="flex-1 min-h-0 overflow-y-auto overscroll-contain p-6 sm:p-10"
+              >
+                <div className="sm:min-h-[400px]">
+                  <AnimatePresence mode="wait" custom={direction} initial={false}>
+                    <motion.div
+                      key={step}
+                      custom={direction}
+                      variants={variants}
+                      initial="enter"
+                      animate="center"
+                      exit="exit"
+                      transition={{ duration: 0.3, ease: "easeOut" }}
+                    >
+                      {step === 1 ? (
+                        <StepStudentDetails
+                          register={register}
+                          errors={errors}
+                          photoName={values.photoName}
+                          onPhotoChange={(name, file) => {
+                            set("photoName", name);
+                            setPhotoFile(file);
+                          }}
+                        />
+                      ) : null}
+                      {step === 2 ? (
+                        <StepGuardianInfo register={register} errors={errors} />
+                      ) : null}
+                      {step === 3 ? (
+                        <StepContactDetails register={register} errors={errors} />
+                      ) : null}
+                      {step === 4 ? (
+                        <StepClassSelection
+                          value={values.classId}
+                          onChange={(v) => set("classId", v)}
+                          register={register}
+                          classes={classes}
+                          classesLoading={classesLoading}
+                        />
+                      ) : null}
+                      {step === 5 ? (
+                        <StepPlanSelection
+                          value={values.batchId}
+                          onChange={(v) => set("batchId", v)}
+                          selectedClass={selectedClass}
+                        />
+                      ) : null}
+                      {step === 6 ? (
+                        <StepMedicalConsent
+                          register={register}
+                          errors={errors}
+                          consent={values.medicalConsent}
+                          onConsentChange={(v) => set("medicalConsent", v)}
+                        />
+                      ) : null}
+                    </motion.div>
+                  </AnimatePresence>
+                </div>
+
+                {submitError ? (
+                  <p className="mt-4 text-sm font-medium text-destructive">{submitError}</p>
+                ) : null}
               </div>
 
-              {submitError ? (
-                <p className="mt-4 text-sm font-medium text-destructive">{submitError}</p>
-              ) : null}
-
-              <div className="mt-8 flex items-center justify-between gap-4">
+              <div className="flex shrink-0 items-center justify-between gap-4 border-t border-border p-6 pt-4 sm:px-10">
                 {step > 1 ? (
                   <Button
                     type="button"

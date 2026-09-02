@@ -1,14 +1,11 @@
 "use client";
 
+import { Loader2 } from "lucide-react";
 import Chip from "@/components/forms/trial/Chip";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { classCatalog, fitnessClasses } from "@/config/classes";
 
-const DANCE_OPTIONS = classCatalog.map((c) => ({ key: c.slug, label: c.name }));
-const FITNESS_OPTIONS = fitnessClasses.map((c) => ({ key: c.slug, label: c.name }));
-
-export default function StepClassSelection({ value, onChange, register }) {
+export default function StepClassSelection({ value, onChange, register, classes, classesLoading }) {
   return (
     <div>
       <h2 className="h3-display text-balance sm:text-3xl">Class Selection</h2>
@@ -17,31 +14,24 @@ export default function StepClassSelection({ value, onChange, register }) {
       </p>
 
       <div className="mt-8">
-        <p className="eyebrow">Dance Styles</p>
-        <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-4">
-          {DANCE_OPTIONS.map((option) => (
-            <Chip
-              key={option.key}
-              label={option.label}
-              selected={value === option.key}
-              onClick={() => onChange(option.key)}
-            />
-          ))}
-        </div>
-      </div>
-
-      <div className="mt-8">
-        <p className="eyebrow">Fitness</p>
-        <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-4">
-          {FITNESS_OPTIONS.map((option) => (
-            <Chip
-              key={option.key}
-              label={option.label}
-              selected={value === option.key}
-              onClick={() => onChange(option.key)}
-            />
-          ))}
-        </div>
+        {classesLoading ? (
+          <div className="flex items-center gap-2 py-6 text-sm text-muted-foreground">
+            <Loader2 className="size-4 animate-spin" />
+            Loading classes...
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+            {classes.map((c) => (
+              <Chip
+                key={c.id}
+                label={c.name}
+                description={[c.level, c.ageGroup].filter(Boolean).join(" • ") || undefined}
+                selected={value === c.id}
+                onClick={() => onChange(c.id)}
+              />
+            ))}
+          </div>
+        )}
       </div>
 
       <div className="mt-8 flex flex-col gap-2">

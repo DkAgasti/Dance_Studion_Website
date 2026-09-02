@@ -110,11 +110,15 @@ export default function AdminFeesPage() {
   async function markPaid(id) {
     const fee = fees.find((f) => f.id === id);
     const previous = fees;
-    setFees((prev) => prev.map((f) => (f.id === id ? { ...f, status: "PAID" } : f)));
+    setFees((prev) =>
+      prev.map((f) => (f.id === id ? { ...f, status: "PAID", paidAt: new Date().toISOString() } : f))
+    );
 
     try {
       const res = await fetch(`/api/fees/${id}`, { method: "PATCH" });
       if (!res.ok) throw new Error("Failed to mark fee as paid.");
+      const { fee: updated } = await res.json();
+      setFees((prev) => prev.map((f) => (f.id === id ? updated : f)));
       toast.success(`Marked ${fee?.student.name}'s fee as paid`);
     } catch (err) {
       setFees(previous);

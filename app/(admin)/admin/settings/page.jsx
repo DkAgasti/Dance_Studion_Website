@@ -5,7 +5,6 @@ import SettingsNav from "@/components/admin/settings/SettingsNav";
 import StudioProfileSection from "@/components/admin/settings/StudioProfileSection";
 import SocialMapSection from "@/components/admin/settings/SocialMapSection";
 import PlansPricingSection from "@/components/admin/settings/PlansPricingSection";
-import FeeRemindersSection from "@/components/admin/settings/FeeRemindersSection";
 import NotificationsSection from "@/components/admin/settings/NotificationsSection";
 import TeamRolesSection from "@/components/admin/settings/TeamRolesSection";
 import BrandingSection from "@/components/admin/settings/BrandingSection";
@@ -14,7 +13,6 @@ const SECTION_COMPONENTS = {
   profile: StudioProfileSection,
   social: SocialMapSection,
   plans: PlansPricingSection,
-  reminders: FeeRemindersSection,
   notifications: NotificationsSection,
   team: TeamRolesSection,
   branding: BrandingSection,

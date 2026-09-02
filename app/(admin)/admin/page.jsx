@@ -1,7 +1,7 @@
 import { Download, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import StatsGrid from "@/components/admin/StatsGrid";
-import { RevenueChart, EnrollmentChart } from "@/components/admin/Charts";
+import { RevenueChart, EnrollmentChart } from "@/components/admin/LazyCharts";
 import RecentAdmissions from "@/components/admin/RecentAdmissions";
 import UpcomingTrials from "@/components/admin/UpcomingTrials";
 import { getDashboardData } from "@/lib/dashboard";

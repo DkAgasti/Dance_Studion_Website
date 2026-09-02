@@ -1,53 +1,46 @@
 "use client";
 
-import { Check } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { pricingPlans } from "@/config/pricing";
+import Chip from "@/components/forms/trial/Chip";
 
-export default function StepPlanSelection({ value, onChange }) {
+// Shows the real batches (live schedule + price) for the class picked in the
+// previous step — no more generic, disconnected membership tiers.
+export default function StepPlanSelection({ value, onChange, selectedClass }) {
+  const batches = selectedClass?.batches ?? [];
+
   return (
     <div>
-      <h2 className="h3-display text-balance sm:text-3xl">Plan Selection</h2>
+      <h2 className="h3-display text-balance sm:text-3xl">Choose Your Batch</h2>
       <p className="mt-2 text-sm text-muted-foreground sm:text-base">
-        Choose the membership plan that fits best — you can always change it
-        later.
+        {selectedClass
+          ? `Pick a ${selectedClass.name} batch — the price shown is exactly what you'll pay.`
+          : "Pick a class first to see its available batches."}
       </p>
 
-      <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
-        {pricingPlans.map((plan) => {
-          const selected = value === plan.slug;
-          return (
-            <button
-              key={plan.slug}
-              type="button"
-              onClick={() => onChange(plan.slug)}
-              aria-pressed={selected}
-              className={cn(
-                "flex flex-col rounded-2xl border-2 p-5 text-left transition-colors",
-                selected
-                  ? "border-brand-lime bg-brand-lime/10"
-                  : "glass-tile border-transparent hover:border-white/20"
-              )}
-            >
-              <div className="flex items-center justify-between">
-                <p className="font-medium">{plan.name}</p>
-                {selected ? (
-                  <span className="bg-brand-lime flex size-5 items-center justify-center rounded-full text-background">
-                    <Check className="size-3" strokeWidth={3} />
-                  </span>
-                ) : null}
-              </div>
-              <p className="mt-2 font-display text-2xl font-bold">
-                ₹{plan.monthlyPrice.toLocaleString("en-IN")}
-                <span className="text-xs font-normal text-muted-foreground">
-                  {" "}
-                  /month
-                </span>
-              </p>
-              <p className="mt-2 text-xs text-muted-foreground">{plan.tagline}</p>
-            </button>
-          );
-        })}
+      <div className="mt-8">
+        {batches.length ? (
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+            {batches.map((b) => (
+              <Chip
+                key={b.id}
+                label={`${b.day} • ${b.startTime}`}
+                description={[
+                  b.trainer ? `Trainer: ${b.trainer}` : null,
+                  `₹${(b.price ?? 0).toLocaleString("en-IN")}/mo`,
+                  `${b.seatsLeft} seats left`,
+                ]
+                  .filter(Boolean)
+                  .join(" • ")}
+                selected={value === b.id}
+                onClick={() => onChange(b.id)}
+              />
+            ))}
+          </div>
+        ) : (
+          <p className="rounded-xl border border-border bg-white/[0.03] px-4 py-3 text-sm text-muted-foreground">
+            No batches are scheduled for this class yet — our team will reach out to set up a
+            time and confirm pricing with you.
+          </p>
+        )}
       </div>
     </div>
   );

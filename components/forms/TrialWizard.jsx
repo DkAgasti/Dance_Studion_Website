@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -16,6 +16,7 @@ import StepSchedule from "@/components/forms/trial/StepSchedule";
 import StepDetails from "@/components/forms/trial/StepDetails";
 import StepConfirm from "@/components/forms/trial/StepConfirm";
 import TrialSuccess from "@/components/forms/trial/TrialSuccess";
+import { useCloseRoute } from "@/lib/useCloseRoute";
 
 const STEPS = [
   { key: 1, label: "Who Is This For?" },
@@ -34,14 +35,39 @@ const variants = {
   exit: (direction) => ({ opacity: 0, x: direction > 0 ? -24 : 24 }),
 };
 
-// Multi-step form for booking a trial class.
-export default function TrialWizard() {
+// Multi-step form for booking a trial class. `onClose`, when provided (i.e.
+// rendered inside BookingModalProvider's popup), closes just the popup;
+// otherwise this falls back to router-based "go back" for the standalone
+// /book-trial page.
+export default function TrialWizard({ onClose }) {
+  const closeRoute = useCloseRoute();
+  const close = onClose || closeRoute;
   const [step, setStep] = useState(1);
   const [direction, setDirection] = useState(1);
   const [success, setSuccess] = useState(false);
   const [submittedValues, setSubmittedValues] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState(null);
+  const [services, setServices] = useState([]);
+  const scrollBodyRef = useRef(null);
+
+  // Real, admin-managed Service records — used so the fitness options and
+  // their time slots shown in this wizard always match the /services page,
+  // instead of the separate static config/classes.js catalog.
+  useEffect(() => {
+    let cancelled = false;
+    fetch("/api/services")
+      .then((res) => (res.ok ? res.json() : { services: [] }))
+      .then((body) => {
+        if (!cancelled) setServices(body.services ?? []);
+      })
+      .catch(() => {
+        // network hiccup — fitness options just fall back to empty
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   const {
     register,
@@ -74,6 +100,7 @@ export default function TrialWizard() {
   function goTo(nextStep) {
     setDirection(nextStep > step ? 1 : -1);
     setStep(nextStep);
+    if (scrollBodyRef.current) scrollBodyRef.current.scrollTop = 0;
   }
 
   async function handleContinue() {
@@ -112,30 +139,47 @@ export default function TrialWizard() {
 
   if (success) {
     return (
-      <div className="container-page pt-40 pb-20 md:pt-52">
-        <TrialSuccess values={submittedValues} />
+      <div className="w-full min-h-0 max-h-full">
+        <div className="relative mx-auto w-full max-w-2xl min-h-0 max-h-full overflow-x-hidden">
+          <div
+            aria-hidden
+            className="bg-gradient-brand absolute -inset-16 -z-10 rounded-full opacity-[0.12] blur-[100px]"
+          />
+          <div className="relative max-h-[calc(100dvh-2rem)] overflow-y-auto overscroll-contain rounded-3xl border-2 border-border-strong bg-popover p-6 shadow-2xl sm:p-10">
+            <button
+              type="button"
+              onClick={close}
+              aria-label="Close"
+              className="absolute top-6 right-6 z-10 flex size-9 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-white/10 hover:text-foreground"
+            >
+              <X className="size-5" />
+            </button>
+            <TrialSuccess values={submittedValues} services={services} />
+          </div>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="container-page pt-32 pb-20 md:pt-44">
-      <div className="relative mx-auto max-w-4xl">
+    <div className="w-full min-h-0 max-h-full">
+      <div className="relative mx-auto w-full max-w-4xl min-h-0 max-h-full overflow-x-hidden">
         <div
           aria-hidden
           className="bg-gradient-brand absolute -inset-16 -z-10 rounded-full opacity-[0.12] blur-[100px]"
         />
 
-        <div className="glass-strong relative overflow-hidden rounded-3xl">
-          <Link
-            href="/"
+        <div className="relative flex max-h-[calc(100dvh-2rem)] w-full min-h-0 flex-col overflow-hidden rounded-3xl border-2 border-border-strong bg-popover shadow-2xl">
+          <button
+            type="button"
+            onClick={close}
             aria-label="Close"
             className="absolute top-6 right-6 z-10 flex size-9 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-white/10 hover:text-foreground"
           >
             <X className="size-5" />
-          </Link>
+          </button>
 
-          <div className="flex flex-col lg:flex-row">
+          <div className="flex flex-1 min-h-0 flex-col lg:flex-row">
             {/* Sidebar stepper — desktop only */}
             <div className="hidden w-64 shrink-0 flex-col border-r border-border p-8 lg:flex">
               <p className="font-display text-lg font-bold">Book Free Trial</p>
@@ -184,7 +228,7 @@ export default function TrialWizard() {
             </div>
 
             {/* Mobile progress bar */}
-            <div className="border-b border-border p-6 lg:hidden">
+            <div className="shrink-0 border-b border-border p-6 lg:hidden">
               <p className="text-xs font-bold text-muted-foreground">
                 Step {step} of {TOTAL_STEPS} — {STEPS[step - 1].label}
               </p>
@@ -198,55 +242,68 @@ export default function TrialWizard() {
             </div>
 
             {/* Step content */}
-            <div className="flex flex-1 flex-col p-6 sm:p-10">
-              <div className="min-h-[360px] overflow-hidden">
-                <AnimatePresence mode="wait" custom={direction} initial={false}>
-                  <motion.div
-                    key={step}
-                    custom={direction}
-                    variants={variants}
-                    initial="enter"
-                    animate="center"
-                    exit="exit"
-                    transition={{ duration: 0.3, ease: "easeOut" }}
-                  >
-                    {step === 1 ? (
-                      <StepWhoFor
-                        value={values.bookingFor}
-                        onChange={(v) => set("bookingFor", v)}
-                      />
-                    ) : null}
-                    {step === 2 ? (
-                      <StepExperience
-                        experienceLevel={values.experienceLevel}
-                        ageGroup={values.ageGroup}
-                        onExperienceChange={(v) => set("experienceLevel", v)}
-                        onAgeChange={(v) => set("ageGroup", v)}
-                      />
-                    ) : null}
-                    {step === 3 ? (
-                      <StepInterest value={values.interest} onChange={(v) => set("interest", v)} />
-                    ) : null}
-                    {step === 4 ? (
-                      <StepSchedule
-                        date={values.date}
-                        timeSlot={values.timeSlot}
-                        onDateChange={(v) => set("date", v)}
-                        onTimeSlotChange={(v) => set("timeSlot", v)}
-                        error={errors.date?.message}
-                      />
-                    ) : null}
-                    {step === 5 ? <StepDetails register={register} errors={errors} /> : null}
-                    {step === 6 ? <StepConfirm values={values} onEdit={goTo} /> : null}
-                  </motion.div>
-                </AnimatePresence>
+            <div className="flex flex-1 min-h-0 flex-col">
+              <div
+                ref={scrollBodyRef}
+                className="flex-1 min-h-0 overflow-y-auto overscroll-contain p-6 sm:p-10"
+              >
+                <div className="sm:min-h-[360px]">
+                  <AnimatePresence mode="wait" custom={direction} initial={false}>
+                    <motion.div
+                      key={step}
+                      custom={direction}
+                      variants={variants}
+                      initial="enter"
+                      animate="center"
+                      exit="exit"
+                      transition={{ duration: 0.3, ease: "easeOut" }}
+                    >
+                      {step === 1 ? (
+                        <StepWhoFor
+                          value={values.bookingFor}
+                          onChange={(v) => set("bookingFor", v)}
+                        />
+                      ) : null}
+                      {step === 2 ? (
+                        <StepExperience
+                          experienceLevel={values.experienceLevel}
+                          ageGroup={values.ageGroup}
+                          onExperienceChange={(v) => set("experienceLevel", v)}
+                          onAgeChange={(v) => set("ageGroup", v)}
+                        />
+                      ) : null}
+                      {step === 3 ? (
+                        <StepInterest
+                          value={values.interest}
+                          onChange={(v) => set("interest", v)}
+                          services={services}
+                        />
+                      ) : null}
+                      {step === 4 ? (
+                        <StepSchedule
+                          date={values.date}
+                          timeSlot={values.timeSlot}
+                          interest={values.interest}
+                          services={services}
+                          onDateChange={(v) => set("date", v)}
+                          onTimeSlotChange={(v) => set("timeSlot", v)}
+                          error={errors.date?.message}
+                        />
+                      ) : null}
+                      {step === 5 ? <StepDetails register={register} errors={errors} /> : null}
+                      {step === 6 ? (
+                        <StepConfirm values={values} onEdit={goTo} services={services} />
+                      ) : null}
+                    </motion.div>
+                  </AnimatePresence>
+                </div>
+
+                {submitError ? (
+                  <p className="mt-4 text-sm font-medium text-destructive">{submitError}</p>
+                ) : null}
               </div>
 
-              {submitError ? (
-                <p className="mt-4 text-sm font-medium text-destructive">{submitError}</p>
-              ) : null}
-
-              <div className="mt-8 flex items-center justify-between gap-4">
+              <div className="flex shrink-0 items-center justify-between gap-4 border-t border-border p-6 pt-4 sm:px-10">
                 {step > 1 ? (
                   <Button
                     type="button"

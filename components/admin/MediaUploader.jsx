@@ -28,9 +28,7 @@ export default function MediaUploader({
     if (file) onFile?.(file);
   }
 
-  function handleUrlSubmit(e) {
-    e.preventDefault();
-    e.stopPropagation();
+  function submitUrl() {
     const trimmed = urlValue.trim();
     if (trimmed) {
       onUrl?.(trimmed);
@@ -60,7 +58,7 @@ export default function MediaUploader({
       }}
     >
       {showUrlInput ? (
-        <form onSubmit={handleUrlSubmit} className="flex w-full flex-col gap-2">
+        <div className="flex w-full flex-col gap-2">
           <input
             type="url"
             autoFocus
@@ -68,11 +66,18 @@ export default function MediaUploader({
             placeholder="https://..."
             value={urlValue}
             onChange={(e) => setUrlValue(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+                submitUrl();
+              }
+            }}
             className="w-full rounded-lg border border-border bg-transparent px-3 py-2 text-sm outline-none focus:border-brand-end"
           />
           <div className="flex justify-center gap-2">
             <button
-              type="submit"
+              type="button"
+              onClick={submitUrl}
               className="rounded-full bg-brand-end px-4 py-1.5 text-xs font-bold text-background"
             >
               Add
@@ -88,7 +93,7 @@ export default function MediaUploader({
               Cancel
             </button>
           </div>
-        </form>
+        </div>
       ) : (
         <>
           <button type="button" onClick={() => inputRef.current?.click()} className="contents">

@@ -15,11 +15,20 @@ const TIME_SLOTS = [
 export default function StepSchedule({
   date,
   timeSlot,
+  interest,
+  services = [],
   onDateChange,
   onTimeSlotChange,
   error,
 }) {
   const today = new Date().toISOString().split("T")[0];
+
+  // If the chosen interest is a real service with its own configured
+  // session times, only offer those — showing the generic day-part buckets
+  // instead would let someone pick a time that service doesn't actually run.
+  const selectedService = services.find((s) => s.slug === interest);
+  const customSlots = selectedService?.timeSlots ?? [];
+  const hasCustomSlots = customSlots.length > 0;
 
   return (
     <div>
@@ -39,17 +48,28 @@ export default function StepSchedule({
       </div>
 
       <div className="mt-8">
-        <p className="eyebrow">Preferred Time</p>
+        <p className="eyebrow">
+          {hasCustomSlots ? `${selectedService.name} — Available Times` : "Preferred Time"}
+        </p>
         <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-4">
-          {TIME_SLOTS.map((slot) => (
-            <Chip
-              key={slot.key}
-              label={slot.label}
-              description={slot.description}
-              selected={timeSlot === slot.key}
-              onClick={() => onTimeSlotChange(slot.key)}
-            />
-          ))}
+          {hasCustomSlots
+            ? customSlots.map((slot) => (
+                <Chip
+                  key={slot}
+                  label={slot}
+                  selected={timeSlot === slot}
+                  onClick={() => onTimeSlotChange(slot)}
+                />
+              ))
+            : TIME_SLOTS.map((slot) => (
+                <Chip
+                  key={slot.key}
+                  label={slot.label}
+                  description={slot.description}
+                  selected={timeSlot === slot.key}
+                  onClick={() => onTimeSlotChange(slot.key)}
+                />
+              ))}
         </div>
       </div>
     </div>

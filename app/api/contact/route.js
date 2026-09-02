@@ -32,7 +32,7 @@ export async function POST(request) {
         await sendEmail({
           to: process.env.ADMIN_NOTIFICATION_EMAIL,
           subject: `New contact message from ${data.name}`,
-          html: adminNotificationEmail({
+          html: await adminNotificationEmail({
             title: "New Contact Message",
             rows: [
               { label: "Name", value: data.name },

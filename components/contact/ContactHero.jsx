@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 // "Get in Touch" hero.
 export default function ContactHero() {
   return (
-    <section className="container-page pt-40 pb-16 text-center md:pt-52">
+    <section className="container-page pt-[calc(var(--header-h,88px)+72px)] pb-16 text-center md:pt-52">
       <motion.div
         initial={{ opacity: 0, y: 24 }}
         animate={{ opacity: 1, y: 0 }}

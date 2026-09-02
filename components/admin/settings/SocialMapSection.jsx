@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import ImageWithFallback from "@/components/media/ImageWithFallback";
+import { extractMapEmbedUrl } from "@/lib/utils";
 
 const SOCIAL_FIELDS = [
   { key: "facebook", label: "Facebook URL", badge: "FB" },
@@ -33,7 +34,7 @@ export default function SocialMapSection() {
           facebook: settings.socials?.facebook ?? "",
           instagram: settings.socials?.instagram ?? "",
           youtube: settings.socials?.youtube ?? "",
-          mapEmbedUrl: settings.mapEmbed ?? "",
+          mapEmbedUrl: extractMapEmbedUrl(settings.mapEmbed) ?? "",
         });
       })
       .catch(() => toast.error("Failed to load social settings."))
@@ -58,7 +59,7 @@ export default function SocialMapSection() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           socials: { facebook: form.facebook, instagram: form.instagram, youtube: form.youtube },
-          mapEmbed: form.mapEmbedUrl,
+          mapEmbed: extractMapEmbedUrl(form.mapEmbedUrl),
         }),
       });
       if (!res.ok) throw new Error("Failed to save social settings.");
@@ -108,19 +109,31 @@ export default function SocialMapSection() {
             id="map-embed"
             placeholder="https://www.google.com/maps/embed?..."
             value={form.mapEmbedUrl}
-            onChange={(e) => set("mapEmbedUrl")(e.target.value)}
+            onChange={(e) => set("mapEmbedUrl")(extractMapEmbedUrl(e.target.value))}
           />
           <p className="text-xs text-muted-foreground">
-            From Google Maps: Share → Embed a map → copy the src URL.
+            From Google Maps: Share → Embed a map → copy the src URL (pasting the
+            whole &lt;iframe&gt; snippet also works — the URL is pulled out automatically).
           </p>
         </div>
         <div>
           <p className="eyebrow !text-[10px]">Preview</p>
-          <ImageWithFallback
-            icon={MapPin}
-            gradient="from-surface to-background"
-            className="mt-2 h-[168px] w-full rounded-xl border border-border"
-          />
+          {form.mapEmbedUrl ? (
+            <iframe
+              key={form.mapEmbedUrl}
+              src={form.mapEmbedUrl}
+              className="mt-2 h-[168px] w-full rounded-xl border border-border"
+              style={{ border: 0 }}
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            />
+          ) : (
+            <ImageWithFallback
+              icon={MapPin}
+              gradient="from-surface to-background"
+              className="mt-2 h-[168px] w-full rounded-xl border border-border"
+            />
+          )}
         </div>
       </div>
 

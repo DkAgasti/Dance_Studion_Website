@@ -1,8 +1,7 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { Loader2 } from "lucide-react";
 import ClassFilters from "@/components/classes/ClassFilters";
 import ClassCard from "@/components/classes/ClassCard";
 
@@ -15,32 +14,14 @@ const GRADIENTS = [
   "from-[#3a2a1f] via-surface to-[#7a5320]",
 ];
 
-// Filter chips (age + style) and the responsive class card grid. Classes,
-// and the filter options themselves, come from GET /api/classes — whatever
-// classes the admin adds (Admin > Classes) is what shows up here.
-export default function ClassesGrid() {
-  const [classes, setClasses] = useState([]);
-  const [loading, setLoading] = useState(true);
+// Filter chips (age + style) and the responsive class card grid. Classes
+// are fetched server-side (see app/(public)/classes/page.jsx) and passed in
+// as `initialClasses` — whatever the admin adds (Admin > Classes) is what
+// shows up here.
+export default function ClassesGrid({ initialClasses = [] }) {
+  const classes = initialClasses;
   const [age, setAge] = useState("all");
   const [style, setStyle] = useState("all");
-
-  useEffect(() => {
-    let cancelled = false;
-    fetch("/api/classes")
-      .then((res) => (res.ok ? res.json() : { classes: [] }))
-      .then((body) => {
-        if (!cancelled) setClasses(body.classes ?? []);
-      })
-      .catch(() => {
-        // network/DB hiccup — leave classes empty rather than crash
-      })
-      .finally(() => {
-        if (!cancelled) setLoading(false);
-      });
-    return () => {
-      cancelled = true;
-    };
-  }, []);
 
   // "All Ages" is a per-class sentinel meaning "matches every age filter" —
   // it isn't a distinct filter chip alongside "All" (see isAgeMatch below).
@@ -85,27 +66,20 @@ export default function ClassesGrid() {
         />
       </motion.div>
 
-      {loading ? (
-        <div className="mt-12 flex items-center justify-center gap-2 py-12 text-sm text-muted-foreground">
-          <Loader2 className="size-4 animate-spin" />
-          Loading classes...
-        </div>
-      ) : (
-        <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          <AnimatePresence mode="popLayout">
-            {filtered.map((classItem, i) => (
-              <ClassCard
-                key={classItem.slug}
-                classItem={classItem}
-                gradient={GRADIENTS[i % GRADIENTS.length]}
-                index={i}
-              />
-            ))}
-          </AnimatePresence>
-        </div>
-      )}
+      <div className="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <AnimatePresence mode="popLayout">
+          {filtered.map((classItem, i) => (
+            <ClassCard
+              key={classItem.slug}
+              classItem={classItem}
+              gradient={GRADIENTS[i % GRADIENTS.length]}
+              index={i}
+            />
+          ))}
+        </AnimatePresence>
+      </div>
 
-      {!loading && filtered.length === 0 ? (
+      {filtered.length === 0 ? (
         <p className="mt-12 text-center text-muted-foreground">
           {classes.length
             ? "No classes match those filters yet — try a different combination."

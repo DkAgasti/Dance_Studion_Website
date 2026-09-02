@@ -2,19 +2,23 @@
 
 import { motion } from "framer-motion";
 import { siteConfig } from "@/config/site";
+import { useStudioSettings } from "@/lib/useStudioSettings";
+import { InstagramIcon, FacebookIcon, YoutubeIcon, XIcon, PLATFORM_HOME } from "@/components/shared/SocialIcons";
 
-// lucide-react dropped brand/logo marks, so socials render as short labels
-// inside the glass badge rather than invented icon glyphs (same treatment
-// as the site footer).
-const SOCIALS = [
-  { key: "instagram", label: "IG", name: "Instagram", href: siteConfig.socials.instagram },
-  { key: "facebook", label: "FB", name: "Facebook", href: siteConfig.socials.facebook },
-  { key: "youtube", label: "YT", name: "YouTube", href: siteConfig.socials.youtube },
-  { key: "twitter", label: "X", name: "Twitter", href: siteConfig.socials.twitter },
-];
-
-// "Follow Our Moves" social icons row.
+// "Follow Our Moves" social icons row — Instagram/Facebook/YouTube open the
+// admin's real account URL once set, otherwise the generic platform
+// homepage (not a fabricated "asmdancestudio" guess). Twitter/X has no
+// admin field at all, so it always comes from siteConfig.
 export default function SocialRow() {
+  const settings = useStudioSettings();
+
+  const SOCIALS = [
+    { key: "instagram", Icon: InstagramIcon, name: "Instagram", href: settings?.socials?.instagram || PLATFORM_HOME.instagram },
+    { key: "facebook", Icon: FacebookIcon, name: "Facebook", href: settings?.socials?.facebook || PLATFORM_HOME.facebook },
+    { key: "youtube", Icon: YoutubeIcon, name: "YouTube", href: settings?.socials?.youtube || PLATFORM_HOME.youtube },
+    { key: "twitter", Icon: XIcon, name: "Twitter", href: siteConfig.socials.twitter },
+  ];
+
   return (
     <section className="container-page pb-20 text-center md:pb-28">
       <motion.h2
@@ -43,8 +47,8 @@ export default function SocialRow() {
             aria-label={social.name}
             className="flex flex-col items-center gap-2 text-muted-foreground transition-colors hover:text-foreground"
           >
-            <span className="glass flex size-12 items-center justify-center rounded-full text-sm font-bold">
-              {social.label}
+            <span className="glass flex size-12 items-center justify-center rounded-full">
+              <social.Icon className="size-5" />
             </span>
             <span className="text-[10px] font-bold tracking-wide uppercase">
               {social.name}

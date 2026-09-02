@@ -1,14 +1,28 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { MessageCircle } from "lucide-react";
-import { siteConfig } from "@/config/site";
+import { useStudioSettings } from "@/lib/useStudioSettings";
 
-// Floating WhatsApp contact button shown on all public pages.
+function WhatsAppIcon({ className }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="currentColor" aria-hidden>
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />
+      <path d="M12.004 2C6.486 2 2.004 6.482 2.004 12c0 1.85.505 3.58 1.384 5.065L2 22l5.06-1.362A9.947 9.947 0 0 0 12.004 22C17.522 22 22.004 17.518 22.004 12S17.522 2 12.004 2zm0 18.152c-1.664 0-3.213-.49-4.517-1.334l-.324-.204-3.006.809.803-2.936-.211-.336a8.135 8.135 0 0 1-1.244-4.35c0-4.508 3.667-8.176 8.175-8.176 4.508 0 8.175 3.668 8.175 8.176 0 4.508-3.667 8.176-8.176 8.176z" />
+    </svg>
+  );
+}
+
+// Floating WhatsApp contact button shown on all public pages — hidden
+// entirely until the admin sets a WhatsApp number (no static fallback).
 export default function WhatsAppFab() {
+  const settings = useStudioSettings();
+  const whatsapp = settings?.whatsapp;
+
+  if (!whatsapp) return null;
+
   return (
     <motion.a
-      href={`https://wa.me/${siteConfig.whatsapp}`}
+      href={`https://wa.me/${whatsapp}`}
       target="_blank"
       rel="noreferrer noopener"
       aria-label="Chat on WhatsApp"
@@ -17,9 +31,9 @@ export default function WhatsAppFab() {
       transition={{ duration: 0.4, delay: 0.5 }}
       whileHover={{ scale: 1.08 }}
       whileTap={{ scale: 0.95 }}
-      className="fixed right-6 bottom-6 z-40 flex size-16 items-center justify-center rounded-full bg-whatsapp text-white shadow-2xl sm:right-10 sm:bottom-10"
+      className="fixed right-4 bottom-4 z-40 flex size-12 items-center justify-center rounded-full bg-whatsapp text-white shadow-2xl sm:right-10 sm:bottom-10 sm:size-16"
     >
-      <MessageCircle className="size-8" fill="currentColor" strokeWidth={0} />
+      <WhatsAppIcon className="size-6 sm:size-8" />
     </motion.a>
   );
 }

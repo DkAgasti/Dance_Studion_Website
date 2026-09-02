@@ -7,7 +7,7 @@ import Milestones from "@/components/about/Milestones";
 import StudioGallery from "@/components/about/StudioGallery";
 import StatsBand from "@/components/about/StatsBand";
 import CTABand from "@/components/shared/CTABand";
-import { siteConfig } from "@/config/site";
+import { getStudioSettings } from "@/lib/getStudioSettings";
 
 export const metadata = {
   title: "About Us — ASM Dance Studio",
@@ -15,7 +15,10 @@ export const metadata = {
     "The story behind Achieve Show Makers — our mission, our founder Trishna, our values, and the milestones that shaped Bhubaneswar's home of dance and fitness.",
 };
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const settings = await getStudioSettings();
+  const whatsapp = settings.whatsapp;
+
   return (
     <>
       <StoryHero />
@@ -29,7 +32,7 @@ export default function AboutPage() {
       <CTABand
         title="Come dance with us"
         subtitle="Your next chapter starts on the floor."
-        secondaryHref={`https://wa.me/${siteConfig.whatsapp}`}
+        secondaryHref={whatsapp ? `https://wa.me/${whatsapp}` : undefined}
       />
     </>
   );

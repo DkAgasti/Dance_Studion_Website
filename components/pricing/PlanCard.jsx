@@ -1,9 +1,9 @@
 "use client";
 
-import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import BookingLink from "@/components/shared/BookingLink";
 import { cn } from "@/lib/utils";
 
 // A single pricing plan card — price animates when the billing period toggles.
@@ -76,7 +76,7 @@ export default function PlanCard({ plan, period, index }) {
             : "border border-border bg-transparent text-foreground hover:bg-white/5"
         )}
       >
-        <Link href={`/admissions?plan=${plan.id}`}>{plan.ctaLabel}</Link>
+        <BookingLink href={`/admissions?plan=${plan.id}`}>{plan.ctaLabel}</BookingLink>
       </Button>
     </motion.div>
   );

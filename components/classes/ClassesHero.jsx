@@ -1,12 +1,13 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { cldOptimize } from "@/lib/utils";
 
 // "Dance Classes" hero — heading + intro left, dancer photo + decorative
 // shapes right.
 export default function ClassesHero() {
   return (
-    <section className="container-page relative overflow-hidden pt-40 pb-20 md:pt-52 md:pb-24">
+    <section className="container-page relative overflow-hidden pt-[calc(var(--header-h,88px)+72px)] pb-20 md:pt-52 md:pb-24">
       <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
@@ -34,7 +35,7 @@ export default function ClassesHero() {
           <motion.img
             animate={{ y: [0, -18, 0] }}
             transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
-            src="https://res.cloudinary.com/fexwwils/image/upload/v1787894856/dance_classes.png"
+            src={cldOptimize("https://res.cloudinary.com/fexwwils/image/upload/v1787894856/dance_classes.png")}
             alt="Dancers at ASM Dance Studio"
             className="mx-auto w-full"
           />

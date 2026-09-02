@@ -9,7 +9,10 @@ export async function GET() {
     orderBy: [{ order: "asc" }, { createdAt: "asc" }],
   });
 
-  return Response.json({ trainers });
+  return Response.json(
+    { trainers },
+    { headers: { "Cache-Control": "public, max-age=60, stale-while-revalidate=300" } }
+  );
 }
 
 export async function POST(request) {

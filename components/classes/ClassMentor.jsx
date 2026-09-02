@@ -26,23 +26,24 @@ export default function ClassMentor({ trainer }) {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-60px" }}
         transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
-        className="glass mt-10 flex flex-col gap-6 rounded-3xl p-8 sm:flex-row sm:items-center sm:p-10"
+        className="glass mt-10 flex flex-col gap-8 rounded-3xl p-6 sm:flex-row sm:items-center sm:gap-10 sm:p-10"
       >
         <ImageWithFallback
           src={trainer.photoUrl}
           gradient="from-brand-mid/25 via-surface to-brand-start/15"
-          className="aspect-square w-24 shrink-0 rounded-2xl border border-border sm:w-32"
+          className="aspect-[4/5] w-full shrink-0 rounded-2xl border border-border sm:w-64 md:w-72"
         />
         <div>
-          <h3 className="h3-display">{trainer.name}</h3>
-          <p className="mt-3 max-w-xl text-muted-foreground">{trainer.bio}</p>
-          <Link
-            href="/about#trainers"
-            className="mt-4 inline-flex items-center gap-2 text-sm font-bold text-foreground transition-colors hover:text-brand-mid"
-          >
-            Meet the entire team
-            <ArrowRight className="size-3.5" />
-          </Link>
+          <h3 className="font-display mt-3 text-4xl leading-[1.05] font-bold tracking-tight md:text-5xl">
+            {trainer.name.split(" ").map((word, i) => (
+              <span key={i} className="block">
+                {word}
+              </span>
+            ))}
+          </h3>
+          <p className="mt-5 max-w-xl text-base leading-relaxed text-muted-foreground md:text-lg">
+            {trainer.bio}
+          </p>
         </div>
       </motion.div>
     </section>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -24,7 +24,7 @@ import { trainerOptions, studioOptions } from "@/components/admin/batchesData";
 const LEVEL_OPTIONS = ["Beginner Level", "Intermediate Level", "Advanced Level", "Open Level", "All Ages"];
 
 const EMPTY_FORM = {
-  name: "",
+  classId: "",
   level: "",
   studio: "",
   days: "",
@@ -37,7 +37,7 @@ const EMPTY_FORM = {
 function batchToForm(batch) {
   if (!batch) return EMPTY_FORM;
   return {
-    name: batch.name,
+    classId: batch.classId,
     level: batch.level,
     studio: batch.studio,
     days: batch.days,
@@ -50,6 +50,26 @@ function batchToForm(batch) {
 
 function BatchForm({ batch, onSubmit }) {
   const [form, setForm] = useState(() => batchToForm(batch));
+  const [classes, setClasses] = useState([]);
+  const [classesLoading, setClassesLoading] = useState(true);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetch("/api/classes")
+      .then((res) => (res.ok ? res.json() : { classes: [] }))
+      .then((body) => {
+        if (!cancelled) setClasses(body.classes ?? []);
+      })
+      .catch(() => {
+        // network hiccup — leave classes empty rather than crash
+      })
+      .finally(() => {
+        if (!cancelled) setClassesLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   function set(key) {
     return (value) => setForm((f) => ({ ...f, [key]: value }));
@@ -61,7 +81,7 @@ function BatchForm({ batch, onSubmit }) {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="w-full min-w-0">
       <DialogHeader>
         <DialogTitle>{batch ? "Edit Batch" : "Add New Batch"}</DialogTitle>
         <DialogDescription>
@@ -72,17 +92,28 @@ function BatchForm({ batch, onSubmit }) {
       </DialogHeader>
 
       <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
-        <div className="flex flex-col gap-1.5 sm:col-span-2">
-          <Label htmlFor="b-name">Style / Batch Name</Label>
-          <Input
-            id="b-name"
-            required
-            value={form.name}
-            onChange={(e) => set("name")(e.target.value)}
-          />
+        <div className="flex min-w-0 flex-col gap-1.5 sm:col-span-2">
+          <Label>Class</Label>
+          <Select value={form.classId} onValueChange={set("classId")}>
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder={classesLoading ? "Loading classes..." : "Select a class"} />
+            </SelectTrigger>
+            <SelectContent>
+              {classes.map((c) => (
+                <SelectItem key={c.id} value={c.id}>
+                  {c.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          {!classesLoading && !classes.length ? (
+            <p className="text-xs text-muted-foreground">
+              No classes yet — create one under Admin → Classes first.
+            </p>
+          ) : null}
         </div>
 
-        <div className="flex flex-col gap-1.5">
+        <div className="flex min-w-0 flex-col gap-1.5">
           <Label>Level</Label>
           <Select value={form.level} onValueChange={set("level")}>
             <SelectTrigger className="w-full">
@@ -98,7 +129,7 @@ function BatchForm({ batch, onSubmit }) {
           </Select>
         </div>
 
-        <div className="flex flex-col gap-1.5">
+        <div className="flex min-w-0 flex-col gap-1.5">
           <Label>Studio</Label>
           <Select value={form.studio} onValueChange={set("studio")}>
             <SelectTrigger className="w-full">
@@ -148,7 +179,7 @@ function BatchForm({ batch, onSubmit }) {
           />
         </div>
 
-        <div className="flex flex-col gap-1.5">
+        <div className="flex min-w-0 flex-col gap-1.5">
           <Label>Trainer</Label>
           <Select value={form.trainer} onValueChange={set("trainer")}>
             <SelectTrigger className="w-full">

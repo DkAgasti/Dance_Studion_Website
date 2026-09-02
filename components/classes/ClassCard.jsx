@@ -14,12 +14,13 @@ export default function ClassCard({ classItem, gradient, index = 0 }) {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -10 }}
       transition={{ duration: 0.4, delay: (index % 6) * 0.05, ease: "easeOut" }}
+      className="h-full"
     >
       <Link
         href={`/classes/${classItem.slug}`}
-        className="group glass-tile block overflow-hidden rounded-2xl transition-transform hover:-translate-y-1"
+        className="group glass-tile flex h-full flex-col overflow-hidden rounded-2xl transition-transform hover:-translate-y-1"
       >
-        <div className="relative aspect-4/3 overflow-hidden">
+        <div className="relative aspect-4/3 shrink-0 overflow-hidden">
           <ImageWithFallback
             src={classItem.imageUrl}
             gradient={gradient}
@@ -31,11 +32,13 @@ export default function ClassCard({ classItem, gradient, index = 0 }) {
             <span className="text-white/70">{classItem.ageGroup}</span>
           </div>
         </div>
-        <div className="p-6">
-          <h3 className="h4-display">{classItem.name}</h3>
-          <p className="mt-2 text-sm text-muted-foreground">{classItem.description}</p>
+        <div className="flex flex-1 flex-col p-5">
+          <h3 className="h4-display line-clamp-1">{classItem.name}</h3>
+          <p className="mt-2 line-clamp-2 min-h-[2.5rem] text-sm text-muted-foreground">
+            {classItem.description}
+          </p>
           <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-bold text-brand-lime">
-            Book Trial
+            Explore classes
             <ArrowRight className="size-3.5 transition-transform group-hover:translate-x-1" />
           </span>
         </div>

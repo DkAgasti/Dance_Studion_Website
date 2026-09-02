@@ -22,7 +22,7 @@ export default function FitnessHero() {
         initial={{ opacity: 0, y: 24 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: "easeOut" }}
-        className="container-page relative text-center"
+        className="container-page relative pt-[calc(var(--header-h,88px)+24px)] text-center lg:pt-0"
       >
         <p className="eyebrow">Health &amp; Performance</p>
         <h1 className="h1-display mx-auto mt-4 max-w-3xl text-balance">

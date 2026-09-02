@@ -10,13 +10,15 @@ function FilterGroup({ label, options, active, onChange, className }) {
   return (
     <div
       className={cn(
-        "glass flex max-w-full shrink-0 items-center gap-1 rounded-full py-2 pr-3 pl-4",
+        "flex max-w-full w-full shrink-0 items-center gap-2 md:glass md:w-auto md:gap-1 md:rounded-full md:py-2 md:pr-3 md:pl-4",
         className
       )}
     >
       {/* Label stays put — only the chip list below scrolls. */}
-      <span className="eyebrow shrink-0 pr-2 text-[11px]">{label}:</span>
-      <div className={cn("flex min-w-0 items-center gap-1 overflow-x-auto", noScrollbar)}>
+      <span className="eyebrow shrink-0 pr-1 text-[11px] md:pr-2">
+        {label}:
+      </span>
+      <div className={cn("flex min-w-0 items-center gap-2 overflow-x-auto md:gap-1", noScrollbar)}>
         {(options ?? []).map((option) => {
           const isActive = active === option.key;
           return (
@@ -26,10 +28,10 @@ function FilterGroup({ label, options, active, onChange, className }) {
               onClick={() => onChange(option.key)}
               aria-pressed={isActive}
               className={cn(
-                "shrink-0 rounded-full px-4 py-2 text-sm font-medium whitespace-nowrap transition-colors",
+                "shrink-0 rounded-full border px-4 py-2 text-sm font-medium whitespace-nowrap transition-colors md:border-0",
                 isActive
-                  ? "bg-brand-lime font-bold text-background"
-                  : "text-muted-foreground hover:text-foreground"
+                  ? "border-transparent bg-brand-lime font-bold text-background"
+                  : "border-border text-muted-foreground hover:text-foreground"
               )}
             >
               {option.label}
@@ -55,14 +57,14 @@ export default function ClassFilters({
 }) {
   return (
     <div className="flex w-full justify-center px-4">
-      <div className="flex max-w-full items-center gap-4 overflow-x-auto">
+      <div className="flex w-full max-w-full flex-col items-stretch gap-3 md:w-auto md:flex-row md:items-center md:gap-4 md:overflow-x-auto">
         <FilterGroup label="Age" options={ageOptions} active={age} onChange={onAgeChange} />
         <FilterGroup
           label="Style"
           options={styleOptions}
           active={style}
           onChange={onStyleChange}
-          className="sm:w-[520px]"
+          className="md:w-[520px]"
         />
       </div>
     </div>

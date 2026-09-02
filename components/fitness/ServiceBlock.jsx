@@ -1,9 +1,9 @@
 "use client";
 
-import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Clock } from "lucide-react";
 import ImageWithFallback from "@/components/media/ImageWithFallback";
+import BookingLink from "@/components/shared/BookingLink";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -76,6 +76,20 @@ export default function ServiceBlock({ service, reverse = false }) {
             ))}
           </ul>
 
+          {(service.timeSlots ?? []).length > 0 ? (
+            <div className="mt-8 flex flex-wrap gap-2">
+              {service.timeSlots.map((slot) => (
+                <span
+                  key={slot}
+                  className="glass-tile flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium text-foreground/90"
+                >
+                  <Clock className="size-3.5" style={{ color: hex }} />
+                  {slot}
+                </span>
+              ))}
+            </div>
+          ) : null}
+
           <Button
             asChild
             size="lg"
@@ -85,10 +99,10 @@ export default function ServiceBlock({ service, reverse = false }) {
             )}
             style={{ backgroundColor: hex }}
           >
-            <Link href={service.ctaHref}>
+            <BookingLink href={service.ctaHref}>
               {service.ctaLabel}
               <ArrowRight className="size-4" />
-            </Link>
+            </BookingLink>
           </Button>
         </motion.div>
       </div>

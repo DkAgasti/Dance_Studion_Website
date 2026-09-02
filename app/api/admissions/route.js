@@ -3,8 +3,6 @@ import { prisma } from "@/lib/db";
 import { getCurrentUser } from "@/lib/auth";
 import { sendEmail } from "@/lib/email";
 import { admissionSchema } from "@/lib/validations/admission";
-import { interestName } from "@/config/classes";
-import { pricingPlans } from "@/config/pricing";
 import { admissionReceivedEmail } from "@/emails/admission-received";
 import { adminNotificationEmail } from "@/emails/admin-notification";
 
@@ -34,8 +32,6 @@ export async function POST(request) {
   }
 
   const data = parsed.data;
-  const className = interestName(data.classInterest);
-  const planName = pricingPlans.find((p) => p.slug === data.plan)?.name ?? data.plan;
   const studentName = `${data.firstName} ${data.lastName}`;
   const guardianName = data.guardianName || studentName;
   const address = `${data.addressLine1}, ${data.city}, ${data.state} ${data.pincode}`;
@@ -46,6 +42,19 @@ export async function POST(request) {
   ]
     .filter(Boolean)
     .join("\n");
+
+  const [danceClass, batch] = await Promise.all([
+    prisma.danceClass.findUnique({ where: { id: data.classId } }),
+    data.batchId ? prisma.batch.findUnique({ where: { id: data.batchId } }) : Promise.resolve(null),
+  ]);
+  if (!danceClass) {
+    return Response.json({ error: "Selected class no longer exists." }, { status: 400 });
+  }
+  const className = danceClass.name;
+
+  const planName = batch
+    ? `${batch.day} • ${batch.startTime} — ₹${(batch.price ?? 0).toLocaleString("en-IN")}/mo`
+    : null;
 
   try {
     const admission = await prisma.admission.create({
@@ -60,7 +69,9 @@ export async function POST(request) {
         phone: data.phone,
         email: data.email,
         address,
+        classId: danceClass.id,
         classInterest: className,
+        batchId: batch?.id ?? null,
         planName,
         consent: data.medicalConsent,
         photoUrl: photoUrl || null,
@@ -70,37 +81,41 @@ export async function POST(request) {
     });
 
     try {
-      await sendEmail({
-        to: data.email,
-        subject: "We've received your admission request — ASM Dance Studio",
-        html: admissionReceivedEmail({
-          guardianName,
-          studentName,
-          phone: data.phone,
-          id: admission.id,
-        }),
-      });
-      if (process.env.ADMIN_NOTIFICATION_EMAIL) {
-        const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "";
-        await sendEmail({
-          to: process.env.ADMIN_NOTIFICATION_EMAIL,
-          subject: `New admission request from ${studentName}`,
-          html: adminNotificationEmail({
-            title: "New Admission Request",
-            intro: "New admission request received on the website.",
-            rows: [
-              { label: "Student", value: studentName },
-              { label: "Guardian", value: guardianName },
-              { label: "Phone", value: data.phone },
-              { label: "Email", value: data.email },
-              { label: "Address", value: address },
-              { label: "Source", value: admission.source },
-              { label: "Submitted", value: admission.createdAt.toLocaleString("en-IN") },
-            ],
-            cta: { label: "Review and Approve/Reject from the admin dashboard", href: `${siteUrl}/admin/admissions` },
+      const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "";
+      await Promise.all([
+        sendEmail({
+          to: data.email,
+          subject: "We've received your admission request — ASM Dance Studio",
+          html: await admissionReceivedEmail({
+            guardianName,
+            studentName,
+            phone: data.phone,
+            id: admission.id,
           }),
-        });
-      }
+        }),
+        process.env.ADMIN_NOTIFICATION_EMAIL
+          ? sendEmail({
+              to: process.env.ADMIN_NOTIFICATION_EMAIL,
+              subject: `New admission request from ${studentName}`,
+              html: await adminNotificationEmail({
+                title: "New Admission Request",
+                intro: "New admission request received on the website.",
+                rows: [
+                  { label: "Student", value: studentName },
+                  { label: "Guardian", value: guardianName },
+                  { label: "Phone", value: data.phone },
+                  { label: "Email", value: data.email },
+                  { label: "Class", value: className },
+                  { label: "Plan", value: planName },
+                  { label: "Address", value: address },
+                  { label: "Source", value: admission.source },
+                  { label: "Submitted", value: admission.createdAt.toLocaleString("en-IN") },
+                ],
+                cta: { label: "Review and Approve/Reject from the admin dashboard", href: `${siteUrl}/admin/admissions` },
+              }),
+            })
+          : Promise.resolve(),
+      ]);
     } catch (emailError) {
       console.error("Failed to send admission emails:", emailError);
     }

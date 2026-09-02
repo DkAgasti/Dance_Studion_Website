@@ -1,19 +1,31 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 import { Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import MobileDrawer from "@/components/layout/MobileDrawer";
+import AnnouncementBanner from "@/components/layout/AnnouncementBanner";
+import StudioLogo from "@/components/shared/StudioLogo";
+import BookingLink from "@/components/shared/BookingLink";
+import { useBookingModal } from "@/components/shared/BookingModalProvider";
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
+
+// The promo banner would clash with these full-screen booking flows — the
+// trial/admission form is the entire point of the page (or popup), so it
+// shouldn't compete with an unrelated offer strip.
+const HIDE_BANNER_ROUTES = ["/book-trial", "/admissions"];
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
+  const { isOpen: bookingModalOpen } = useBookingModal();
+  const headerRef = useRef(null);
+  const hideBanner = bookingModalOpen || HIDE_BANNER_ROUTES.includes(pathname);
 
   useEffect(() => {
     function handleScroll() {
@@ -24,24 +36,42 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Exposes this header's real rendered height (announcement banner + nav
+  // pill, if any) as a CSS var so mobile hero sections can reserve exactly
+  // that much space instead of guessing — otherwise an active banner makes
+  // the fixed header taller than the hero's hardcoded top padding expects,
+  // and the nav ends up overlapping the hero content.
+  useEffect(() => {
+    const el = headerRef.current;
+    if (!el) return;
+    function updateHeight() {
+      document.documentElement.style.setProperty("--header-h", `${el.offsetHeight}px`);
+    }
+    updateHeight();
+    const observer = new ResizeObserver(updateHeight);
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <>
-      <header className="fixed inset-x-0 top-4 z-50 px-4 sm:top-6 sm:px-6 lg:px-10">
+      <header ref={headerRef} className="fixed inset-x-0 top-0 z-50 flex flex-col">
+        {hideBanner ? null : <AnnouncementBanner />}
         <motion.div
           animate={{ maxWidth: scrolled ? 1280 : 1520 }}
           transition={{ type: "spring", stiffness: 260, damping: 30 }}
           className={cn(
-            "mx-auto flex h-[72px] w-full items-center justify-between rounded-full px-4 transition-colors duration-300 sm:px-6",
+            "mx-auto mt-4 flex h-[72px] w-[calc(100%-2rem)] items-center justify-between rounded-full border-2 border-transparent px-4 transition-colors duration-300 sm:mt-6 sm:w-[calc(100%-3rem)] sm:px-6 lg:w-[calc(100%-5rem)]",
             scrolled
-              ? "border-2 border-border-strong bg-white/[0.06] shadow-2xl backdrop-blur-md"
-              : "border-2 border-transparent bg-transparent shadow-none backdrop-blur-none"
+              ? "bg-white/[0.06] shadow-2xl backdrop-blur-md"
+              : "bg-transparent shadow-none backdrop-blur-none"
           )}
         >
-          <Link
-            href="/"
-            className="font-display text-2xl font-bold text-gradient-brand"
-          >
-            ASM
+          <Link href="/">
+            <StudioLogo
+              className="font-display text-2xl font-bold text-gradient-brand"
+              imgClassName="h-14 w-auto object-contain"
+            />
           </Link>
 
           <nav className="hidden items-center gap-1 lg:flex">
@@ -72,12 +102,19 @@ export default function Navbar() {
             })}
           </nav>
 
-          <div className="hidden items-center gap-3 lg:flex">
+          <div className="hidden items-center gap-2 lg:flex">
             <Button
               asChild
-              className="h-10 rounded-full bg-brand-lime px-6 font-bold text-background hover:bg-brand-lime/90"
+              variant="outline"
+              className="h-9 rounded-full border-border px-4 text-sm font-bold"
             >
-              <Link href="/book-trial">Book Free Trial</Link>
+              <BookingLink href="/admissions">Admissions</BookingLink>
+            </Button>
+            <Button
+              asChild
+              className="h-9 rounded-full bg-brand-lime px-4 text-sm font-bold text-background hover:bg-brand-lime/90"
+            >
+              <BookingLink href="/book-trial">Book Free Trial</BookingLink>
             </Button>
           </div>
 

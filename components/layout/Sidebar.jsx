@@ -14,6 +14,7 @@ import {
   Settings,
   X,
 } from "lucide-react";
+import StudioLogo from "@/components/shared/StudioLogo";
 import { cn } from "@/lib/utils";
 
 const NAV_ITEMS = [
@@ -26,6 +27,19 @@ const NAV_ITEMS = [
   { label: "Batches", href: "/admin/batches", icon: LayoutGrid },
   { label: "Content", href: "/admin/content", icon: FileText },
 ];
+
+// Matches the active-tab style already used in the Settings page's own
+// sub-nav (components/admin/settings/SettingsNav.jsx) — a colored left
+// border on a large-radius rounded item, which reads as a curved bracket
+// hugging the left edge.
+function navLinkClass(active) {
+  return cn(
+    "flex items-center gap-3 rounded-xl border-r-2 px-3 py-2.5 text-sm font-medium transition-colors",
+    active
+      ? "border-brand-end bg-white/[0.04] text-brand-end"
+      : "border-transparent text-muted-foreground hover:bg-white/5 hover:text-foreground"
+  );
+}
 
 // Admin dashboard sidebar navigation — fixed on desktop, a slide-in drawer
 // on mobile (controlled by the parent shell).
@@ -54,8 +68,11 @@ export default function Sidebar({ mobileOpen, onClose }) {
       >
         <div className="flex items-center justify-between px-6 py-6">
           <Link href="/admin" className="flex items-center gap-3">
-            <span className="bg-gradient-brand flex size-9 shrink-0 items-center justify-center rounded-full font-display text-sm font-bold text-white">
-              A
+            <span className="bg-gradient-brand flex size-9 shrink-0 items-center justify-center overflow-hidden rounded-full">
+              <StudioLogo
+                imgClassName="size-9 rounded-full object-cover"
+                className="font-display text-sm font-bold text-white"
+              />
             </span>
             <span className="leading-tight">
               <span className="block font-display text-sm font-bold text-gradient-brand">
@@ -84,12 +101,7 @@ export default function Sidebar({ mobileOpen, onClose }) {
                 key={item.href}
                 href={item.href}
                 onClick={onClose}
-                className={cn(
-                  "flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors",
-                  active
-                    ? "bg-brand-lime text-background"
-                    : "text-muted-foreground hover:bg-white/5 hover:text-foreground"
-                )}
+                className={navLinkClass(active)}
               >
                 <item.icon className="size-4 shrink-0" />
                 {item.label}
@@ -102,12 +114,7 @@ export default function Sidebar({ mobileOpen, onClose }) {
           <Link
             href="/admin/settings"
             onClick={onClose}
-            className={cn(
-              "flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors",
-              isActive("/admin/settings")
-                ? "bg-brand-lime text-background"
-                : "text-muted-foreground hover:bg-white/5 hover:text-foreground"
-            )}
+            className={navLinkClass(isActive("/admin/settings"))}
           >
             <Settings className="size-4 shrink-0" />
             Settings

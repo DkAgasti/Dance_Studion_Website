@@ -2,33 +2,22 @@
 
 import { motion } from "framer-motion";
 import { MapPin, Phone, Mail, Clock, MessageCircle } from "lucide-react";
-import { siteConfig } from "@/config/site";
+import { useStudioSettings } from "@/lib/useStudioSettings";
 
-const ROWS = [
-  {
-    icon: MapPin,
-    label: "Our Address",
-    lines: [siteConfig.address.full],
-  },
-  {
-    icon: Phone,
-    label: "Call Us",
-    lines: [siteConfig.phone],
-  },
-  {
-    icon: Mail,
-    label: "Email Us",
-    lines: [siteConfig.email],
-  },
-  {
-    icon: Clock,
-    label: "Opening Hours",
-    lines: [siteConfig.hours.weekdays, siteConfig.hours.weekend],
-  },
-];
-
-// Studio details panel + WhatsApp CTA.
+// Studio details panel + WhatsApp CTA. No siteConfig fallback for any of
+// these — an empty admin field just doesn't render its row, rather than
+// showing an old static placeholder.
 export default function ContactInfo() {
+  const settings = useStudioSettings();
+  const whatsapp = settings?.whatsapp || null;
+
+  const ROWS = [
+    { icon: MapPin, label: "Our Address", lines: settings?.address ? [settings.address] : [] },
+    { icon: Phone, label: "Call Us", lines: settings?.phone ? [settings.phone] : [] },
+    { icon: Mail, label: "Email Us", lines: settings?.email ? [settings.email] : [] },
+    { icon: Clock, label: "Opening Hours", lines: settings?.hours?.text ? [settings.hours.text] : [] },
+  ].filter((row) => row.lines.length);
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -57,15 +46,17 @@ export default function ContactInfo() {
         ))}
       </div>
 
-      <a
-        href={`https://wa.me/${siteConfig.whatsapp}`}
-        target="_blank"
-        rel="noreferrer noopener"
-        className="mt-10 flex h-14 items-center justify-center gap-2 rounded-full bg-whatsapp px-8 font-bold text-white transition-colors hover:bg-whatsapp/90"
-      >
-        <MessageCircle className="size-4" />
-        Chat on WhatsApp
-      </a>
+      {whatsapp ? (
+        <a
+          href={`https://wa.me/${whatsapp}`}
+          target="_blank"
+          rel="noreferrer noopener"
+          className="mt-10 flex h-14 items-center justify-center gap-2 rounded-full bg-whatsapp px-8 font-bold text-white transition-colors hover:bg-whatsapp/90"
+        >
+          <MessageCircle className="size-4" />
+          Chat on WhatsApp
+        </a>
+      ) : null}
     </motion.div>
   );
 }

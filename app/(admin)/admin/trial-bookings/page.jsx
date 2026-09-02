@@ -6,6 +6,8 @@ import { Button } from "@/components/ui/button";
 import DataTable from "@/components/admin/DataTable";
 import StatusFilters from "@/components/admin/StatusFilters";
 import TrialDetailPanel from "@/components/admin/TrialDetailPanel";
+import DetailDrawer from "@/components/admin/DetailDrawer";
+import ConvertToAdmissionDialog from "@/components/admin/ConvertToAdmissionDialog";
 import ImageWithFallback from "@/components/media/ImageWithFallback";
 import { trialStatusMeta, statusToKey } from "@/components/admin/trialBookingsData";
 import { interestName } from "@/config/classes";
@@ -61,6 +63,7 @@ export default function AdminTrialBookingsPage() {
   const [search, setSearch] = useState("");
   const [selectedId, setSelectedId] = useState(null);
   const [page, setPage] = useState(1);
+  const [convertDialogOpen, setConvertDialogOpen] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
@@ -127,6 +130,27 @@ export default function AdminTrialBookingsPage() {
       if (!res.ok) throw new Error("Failed to update status.");
     } catch (err) {
       setBookings(previous);
+      setError(err.message);
+    }
+  }
+
+  async function handleConvertConfirm(classId, batchId) {
+    if (!selected) return;
+    try {
+      const res = await fetch(`/api/trial-bookings/${selected.id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status: "CONVERTED", classId, batchId }),
+      });
+      if (!res.ok) {
+        const body = await res.json().catch(() => null);
+        throw new Error(body?.error || "Failed to create admission.");
+      }
+      setBookings((prev) =>
+        prev.map((b) => (b.id === selected.id ? { ...b, status: "CONVERTED" } : b))
+      );
+      setConvertDialogOpen(false);
+    } catch (err) {
       setError(err.message);
     }
   }
@@ -245,7 +269,7 @@ export default function AdminTrialBookingsPage() {
         </p>
       ) : null}
 
-      <div className="flex flex-col gap-6 lg:flex-row lg:items-start">
+      <div className="flex flex-col gap-6">
         <div className="glass-tile min-w-0 flex-1 rounded-2xl p-6">
           {loading ? (
             <div className="flex items-center justify-center gap-2 py-12 text-sm text-muted-foreground">
@@ -304,16 +328,26 @@ export default function AdminTrialBookingsPage() {
           )}
         </div>
 
+      </div>
+
+      <DetailDrawer open={!!selected} onClose={() => setSelectedId(null)}>
         {selected ? (
           <TrialDetailPanel
             booking={selected}
             onClose={() => setSelectedId(null)}
             onMarkAttended={() => updateStatus(selected.id, "ATTENDED")}
-            onMarkConverted={() => updateStatus(selected.id, "CONVERTED")}
+            onMarkConverted={() => setConvertDialogOpen(true)}
             onMarkNoShow={() => updateStatus(selected.id, "NO_SHOW")}
           />
         ) : null}
-      </div>
+      </DetailDrawer>
+
+      <ConvertToAdmissionDialog
+        open={convertDialogOpen}
+        onOpenChange={setConvertDialogOpen}
+        booking={selected}
+        onConfirm={handleConvertConfirm}
+      />
     </div>
   );
 }

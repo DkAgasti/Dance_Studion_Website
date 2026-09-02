@@ -4,12 +4,14 @@ import { prisma } from "@/lib/db";
 import { getCurrentUser } from "@/lib/auth";
 import { danceClassSchema } from "@/lib/validations/danceClass";
 import { slugify } from "@/lib/utils";
+import { getPublicClasses } from "@/lib/classes";
 
 export async function GET() {
-  const classes = await prisma.danceClass.findMany({
-    orderBy: [{ order: "asc" }, { createdAt: "asc" }],
-  });
-  return Response.json({ classes });
+  const classes = await getPublicClasses();
+  return Response.json(
+    { classes },
+    { headers: { "Cache-Control": "public, max-age=60, stale-while-revalidate=300" } }
+  );
 }
 
 export async function POST(request) {

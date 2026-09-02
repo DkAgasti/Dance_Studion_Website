@@ -7,6 +7,8 @@ import { Button } from "@/components/ui/button";
 import DataTable from "@/components/admin/DataTable";
 import AdmissionFilters from "@/components/admin/AdmissionFilters";
 import AdmissionDetailPanel from "@/components/admin/AdmissionDetailPanel";
+import DetailDrawer from "@/components/admin/DetailDrawer";
+import ApproveAdmissionDialog from "@/components/admin/ApproveAdmissionDialog";
 import ImageWithFallback from "@/components/media/ImageWithFallback";
 import { statusMeta, statusToKey } from "@/components/admin/admissionsData";
 
@@ -42,6 +44,7 @@ export default function AdminAdmissionsPage() {
   const [search, setSearch] = useState("");
   const [selectedId, setSelectedId] = useState(null);
   const [page, setPage] = useState(1);
+  const [approveDialogOpen, setApproveDialogOpen] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
@@ -94,7 +97,7 @@ export default function AdminAdmissionsPage() {
   const paged = filtered.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
   const selected = admissions.find((a) => a.id === selectedId) ?? null;
 
-  async function updateStatus(id, status) {
+  async function updateStatus(id, status, batchId) {
     const previous = admissions;
     setAdmissions((prev) => prev.map((a) => (a.id === id ? { ...a, status } : a)));
 
@@ -102,9 +105,48 @@ export default function AdminAdmissionsPage() {
       const res = await fetch(`/api/admissions/${id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ status }),
+        body: JSON.stringify({ status, batchId }),
       });
-      if (!res.ok) throw new Error("Failed to update status.");
+      if (!res.ok) {
+        const resBody = await res.json().catch(() => null);
+        throw new Error(resBody?.error || "Failed to update status.");
+      }
+      return true;
+    } catch (err) {
+      setAdmissions(previous);
+      setError(err.message);
+      return false;
+    }
+  }
+
+  async function handleApproveConfirm(batchId) {
+    const ok = await updateStatus(selectedId, "APPROVED", batchId);
+    if (ok) setApproveDialogOpen(false);
+  }
+
+  // The applicant already picked a specific batch on the admission form —
+  // approve straight into it instead of asking the admin to pick again. Only
+  // fall back to the picker dialog when no batch was captured (e.g. the
+  // class had none scheduled yet at submission time).
+  function handleApproveClick() {
+    if (selected?.batchId) {
+      updateStatus(selected.id, "APPROVED", selected.batchId);
+    } else {
+      setApproveDialogOpen(true);
+    }
+  }
+
+  async function handleDelete() {
+    if (!window.confirm(`Delete ${selected.studentName}'s admission? This can't be undone.`)) {
+      return;
+    }
+    const previous = admissions;
+    setAdmissions((prev) => prev.filter((a) => a.id !== selected.id));
+    setSelectedId(null);
+
+    try {
+      const res = await fetch(`/api/admissions/${selected.id}`, { method: "DELETE" });
+      if (!res.ok) throw new Error("Failed to delete admission.");
     } catch (err) {
       setAdmissions(previous);
       setError(err.message);
@@ -220,7 +262,7 @@ export default function AdminAdmissionsPage() {
         </p>
       ) : null}
 
-      <div className="flex flex-col gap-6 lg:flex-row lg:items-start">
+      <div className="flex flex-col gap-6">
         <div className="glass-tile min-w-0 flex-1 rounded-2xl p-6">
           {loading ? (
             <div className="flex items-center justify-center gap-2 py-12 text-sm text-muted-foreground">
@@ -281,15 +323,26 @@ export default function AdminAdmissionsPage() {
           )}
         </div>
 
+      </div>
+
+      <DetailDrawer open={!!selected} onClose={() => setSelectedId(null)}>
         {selected ? (
           <AdmissionDetailPanel
             applicant={selected}
             onClose={() => setSelectedId(null)}
-            onApprove={() => updateStatus(selected.id, "APPROVED")}
+            onApprove={handleApproveClick}
             onReject={() => updateStatus(selected.id, "REJECTED")}
+            onDelete={handleDelete}
           />
         ) : null}
-      </div>
+      </DetailDrawer>
+
+      <ApproveAdmissionDialog
+        open={approveDialogOpen}
+        onOpenChange={setApproveDialogOpen}
+        applicant={selected}
+        onConfirm={handleApproveConfirm}
+      />
     </div>
   );
 }

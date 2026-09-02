@@ -1,11 +1,22 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { siteConfig } from "@/config/site";
+import { useStudioSettings } from "@/lib/useStudioSettings";
 
-// Full-width embedded map for the studio location (no API key needed).
+// Full-width embedded map for the studio location (no API key needed) —
+// uses the admin's custom embed URL (Admin > Settings > Social & Map) if
+// one is set, otherwise falls back to a plain address-based embed built
+// from the admin's Full Address. Renders nothing until at least one of
+// those is actually set — no static siteConfig placeholder.
 export default function ContactMap() {
-  const query = encodeURIComponent(siteConfig.address.full);
+  const settings = useStudioSettings();
+  const mapSrc =
+    settings?.mapEmbed ||
+    (settings?.address
+      ? `https://www.google.com/maps?q=${encodeURIComponent(settings.address)}&output=embed`
+      : null);
+
+  if (!mapSrc) return null;
 
   return (
     <section className="container-page pb-20 md:pb-28">
@@ -18,7 +29,7 @@ export default function ContactMap() {
       >
         <iframe
           title="ASM Dance Studio location"
-          src={`https://www.google.com/maps?q=${query}&output=embed`}
+          src={mapSrc}
           className="h-[380px] w-full grayscale-[15%] sm:h-[420px]"
           loading="lazy"
           referrerPolicy="no-referrer-when-downgrade"

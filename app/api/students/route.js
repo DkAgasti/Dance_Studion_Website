@@ -39,6 +39,14 @@ export async function POST(request) {
   const data = parsed.data;
 
   try {
+    const batch = await prisma.batch.findUnique({
+      where: { id: data.batchId },
+      include: { danceClass: true },
+    });
+    if (!batch) {
+      return Response.json({ error: "Selected batch no longer exists." }, { status: 400 });
+    }
+
     const year = new Date().getFullYear();
     const countThisYear = await prisma.student.count({
       where: { code: { startsWith: `ASM-${year}-` } },
@@ -51,8 +59,10 @@ export async function POST(request) {
         name: data.name,
         email: data.email,
         phone: data.phone,
-        className: data.className,
-        batchLabel: data.batch,
+        classId: batch.classId,
+        className: batch.danceClass.name,
+        batchId: batch.id,
+        batchLabel: `${batch.day} • ${batch.startTime}`,
         planLabel: data.plan,
         guardian: data.guardianName || null,
         guardianPhone: data.guardianPhone || null,

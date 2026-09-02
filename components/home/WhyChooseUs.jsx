@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import BookingLink from "@/components/shared/BookingLink";
 import { motion } from "framer-motion";
 import { HeartHandshake, Building, CalendarClock, ShieldCheck, ArrowUpRight } from "lucide-react";
 import ImageWithFallback from "@/components/media/ImageWithFallback";
@@ -46,7 +46,7 @@ const HIGHLIGHTS = [
 export default function WhyChooseUs() {
   return (
     <section className="container-page pt-4 pb-20 md:pt-6 md:pb-28 lg:max-w-[1420px]">
-      <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1.15fr_1.4fr_1.1fr] lg:items-start lg:gap-4">
+      <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1.15fr_1.4fr_1.1fr] lg:items-start lg:gap-4">
         <motion.div
           initial={{ opacity: 0, x: -24 }}
           whileInView={{ opacity: 1, x: 0 }}
@@ -67,9 +67,9 @@ export default function WhyChooseUs() {
             ))}
           </ul>
 
-          <Link
+          <BookingLink
             href="/book-trial"
-            className="group relative mt-[130px] ml-[7.4vw] flex size-[clamp(120px,9.5vw,155px)] items-center justify-center rounded-full bg-[#c62e7c] text-white shadow-xl transition-transform hover:scale-105"
+            className="group relative hidden items-center justify-center rounded-full bg-[#c62e7c] text-white shadow-xl transition-transform hover:scale-105 lg:flex lg:ml-[7.4vw] lg:mt-[130px] lg:size-[clamp(120px,9.5vw,155px)]"
           >
             <svg viewBox="0 0 100 100" className="absolute inset-0 size-full animate-[spin_10s_linear_infinite]">
               <defs>
@@ -82,7 +82,7 @@ export default function WhyChooseUs() {
               </text>
             </svg>
             <ArrowUpRight className="size-[34px] shrink-0" strokeWidth={2.5} />
-          </Link>
+          </BookingLink>
         </motion.div>
 
         <motion.div
@@ -95,9 +95,26 @@ export default function WhyChooseUs() {
           <ImageWithFallback
             src={IMAGE_URL}
             gradient="from-brand-start/20 via-surface to-brand-mid/20"
-            className="aspect-[2/3] w-full"
+            className="aspect-[4/5] w-full max-w-xs lg:aspect-[2/3] lg:max-w-none"
             imgClassName="object-contain"
           />
+
+          <BookingLink
+            href="/book-trial"
+            className="group absolute right-2 bottom-8 flex size-[78px] items-center justify-center rounded-full bg-[#c62e7c] text-white shadow-xl transition-transform hover:scale-105 lg:hidden"
+          >
+            <svg viewBox="0 0 100 100" className="absolute inset-0 size-full animate-[spin_10s_linear_infinite]">
+              <defs>
+                <path id="join-academy-ring-mobile" d="M 50,50 m -38,0 a 38,38 0 1,1 76,0 a 38,38 0 1,1 -76,0" />
+              </defs>
+              <text fontSize="7.4" fill="currentColor" letterSpacing="1" fontWeight="700">
+                <textPath href="#join-academy-ring-mobile">
+                  Join The Academy ✦ Join The Academy ✦
+                </textPath>
+              </text>
+            </svg>
+            <ArrowUpRight className="size-5 shrink-0" strokeWidth={2.5} />
+          </BookingLink>
         </motion.div>
 
         <motion.div
@@ -105,7 +122,7 @@ export default function WhyChooseUs() {
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.6, ease: "easeOut" }}
-          className="mt-12 flex flex-col gap-16 lg:gap-20"
+          className="mt-4 flex flex-col gap-10 lg:mt-12 lg:gap-20"
         >
           {HIGHLIGHTS.map(({ icon: Icon, label, description }) => (
             <div key={label} className="flex gap-4">

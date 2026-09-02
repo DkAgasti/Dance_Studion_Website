@@ -4,20 +4,19 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { CheckCircle2, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { classCatalog, fitnessClasses } from "@/config/classes";
-import { pricingPlans } from "@/config/pricing";
-import { siteConfig } from "@/config/site";
+import { useStudioSettings } from "@/lib/useStudioSettings";
 
-function lookupName(list, slug) {
-  return list.find((item) => item.slug === slug)?.name ?? slug;
-}
-
-// Confirmation screen shown after the enrollment form is submitted.
+// Confirmation screen shown after the enrollment form is submitted. `values`
+// is the submitted form data plus `className`/`planName` resolved server-side
+// (see AdmissionForm's submit handler) so this never has to re-derive names
+// from a slug.
 export default function AdmissionSuccess({ values }) {
-  const className = lookupName([...classCatalog, ...fitnessClasses], values.classInterest);
-  const planName = lookupName(pricingPlans, values.plan);
+  const settings = useStudioSettings();
+  const whatsapp = settings?.whatsapp;
+  const className = values.className || "—";
+  const planName = values.planName || "—";
 
-  const message = `Hi ASM! I just completed the enrollment form for ${values.firstName} ${values.lastName} — ${className}, ${planName} plan. Looking forward to getting started!`;
+  const message = `Hi ASM! I just completed the enrollment form for ${values.firstName} ${values.lastName} — ${className}${values.planName ? `, ${planName}` : ""}. Looking forward to getting started!`;
 
   return (
     <motion.div
@@ -51,21 +50,23 @@ export default function AdmissionSuccess({ values }) {
         </p>
       </div>
 
-      <div className="mt-8 flex w-full flex-col gap-3 sm:flex-row">
-        <Button
-          asChild
-          className="h-12 flex-1 gap-2 rounded-full bg-whatsapp font-bold text-white hover:bg-whatsapp/90"
-        >
-          <a
-            href={`https://wa.me/${siteConfig.whatsapp}?text=${encodeURIComponent(message)}`}
-            target="_blank"
-            rel="noreferrer noopener"
+      {whatsapp ? (
+        <div className="mt-8 flex w-full flex-col gap-3 sm:flex-row">
+          <Button
+            asChild
+            className="h-12 w-full gap-2 rounded-full bg-whatsapp font-bold text-white hover:bg-whatsapp/90 sm:flex-1"
           >
-            <MessageCircle className="size-4" />
-            WhatsApp Us
-          </a>
-        </Button>
-      </div>
+            <a
+              href={`https://wa.me/${whatsapp}?text=${encodeURIComponent(message)}`}
+              target="_blank"
+              rel="noreferrer noopener"
+            >
+              <MessageCircle className="size-4" />
+              WhatsApp Us
+            </a>
+          </Button>
+        </div>
+      ) : null}
 
       <Link
         href="/"
