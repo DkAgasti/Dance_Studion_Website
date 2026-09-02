@@ -1,6 +1,7 @@
 // GET /api/cron/fee-reminders — daily cron: send T5/T3/T1/OVERDUE fee reminders.
-// Protected by CRON_SECRET, passed as either the `x-cron-secret` header or a
-// `?secret=` query param.
+// Protected by CRON_SECRET — Vercel Cron sends it as `Authorization: Bearer`;
+// also accepts an `x-cron-secret` header or `?secret=` query param for
+// manual/external triggering.
 import { prisma } from "@/lib/db";
 import { sendEmail } from "@/lib/email";
 import { feeReminderEmail } from "@/emails/fee-reminder";
@@ -27,7 +28,11 @@ function reminderTypeFor(daysUntilDue) {
 
 export async function GET(request) {
   const { searchParams } = new URL(request.url);
-  const provided = request.headers.get("x-cron-secret") || searchParams.get("secret");
+  const authHeader = request.headers.get("authorization");
+  const provided =
+    request.headers.get("x-cron-secret") ||
+    searchParams.get("secret") ||
+    (authHeader?.startsWith("Bearer ") ? authHeader.slice(7) : null);
 
   if (!process.env.CRON_SECRET || provided !== process.env.CRON_SECRET) {
     return Response.json({ error: "Unauthorized" }, { status: 401 });
