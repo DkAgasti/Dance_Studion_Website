@@ -14,8 +14,8 @@ export default function ClassMentor({ trainer }) {
       <motion.h2
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-80px" }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
+        viewport={{ once: true, margin: "120px" }}
+        transition={{ duration: 0.4, ease: "easeOut" }}
         className="h2-display"
       >
         The <span className="text-brand-mid">Mentor</span>
@@ -24,8 +24,8 @@ export default function ClassMentor({ trainer }) {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-60px" }}
-        transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
+        viewport={{ once: true, margin: "90px" }}
+        transition={{ duration: 0.35, delay: 0.1, ease: "easeOut" }}
         className="glass mt-10 flex flex-col gap-8 rounded-3xl p-6 sm:flex-row sm:items-center sm:gap-10 sm:p-10"
       >
         <ImageWithFallback

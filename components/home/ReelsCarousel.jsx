@@ -22,7 +22,7 @@ function ReelTile({ reel, gradient, className }) {
       }
     >
       <ImageWithFallback src={reel.imageUrl} className="absolute inset-0" gradient={gradient} />
-      <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-background/10 to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent" />
       <a
         href={reel.url ?? "#"}
         target="_blank"
@@ -105,8 +105,8 @@ export default function ReelsCarousel() {
               key={reel.id}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.5, delay: i * 0.08, ease: "easeOut" }}
+              viewport={{ once: true, margin: "90px" }}
+              transition={{ duration: 0.35, delay: i * 0.08, ease: "easeOut" }}
               className="snap-start"
             >
               <ReelTile

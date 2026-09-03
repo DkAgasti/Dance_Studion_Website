@@ -141,7 +141,7 @@ export default function SocialMapSection() {
         <Button
           type="submit"
           disabled={saving}
-          className="gap-2 rounded-full bg-brand-end text-background hover:bg-brand-end/90 disabled:opacity-60"
+          className="gap-2 rounded-full bg-brand-end text-white hover:bg-brand-end/90 disabled:opacity-60"
         >
           <Save className="size-4" />
           {saving ? "Saving..." : "Save Changes"}

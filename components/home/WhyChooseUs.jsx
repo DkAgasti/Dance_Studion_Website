@@ -50,8 +50,8 @@ export default function WhyChooseUs() {
         <motion.div
           initial={{ opacity: 0, x: -24 }}
           whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
+          viewport={{ once: true, margin: "120px" }}
+          transition={{ duration: 0.4, ease: "easeOut" }}
         >
           <h2 className="h2-display mt-12 text-balance text-[clamp(2rem,3.67vw,3.7rem)] leading-[1.08]">
             Why our dance academy is your best choice
@@ -88,8 +88,8 @@ export default function WhyChooseUs() {
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
+          viewport={{ once: true, margin: "120px" }}
+          transition={{ duration: 0.4, ease: "easeOut" }}
           className="relative mx-auto w-full"
         >
           <ImageWithFallback
@@ -120,8 +120,8 @@ export default function WhyChooseUs() {
         <motion.div
           initial={{ opacity: 0, x: 24 }}
           whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
+          viewport={{ once: true, margin: "120px" }}
+          transition={{ duration: 0.4, ease: "easeOut" }}
           className="mt-4 flex flex-col gap-10 lg:mt-12 lg:gap-20"
         >
           {HIGHLIGHTS.map(({ icon: Icon, label, description }) => (
@@ -130,10 +130,10 @@ export default function WhyChooseUs() {
                 <Icon className="size-5 text-white" />
               </span>
               <div className="max-w-[424px]">
-                <p className="text-sm font-bold tracking-[0.06em] text-white uppercase">
+                <p className="text-sm font-bold tracking-[0.06em] text-foreground uppercase">
                   {label}:
                 </p>
-                <p className="mt-1 text-xs tracking-[0.05em] text-white/70 uppercase">
+                <p className="mt-1 text-xs tracking-[0.05em] text-foreground/70 uppercase">
                   {description}
                 </p>
               </div>

@@ -52,10 +52,10 @@ const GRADIENTS = [
   "from-[#5a1f0f] via-surface to-[#e0752a]",
 ];
 const ACCENT_HEX = {
-  "brand-start": "#ff2d55",
-  "brand-mid": "#7c5cff",
-  "brand-end": "#22d3ee",
-  "brand-lime": "#c6ff3a",
+  "brand-start": "#c8102e",
+  "brand-mid": "#5b21b6",
+  "brand-end": "#0e7490",
+  "brand-lime": "#3f6212",
 };
 
 const EMPTY = {
@@ -194,7 +194,7 @@ function ReelForm({ reel, onSubmit }) {
         <Button
           type="submit"
           disabled={saving}
-          className="rounded-full bg-brand-end text-background hover:bg-brand-end/90 disabled:opacity-60"
+          className="rounded-full bg-brand-end text-white hover:bg-brand-end/90 disabled:opacity-60"
         >
           {saving ? "Saving..." : reel ? "Save Changes" : "Add Reel"}
         </Button>

@@ -12,14 +12,14 @@ export default function OptionCard({ icon: Icon, title, description, selected, o
       className={cn(
         "flex flex-1 flex-col gap-3 rounded-2xl border-2 p-6 text-left transition-colors",
         selected
-          ? "border-brand-lime bg-brand-lime/10"
-          : "glass-tile border-transparent hover:border-white/20"
+          ? "border-primary bg-primary/10"
+          : "glass-tile border-transparent hover:border-foreground/20"
       )}
     >
       <span
         className={cn(
           "flex size-11 items-center justify-center rounded-full",
-          selected ? "bg-brand-lime text-background" : "bg-white/10 text-foreground/80"
+          selected ? "bg-primary text-white" : "bg-foreground/10 text-foreground/80"
         )}
       >
         <Icon className="size-5" />

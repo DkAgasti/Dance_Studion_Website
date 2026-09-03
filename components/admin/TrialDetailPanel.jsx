@@ -38,14 +38,14 @@ export default function TrialDetailPanel({ booking, onClose, onMarkAttended, onM
           onClick: onMarkAttended,
           disabled: booking.status !== "NEW",
           icon: CalendarCheck,
-          className: "bg-brand-end text-background hover:bg-brand-end/90",
+          className: "bg-brand-end text-white hover:bg-brand-end/90",
         },
         {
           label: booking.status === "CONVERTED" ? "Converted" : "Mark Converted",
           onClick: onMarkConverted,
           disabled: booking.status !== "NEW",
           icon: Trophy,
-          className: "bg-brand-lime text-background hover:bg-brand-lime/90",
+          className: "bg-primary text-white hover:bg-primary/90",
         },
         {
           label: booking.status === "NO_SHOW" ? "No-show" : "Mark No-show",

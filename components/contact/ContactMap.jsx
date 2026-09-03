@@ -23,8 +23,8 @@ export default function ContactMap() {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-80px" }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
+        viewport={{ once: true, margin: "120px" }}
+        transition={{ duration: 0.4, ease: "easeOut" }}
         className="overflow-hidden rounded-3xl border border-border"
       >
         <iframe

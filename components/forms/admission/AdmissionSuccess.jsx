@@ -25,7 +25,7 @@ export default function AdmissionSuccess({ values }) {
       transition={{ duration: 0.4, ease: "easeOut" }}
       className="mx-auto flex max-w-lg flex-col items-center py-10 text-center"
     >
-      <CheckCircle2 className="size-16 text-brand-lime" strokeWidth={1.5} />
+      <CheckCircle2 className="size-16 text-brand-lime-ink" strokeWidth={1.5} />
       <h2 className="h2-display mt-6 text-balance">Welcome to ASM!</h2>
       <p className="mt-3 text-muted-foreground">
         {values.firstName}&apos;s enrollment is in. Our team will reach out on{" "}

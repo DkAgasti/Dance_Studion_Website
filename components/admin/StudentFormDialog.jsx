@@ -197,7 +197,7 @@ function StudentForm({ student, onSubmit }) {
       </div>
 
       <DialogFooter className="mt-2">
-        <Button type="submit" className="rounded-full bg-brand-end text-background hover:bg-brand-end/90">
+        <Button type="submit" className="rounded-full bg-brand-end text-white hover:bg-brand-end/90">
           {student ? "Save Changes" : "Add Student"}
         </Button>
       </DialogFooter>

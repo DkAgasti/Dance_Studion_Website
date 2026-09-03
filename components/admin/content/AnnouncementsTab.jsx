@@ -93,7 +93,7 @@ export default function AnnouncementsTab() {
         <div className="flex items-center justify-between">
           <div>
             <h3 className="flex items-center gap-2 font-medium">
-              <Megaphone className="size-4 text-brand-lime" />
+              <Megaphone className="size-4 text-brand-lime-ink" />
               Promo Banner
             </h3>
             <p className="mt-1 text-xs text-muted-foreground">
@@ -147,7 +147,7 @@ export default function AnnouncementsTab() {
         <Button
           type="submit"
           disabled={saving}
-          className="mt-2 w-fit gap-2 rounded-full bg-brand-end text-background hover:bg-brand-end/90 disabled:opacity-60"
+          className="mt-2 w-fit gap-2 rounded-full bg-brand-end text-white hover:bg-brand-end/90 disabled:opacity-60"
         >
           <Save className="size-4" />
           {saving ? "Saving..." : "Save Announcement"}
@@ -164,7 +164,7 @@ export default function AnnouncementsTab() {
               </p>
               <p className="text-sm text-white/85">{form.text || "Announcement text goes here."}</p>
               {form.link ? (
-                <span className="rounded-full bg-white px-4 py-1.5 text-xs font-bold whitespace-nowrap text-background">
+                <span className="rounded-full bg-white px-4 py-1.5 text-xs font-bold whitespace-nowrap text-foreground">
                   Learn More
                 </span>
               ) : null}

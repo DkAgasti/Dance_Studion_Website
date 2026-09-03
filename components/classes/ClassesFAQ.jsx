@@ -38,8 +38,8 @@ export default function ClassesFAQ() {
       <motion.h2
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-80px" }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
+        viewport={{ once: true, margin: "120px" }}
+        transition={{ duration: 0.4, ease: "easeOut" }}
         className="h2-display text-2xl text-center uppercase md:text-3xl"
       >
         Common Questions
@@ -48,8 +48,8 @@ export default function ClassesFAQ() {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-80px" }}
-        transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
+        viewport={{ once: true, margin: "120px" }}
+        transition={{ duration: 0.4, delay: 0.1, ease: "easeOut" }}
         className="mx-auto mt-12 max-w-2xl"
       >
         <Accordion type="single" collapsible className="flex flex-col gap-3">
@@ -59,7 +59,7 @@ export default function ClassesFAQ() {
               value={faq.question}
               className="glass rounded-2xl border-none px-6"
             >
-              <AccordionTrigger className="py-5 text-xs font-bold tracking-wide uppercase hover:no-underline [&_svg]:text-brand-lime">
+              <AccordionTrigger className="py-5 text-xs font-bold tracking-wide uppercase hover:no-underline [&_svg]:text-brand-lime-ink">
                 {faq.question}
               </AccordionTrigger>
               <AccordionContent className="text-sm text-muted-foreground">

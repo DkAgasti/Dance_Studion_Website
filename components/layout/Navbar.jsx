@@ -8,7 +8,7 @@ import { Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import MobileDrawer from "@/components/layout/MobileDrawer";
 import AnnouncementBanner from "@/components/layout/AnnouncementBanner";
-import StudioLogo from "@/components/shared/StudioLogo";
+import StudioBadgeLogo from "@/components/shared/StudioBadgeLogo";
 import BookingLink from "@/components/shared/BookingLink";
 import { useBookingModal } from "@/components/shared/BookingModalProvider";
 import { siteConfig } from "@/config/site";
@@ -63,15 +63,12 @@ export default function Navbar() {
           className={cn(
             "mx-auto mt-4 flex h-[72px] w-[calc(100%-2rem)] items-center justify-between rounded-full border-2 border-transparent px-4 transition-colors duration-300 sm:mt-6 sm:w-[calc(100%-3rem)] sm:px-6 lg:w-[calc(100%-5rem)]",
             scrolled
-              ? "bg-white/[0.06] shadow-2xl backdrop-blur-md"
+              ? "bg-card/80 shadow-2xl backdrop-blur-md"
               : "bg-transparent shadow-none backdrop-blur-none"
           )}
         >
           <Link href="/">
-            <StudioLogo
-              className="font-display text-2xl font-bold text-gradient-brand"
-              imgClassName="h-14 w-auto object-contain"
-            />
+            <StudioBadgeLogo className="size-11" />
           </Link>
 
           <nav className="hidden items-center gap-1 lg:flex">
@@ -93,7 +90,7 @@ export default function Navbar() {
                     <motion.span
                       layoutId="nav-active-pill"
                       transition={{ type: "spring", stiffness: 380, damping: 32 }}
-                      className="absolute inset-0 -z-10 rounded-full border border-white/15 bg-transparent shadow-lg backdrop-blur-xl"
+                      className="absolute inset-0 -z-10 rounded-full border border-border bg-card/80 shadow-lg backdrop-blur-xl"
                     />
                   ) : null}
                   {link.label}
@@ -112,7 +109,7 @@ export default function Navbar() {
             </Button>
             <Button
               asChild
-              className="h-9 rounded-full bg-brand-lime px-4 text-sm font-bold text-background hover:bg-brand-lime/90"
+              className="h-9 rounded-full bg-primary px-4 text-sm font-bold text-white hover:bg-primary/90"
             >
               <BookingLink href="/book-trial">Book Free Trial</BookingLink>
             </Button>

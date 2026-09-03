@@ -30,8 +30,8 @@ export default function StudioGallery() {
                 key={photo.alt}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-60px" }}
-                transition={{ duration: 0.5, delay: i * 0.1, ease: "easeOut" }}
+                viewport={{ once: true, margin: "90px" }}
+                transition={{ duration: 0.35, delay: i * 0.1, ease: "easeOut" }}
                 className={photo.wide ? "md:flex-[2]" : "md:flex-1"}
               >
                 <ImageWithFallback

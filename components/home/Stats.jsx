@@ -4,7 +4,7 @@ import { useRef, useState, useEffect } from "react";
 import { motion, useInView, useReducedMotion, animate } from "framer-motion";
 import { cn } from "@/lib/utils";
 
-const COLORS = ["text-brand-end", "text-brand-lime", "text-brand-mid", "text-brand-start"];
+const COLORS = ["text-brand-end", "text-brand-lime-ink", "text-brand-mid", "text-brand-start"];
 
 const DEFAULT_STATS = [
   { label: "Students", value: "500+" },
@@ -39,7 +39,7 @@ function useCountUp(target, shouldAnimate) {
 
 function StatItem({ value, suffix, label, color, delay }) {
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-80px" });
+  const inView = useInView(ref, { once: true, margin: "120px" });
   const reduced = useReducedMotion();
   const count = useCountUp(value, inView && !reduced);
 
@@ -48,7 +48,7 @@ function StatItem({ value, suffix, label, color, delay }) {
       ref={ref}
       initial={{ opacity: 0, y: 16 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.5, delay, ease: "easeOut" }}
+      transition={{ duration: 0.35, delay, ease: "easeOut" }}
       className="text-center"
     >
       <p className={cn("stat-display", color)}>

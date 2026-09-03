@@ -31,7 +31,7 @@ export default function MobileDrawer({ open, onClose }) {
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ duration: 0.3, ease: "easeOut" }}
-            className="glass fixed inset-y-0 right-0 z-50 flex w-[80%] max-w-sm flex-col gap-8 border-l border-white/10 bg-background/95 p-6 lg:hidden"
+            className="glass fixed inset-y-0 right-0 z-50 flex w-[80%] max-w-sm flex-col gap-8 border-l border-border bg-background/95 p-6 lg:hidden"
           >
             <div className="flex items-center justify-between">
               <StudioLogo
@@ -62,8 +62,8 @@ export default function MobileDrawer({ open, onClose }) {
                     className={cn(
                       "rounded-lg px-3 py-3 text-lg font-medium transition-colors",
                       isActive
-                        ? "border border-white/15 bg-white/10 text-foreground shadow-lg backdrop-blur-xl"
-                        : "text-foreground/90 hover:bg-white/5"
+                        ? "border border-border bg-accent text-foreground shadow-lg backdrop-blur-xl"
+                        : "text-foreground/90 hover:bg-accent/60"
                     )}
                   >
                     {link.label}
@@ -84,7 +84,7 @@ export default function MobileDrawer({ open, onClose }) {
               </Button>
               <Button
                 asChild
-                className="h-12 rounded-full bg-brand-lime font-bold text-background hover:bg-brand-lime/90"
+                className="h-12 rounded-full bg-primary font-bold text-white hover:bg-primary/90"
               >
                 <BookingLink href="/book-trial" onClick={onClose}>
                   Book Free Trial

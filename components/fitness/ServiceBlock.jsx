@@ -7,16 +7,13 @@ import BookingLink from "@/components/shared/BookingLink";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
-const ACCENT_HEX = {
-  "brand-start": "#ff2d55",
-  "brand-mid": "#7c5cff",
-  "brand-end": "#22d3ee",
-  "brand-lime": "#c6ff3a",
-};
+// One alternating (image left/right) service block. Every service shares the
+// single brand primary — differentiation comes from the image and the
+// eyebrow/heading copy, not a different accent color per section.
+const ACCENT_HEX = "var(--primary)";
 
-// One alternating (image left/right) service block.
 export default function ServiceBlock({ service, reverse = false }) {
-  const hex = ACCENT_HEX[service.accent];
+  const hex = ACCENT_HEX;
   const words = service.name.split(" ");
   const lastWord = words.pop();
   const leadWords = words.join(" ");
@@ -32,8 +29,8 @@ export default function ServiceBlock({ service, reverse = false }) {
         <motion.div
           initial={{ opacity: 0, x: reverse ? 24 : -24 }}
           whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
+          viewport={{ once: true, margin: "120px" }}
+          transition={{ duration: 0.4, ease: "easeOut" }}
         >
           <ImageWithFallback
             src={service.imageUrl}
@@ -46,15 +43,10 @@ export default function ServiceBlock({ service, reverse = false }) {
         <motion.div
           initial={{ opacity: 0, x: reverse ? -24 : 24 }}
           whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
+          viewport={{ once: true, margin: "120px" }}
+          transition={{ duration: 0.4, ease: "easeOut" }}
         >
-          <p
-            style={{ color: hex }}
-            className="text-xs font-bold tracking-[0.14em] uppercase"
-          >
-            {service.eyebrow}
-          </p>
+          <p className="eyebrow">{service.eyebrow}</p>
 
           <h2 className="h2-display mt-3 text-balance">
             {leadWords ? `${leadWords} ` : ""}
@@ -93,11 +85,7 @@ export default function ServiceBlock({ service, reverse = false }) {
           <Button
             asChild
             size="lg"
-            className={cn(
-              "mt-10 h-14 gap-2 rounded-full px-8 font-bold hover:brightness-110",
-              service.accent === "brand-lime" ? "text-background" : "text-white"
-            )}
-            style={{ backgroundColor: hex }}
+            className="mt-10 h-14 gap-2 rounded-full bg-primary px-8 font-bold text-white hover:bg-primary/90"
           >
             <BookingLink href={service.ctaHref}>
               {service.ctaLabel}

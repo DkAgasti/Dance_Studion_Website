@@ -185,7 +185,7 @@ export default function AdmissionForm({ onClose }) {
               type="button"
               onClick={close}
               aria-label="Close"
-              className="absolute top-6 right-6 z-10 flex size-9 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-white/10 hover:text-foreground"
+              className="absolute top-6 right-6 z-10 flex size-9 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
             >
               <X className="size-5" />
             </button>
@@ -209,7 +209,7 @@ export default function AdmissionForm({ onClose }) {
             type="button"
             onClick={close}
             aria-label="Close"
-            className="absolute top-6 right-6 z-10 flex size-9 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-white/10 hover:text-foreground"
+            className="absolute top-6 right-6 z-10 flex size-9 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
           >
             <X className="size-5" />
           </button>
@@ -229,7 +229,7 @@ export default function AdmissionForm({ onClose }) {
                       <span
                         className={cn(
                           "flex items-center gap-3 rounded-xl px-3 py-2.5 text-xs font-bold tracking-wide uppercase",
-                          state === "active" && "bg-brand-lime/10 text-brand-lime",
+                          state === "active" && "bg-primary/10 text-primary",
                           state === "done" && "text-foreground",
                           state === "upcoming" && "text-muted-foreground"
                         )}
@@ -237,9 +237,9 @@ export default function AdmissionForm({ onClose }) {
                         <span
                           className={cn(
                             "flex size-6 shrink-0 items-center justify-center rounded-full",
-                            state === "active" && "bg-brand-lime text-background",
-                            state === "done" && "bg-white/10 text-foreground",
-                            state === "upcoming" && "bg-white/5 text-muted-foreground"
+                            state === "active" && "bg-primary text-white",
+                            state === "done" && "bg-foreground/10 text-foreground",
+                            state === "upcoming" && "bg-foreground/5 text-muted-foreground"
                           )}
                         >
                           {state === "done" ? (
@@ -271,11 +271,11 @@ export default function AdmissionForm({ onClose }) {
               <p className="text-xs font-bold text-muted-foreground">
                 Step {step} of {TOTAL_STEPS} — {STEPS[step - 1].label}
               </p>
-              <div className="mt-3 h-1.5 w-full overflow-hidden rounded-full bg-white/10">
+              <div className="mt-3 h-1.5 w-full overflow-hidden rounded-full bg-foreground/10">
                 <motion.div
                   animate={{ width: `${(step / TOTAL_STEPS) * 100}%` }}
                   transition={{ duration: 0.3, ease: "easeOut" }}
-                  className="bg-brand-lime h-full rounded-full"
+                  className="bg-primary h-full rounded-full"
                 />
               </div>
             </div>

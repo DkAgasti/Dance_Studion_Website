@@ -11,18 +11,18 @@ export default function BatchTable({ batches }) {
       <motion.h2
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-80px" }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
+        viewport={{ once: true, margin: "120px" }}
+        transition={{ duration: 0.4, ease: "easeOut" }}
         className="h2-display"
       >
-        Batch <span className="text-brand-lime">Timings</span>
+        Batch <span className="text-brand-lime-ink">Timings</span>
       </motion.h2>
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-60px" }}
-        transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
+        viewport={{ once: true, margin: "90px" }}
+        transition={{ duration: 0.35, delay: 0.1, ease: "easeOut" }}
         className="glass mt-10 overflow-x-auto rounded-2xl"
       >
         <table className="w-full min-w-[560px] border-collapse text-left">
@@ -44,7 +44,7 @@ export default function BatchTable({ batches }) {
                 <td className="px-6 py-4 text-sm font-medium">{batch.day}</td>
                 <td className="px-6 py-4 text-sm text-muted-foreground">{batch.time}</td>
                 <td className="px-6 py-4 text-sm text-muted-foreground">{batch.trainer}</td>
-                <td className="px-6 py-4 text-sm font-bold text-brand-lime">
+                <td className="px-6 py-4 text-sm font-bold text-brand-lime-ink">
                   {batch.seats} Left
                 </td>
                 <td className="px-6 py-4 text-right text-sm font-medium">

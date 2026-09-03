@@ -110,7 +110,7 @@ function MilestoneForm({ milestone, onSubmit }) {
       </div>
 
       <DialogFooter className="mt-2">
-        <Button type="submit" className="rounded-full bg-brand-end text-background hover:bg-brand-end/90">
+        <Button type="submit" className="rounded-full bg-brand-end text-white hover:bg-brand-end/90">
           {milestone ? "Save Changes" : "Add Milestone"}
         </Button>
       </DialogFooter>
@@ -245,7 +245,7 @@ const MilestonesTab = forwardRef(function MilestonesTab(_props, ref) {
               </div>
             </div>
             <div className="p-4">
-              <p className="text-xs font-bold text-brand-lime">{m.category}</p>
+              <p className="text-xs font-bold text-brand-lime-ink">{m.category}</p>
               <p className="mt-1 font-medium">{m.caption}</p>
               <p className="mt-1 line-clamp-2 text-xs text-muted-foreground">{m.body}</p>
             </div>

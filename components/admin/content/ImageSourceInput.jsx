@@ -37,7 +37,7 @@ export default function ImageSourceInput({ value, onChange, folder = "misc", lab
           className={cn(
             "flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-bold transition-colors",
             mode === "upload"
-              ? "bg-brand-end text-background"
+              ? "bg-brand-end text-white"
               : "glass-tile text-muted-foreground hover:text-foreground"
           )}
         >
@@ -50,7 +50,7 @@ export default function ImageSourceInput({ value, onChange, folder = "misc", lab
           className={cn(
             "flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-bold transition-colors",
             mode === "link"
-              ? "bg-brand-end text-background"
+              ? "bg-brand-end text-white"
               : "glass-tile text-muted-foreground hover:text-foreground"
           )}
         >

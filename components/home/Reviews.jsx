@@ -41,7 +41,7 @@ function GoogleIcon({ className }) {
 
 function Stars({ rating, className }) {
   return (
-    <div className={"flex gap-0.5 text-brand-lime " + (className ?? "")}>
+    <div className={"flex gap-0.5 text-gold " + (className ?? "")}>
       {Array.from({ length: 5 }).map((_, i) => (
         <Star key={i} className="size-4" strokeWidth={0} fill="currentColor" opacity={i < rating ? 1 : 0.2} />
       ))}
@@ -82,6 +82,7 @@ function GoogleReviewCard({ review }) {
         <div className="flex items-center gap-3">
           <ImageWithFallback
             src={review.avatarUrl}
+            label={review.name}
             gradient="from-brand-mid/25 via-surface to-brand-start/15"
             className="size-11 shrink-0 rounded-full"
           />
@@ -225,7 +226,7 @@ export default function Reviews() {
               <p className="font-display font-bold">ASM Dance Studio</p>
             </div>
             <div className="flex items-center justify-center gap-2 md:justify-start">
-              <span className="text-2xl font-bold text-brand-lime">
+              <span className="text-2xl font-bold text-brand-lime-ink">
                 {data.averageRating?.toFixed(1)}
               </span>
               <Stars rating={5} />
@@ -294,7 +295,7 @@ export default function Reviews() {
                   onClick={() => scrollToPage(i)}
                   className={
                     "size-1.5 rounded-full transition-colors " +
-                    (i === activePage ? "bg-brand-lime" : "bg-border")
+                    (i === activePage ? "bg-primary" : "bg-border")
                   }
                 />
               ))}
@@ -317,13 +318,16 @@ export default function Reviews() {
       <motion.div
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
-        viewport={{ once: true, margin: "-60px" }}
-        transition={{ duration: 0.5 }}
+        viewport={{ once: true, margin: "90px" }}
+        transition={{ duration: 0.35 }}
         className="mt-16 hidden flex-wrap items-center justify-center gap-x-12 gap-y-6 md:flex"
       >
         {ACHIEVEMENTS.map((label) => (
-          <div key={label} className="flex items-center gap-2 text-sm text-muted-foreground">
-            <Award className="size-6 text-brand-lime" strokeWidth={1.5} />
+          <div
+            key={label}
+            className="flex items-center gap-2 rounded-full border border-gold px-4 py-2 text-sm text-gold-ink"
+          >
+            <Award className="size-5 text-gold" strokeWidth={1.5} />
             {label}
           </div>
         ))}
@@ -332,8 +336,8 @@ export default function Reviews() {
       <motion.div
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
-        viewport={{ once: true, margin: "-60px" }}
-        transition={{ duration: 0.5 }}
+        viewport={{ once: true, margin: "90px" }}
+        transition={{ duration: 0.35 }}
         className="mt-10 flex items-center justify-center gap-x-14 md:hidden"
       >
         {ACHIEVEMENT_ICONS.map((Icon, i) => (

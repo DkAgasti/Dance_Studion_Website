@@ -4,7 +4,7 @@ import { ArrowUp } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const TREND_STYLES = {
-  positive: "text-brand-lime",
+  positive: "text-brand-lime-ink",
   negative: "text-brand-start",
   neutral: "text-muted-foreground",
 };

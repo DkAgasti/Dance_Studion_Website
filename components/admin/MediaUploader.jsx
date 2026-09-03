@@ -78,7 +78,7 @@ export default function MediaUploader({
             <button
               type="button"
               onClick={submitUrl}
-              className="rounded-full bg-brand-end px-4 py-1.5 text-xs font-bold text-background"
+              className="rounded-full bg-brand-end px-4 py-1.5 text-xs font-bold text-white"
             >
               Add
             </button>

@@ -64,7 +64,7 @@ export default function AnnouncementBanner() {
           className="flex flex-col items-center gap-2 sm:flex-row sm:gap-4"
         >
           {message}
-          <span className="rounded-full bg-white px-4 py-1.5 text-xs font-bold whitespace-nowrap text-background">
+          <span className="rounded-full bg-white px-4 py-1.5 text-xs font-bold whitespace-nowrap text-foreground">
             Learn More
           </span>
         </BookingLink>

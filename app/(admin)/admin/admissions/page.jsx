@@ -166,6 +166,7 @@ export default function AdminAdmissionsPage() {
         <div className="flex items-center gap-3">
           <ImageWithFallback
             src={row.photoUrl}
+            label={row.studentName}
             gradient="from-brand-mid/25 via-surface to-brand-start/15"
             className="size-9 shrink-0 rounded-full"
           />
@@ -187,7 +188,11 @@ export default function AdminAdmissionsPage() {
       label: "Status",
       render: (row) => {
         const meta = statusMeta[statusToKey[row.status]];
-        return (
+        return meta.bg ? (
+          <span className={`inline-flex items-center rounded-full px-2 py-1 text-xs font-bold ${meta.bg} ${meta.text}`}>
+            {meta.label}
+          </span>
+        ) : (
           <span className={`flex items-center gap-1.5 text-xs font-bold ${meta.text}`}>
             <span className={`size-1.5 rounded-full ${meta.dot}`} />
             {meta.label}
@@ -230,7 +235,7 @@ export default function AdminAdmissionsPage() {
             <Download className="size-4" />
             Export CSV
           </Button>
-          <Button asChild className="gap-2 rounded-full bg-brand-end text-background hover:bg-brand-end/90">
+          <Button asChild className="gap-2 rounded-full bg-brand-end text-white hover:bg-brand-end/90">
             <Link href="/admissions">
               <Plus className="size-4" />
               New Entry
@@ -301,7 +306,7 @@ export default function AdminAdmissionsPage() {
                       onClick={() => setPage(n)}
                       className={`flex size-7 items-center justify-center rounded-full font-bold ${
                         n === currentPage
-                          ? "bg-brand-end text-background"
+                          ? "bg-brand-end text-white"
                           : "hover:bg-white/10"
                       }`}
                     >

@@ -12,7 +12,7 @@ import { Label } from "@/components/ui/label";
 import { contactSchema } from "@/lib/validations/contact";
 
 const fieldClassName =
-  "h-12 rounded-xl border-border bg-white/[0.04] px-4 focus-visible:ring-ring/40";
+  "h-12 rounded-xl border-border bg-foreground/[0.04] px-4 focus-visible:ring-ring/40";
 
 // Contact page form — validated client-side, success state shown on submit
 // (no backend yet).
@@ -52,12 +52,12 @@ export default function ContactForm() {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-80px" }}
-      transition={{ duration: 0.6, ease: "easeOut" }}
+      viewport={{ once: true, margin: "120px" }}
+      transition={{ duration: 0.4, ease: "easeOut" }}
       className="glass rounded-3xl p-8 sm:p-10"
     >
       <h2 className="h3-display">
-        Drop Us a <span className="text-brand-lime">Line</span>
+        Drop Us a <span className="text-brand-lime-ink">Line</span>
       </h2>
 
       <AnimatePresence mode="wait">
@@ -69,7 +69,7 @@ export default function ContactForm() {
             transition={{ duration: 0.4, ease: "easeOut" }}
             className="flex flex-col items-center gap-4 py-10 text-center"
           >
-            <CheckCircle2 className="size-14 text-brand-lime" strokeWidth={1.5} />
+            <CheckCircle2 className="size-14 text-brand-lime-ink" strokeWidth={1.5} />
             <h3 className="h4-display">Message sent!</h3>
             <p className="max-w-sm text-sm text-muted-foreground">
               Thanks for reaching out — our team will get back to you within

@@ -11,10 +11,10 @@ export default function FounderSpotlight() {
         <motion.div
           initial={{ opacity: 0, x: -24 }}
           whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
+          viewport={{ once: true, margin: "120px" }}
+          transition={{ duration: 0.4, ease: "easeOut" }}
         >
-          <p className="eyebrow text-brand-end">The Founder</p>
+          <p className="eyebrow">The Founder</p>
           <h2 className="h1-display mt-4 text-balance">
             TRISHNA
             <br />
@@ -34,7 +34,7 @@ export default function FounderSpotlight() {
               now successful performers themselves.
             </p>
           </div>
-          <blockquote className="glass font-display mt-10 rounded-3xl border-l-4 border-l-brand-lime p-10 text-xl leading-snug text-foreground/90 md:text-2xl">
+          <blockquote className="glass font-display mt-10 rounded-3xl border-l-4 border-l-gold p-10 text-xl leading-snug text-foreground/90 md:text-2xl">
             &ldquo;Dance isn&apos;t just about the steps; it&apos;s about
             the soul finding its voice through the rhythm of the
             universe.&rdquo;
@@ -44,8 +44,8 @@ export default function FounderSpotlight() {
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
+          viewport={{ once: true, margin: "120px" }}
+          transition={{ duration: 0.4, ease: "easeOut" }}
           className="relative mx-auto w-full max-w-md"
         >
           <div

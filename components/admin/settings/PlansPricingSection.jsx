@@ -128,7 +128,7 @@ function PlanForm({ plan, onSubmit }) {
       </div>
 
       <DialogFooter className="mt-2">
-        <Button type="submit" className="rounded-full bg-brand-end text-background hover:bg-brand-end/90">
+        <Button type="submit" className="rounded-full bg-brand-end text-white hover:bg-brand-end/90">
           {plan ? "Save Changes" : "Add Plan"}
         </Button>
       </DialogFooter>
@@ -210,7 +210,7 @@ export default function PlansPricingSection() {
         <div className="flex items-center gap-2">
           <p className="font-medium">{row.name}</p>
           {row.highlighted ? (
-            <span className="rounded-full bg-brand-lime/15 px-2 py-0.5 text-[10px] font-bold text-brand-lime uppercase">
+            <span className="rounded-full bg-brand-lime-tint px-2 py-0.5 text-[10px] font-bold text-brand-lime-ink uppercase">
               Popular
             </span>
           ) : null}
@@ -267,7 +267,7 @@ export default function PlansPricingSection() {
             Feeds the plan cards on the public pricing page.
           </p>
         </div>
-        <Button onClick={openAdd} size="sm" className="gap-1.5 rounded-full bg-brand-end text-background hover:bg-brand-end/90">
+        <Button onClick={openAdd} size="sm" className="gap-1.5 rounded-full bg-brand-end text-white hover:bg-brand-end/90">
           <Plus className="size-3.5" />
           Add Plan
         </Button>

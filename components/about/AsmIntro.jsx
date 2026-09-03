@@ -10,8 +10,8 @@ export default function AsmIntro() {
       <motion.div
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
-        viewport={{ once: true, margin: "-80px" }}
-        transition={{ duration: 0.6 }}
+        viewport={{ once: true, margin: "120px" }}
+        transition={{ duration: 0.4 }}
         className="flex items-center gap-6"
       >
         <span className="h-px flex-1 bg-border" />
@@ -22,12 +22,12 @@ export default function AsmIntro() {
       <motion.p
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-80px" }}
-        transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
+        viewport={{ once: true, margin: "120px" }}
+        transition={{ duration: 0.4, delay: 0.1, ease: "easeOut" }}
         className="h2-display mx-auto mt-12 max-w-4xl text-center text-balance text-2xl md:text-[26px]"
       >
         ASM (Achieve Show Makers) is more than a studio—it&apos;s a{" "}
-        <span className="text-brand-lime">movement</span> dedicated to
+        <span className="text-brand-lime-ink">movement</span> dedicated to
         empowering dancers of all levels while{" "}
         <span className="text-brand-mid">giving back</span> to our
         community.
@@ -38,8 +38,8 @@ export default function AsmIntro() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: 0.5, ease: "easeOut" }}
+            viewport={{ once: true, margin: "90px" }}
+            transition={{ duration: 0.35, ease: "easeOut" }}
             className="glass rounded-3xl p-10"
           >
             <h3 className="h4-display text-brand-end">Our Mission</h3>
@@ -52,8 +52,8 @@ export default function AsmIntro() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
+            viewport={{ once: true, margin: "90px" }}
+            transition={{ duration: 0.35, delay: 0.1, ease: "easeOut" }}
             className="glass rounded-3xl p-10"
           >
             <h3 className="h4-display text-brand-start">ASM Cares</h3>
@@ -68,8 +68,8 @@ export default function AsmIntro() {
         <motion.div
           initial={{ opacity: 0, scale: 0.96 }}
           whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true, margin: "-60px" }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
+          viewport={{ once: true, margin: "90px" }}
+          transition={{ duration: 0.4, ease: "easeOut" }}
           className="relative min-h-[320px] md:min-h-full"
         >
           <ImageWithFallback
@@ -78,8 +78,8 @@ export default function AsmIntro() {
             gradient="from-brand-lime/20 via-surface to-brand-mid/20"
             className="absolute inset-0 rounded-3xl border border-border"
           />
-          <div className="absolute -right-4 -bottom-4 flex size-28 flex-col items-center justify-center rounded-full bg-brand-lime text-center shadow-2xl sm:size-32">
-            <p className="text-xs font-black tracking-wide text-background uppercase">
+          <div className="absolute -right-4 -bottom-4 flex size-28 flex-col items-center justify-center rounded-full bg-brand-lime-tint text-center shadow-2xl sm:size-32">
+            <p className="text-xs font-black tracking-wide text-brand-lime-ink uppercase">
               Giving Back
             </p>
           </div>

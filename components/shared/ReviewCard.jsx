@@ -14,11 +14,11 @@ export default function ReviewCard({ review, className }) {
     <motion.div
       initial={{ opacity: 0, y: 16 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-60px" }}
-      transition={{ duration: 0.5, ease: "easeOut" }}
+      viewport={{ once: true, margin: "90px" }}
+      transition={{ duration: 0.35, ease: "easeOut" }}
       className={cn("glass rounded-xl p-8", className)}
     >
-      <div className="flex gap-1 text-brand-lime">
+      <div className="flex gap-1 text-gold">
         {Array.from({ length: rating }).map((_, i) => (
           <Star key={i} className="size-[18px] fill-current" strokeWidth={0} />
         ))}

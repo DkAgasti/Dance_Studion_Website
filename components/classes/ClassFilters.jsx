@@ -30,7 +30,7 @@ function FilterGroup({ label, options, active, onChange, className }) {
               className={cn(
                 "shrink-0 rounded-full border px-4 py-2 text-sm font-medium whitespace-nowrap transition-colors md:border-0",
                 isActive
-                  ? "border-transparent bg-brand-lime font-bold text-background"
+                  ? "border-transparent bg-primary font-bold text-white"
                   : "border-border text-muted-foreground hover:text-foreground"
               )}
             >

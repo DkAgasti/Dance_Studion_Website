@@ -150,7 +150,7 @@ export default function TrialWizard({ onClose }) {
               type="button"
               onClick={close}
               aria-label="Close"
-              className="absolute top-6 right-6 z-10 flex size-9 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-white/10 hover:text-foreground"
+              className="absolute top-6 right-6 z-10 flex size-9 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
             >
               <X className="size-5" />
             </button>
@@ -174,7 +174,7 @@ export default function TrialWizard({ onClose }) {
             type="button"
             onClick={close}
             aria-label="Close"
-            className="absolute top-6 right-6 z-10 flex size-9 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-white/10 hover:text-foreground"
+            className="absolute top-6 right-6 z-10 flex size-9 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
           >
             <X className="size-5" />
           </button>
@@ -196,14 +196,14 @@ export default function TrialWizard({ onClose }) {
                       <span
                         className={cn(
                           "z-10 flex size-5 shrink-0 items-center justify-center rounded-full border-2",
-                          state === "done" && "border-brand-lime bg-brand-lime text-background",
-                          state === "active" && "border-brand-lime bg-background",
+                          state === "done" && "border-primary bg-primary text-white",
+                          state === "active" && "border-primary bg-background",
                           state === "upcoming" && "border-border bg-background"
                         )}
                       >
                         {state === "done" ? <Check className="size-3" strokeWidth={3} /> : null}
                         {state === "active" ? (
-                          <span className="size-2 rounded-full bg-brand-lime" />
+                          <span className="size-2 rounded-full bg-primary" />
                         ) : null}
                       </span>
                       <span
@@ -221,7 +221,7 @@ export default function TrialWizard({ onClose }) {
 
               <p className="mt-auto pt-8 text-xs text-muted-foreground">
                 Need help?{" "}
-                <Link href="/contact" className="text-brand-lime underline underline-offset-2">
+                <Link href="/contact" className="text-brand-lime-ink underline underline-offset-2">
                   Contact Support
                 </Link>
               </p>
@@ -232,11 +232,11 @@ export default function TrialWizard({ onClose }) {
               <p className="text-xs font-bold text-muted-foreground">
                 Step {step} of {TOTAL_STEPS} — {STEPS[step - 1].label}
               </p>
-              <div className="mt-3 h-1.5 w-full overflow-hidden rounded-full bg-white/10">
+              <div className="mt-3 h-1.5 w-full overflow-hidden rounded-full bg-foreground/10">
                 <motion.div
                   animate={{ width: `${(step / TOTAL_STEPS) * 100}%` }}
                   transition={{ duration: 0.3, ease: "easeOut" }}
-                  className="bg-brand-lime h-full rounded-full"
+                  className="bg-primary h-full rounded-full"
                 />
               </div>
             </div>

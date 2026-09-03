@@ -16,19 +16,19 @@ export default function FitnessHero() {
         gradient="from-brand-mid/25 via-surface to-brand-start/20"
         className="absolute inset-0"
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-background via-background/70 to-background/30" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-black/30" />
 
       <motion.div
         initial={{ opacity: 0, y: 24 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
+        transition={{ duration: 0.4, ease: "easeOut" }}
         className="container-page relative pt-[calc(var(--header-h,88px)+24px)] text-center lg:pt-0"
       >
-        <p className="eyebrow">Health &amp; Performance</p>
-        <h1 className="h1-display mx-auto mt-4 max-w-3xl text-balance">
+        <p className="eyebrow text-white/70">Health &amp; Performance</p>
+        <h1 className="h1-display mx-auto mt-4 max-w-3xl text-balance text-white">
           Keep Dancing, <span className="text-gradient-brand">Stay Fit.</span>
         </h1>
-        <p className="mx-auto mt-6 max-w-xl text-lg text-muted-foreground md:text-xl">
+        <p className="mx-auto mt-6 max-w-xl text-lg text-white/70 md:text-xl">
           Elevate your health with our curated fitness programs, designed
           for rhythm, strength, and inner balance.
         </p>

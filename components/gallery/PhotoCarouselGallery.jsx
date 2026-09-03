@@ -25,7 +25,7 @@ function CategoryPills({ categories, active, onChange }) {
             className={cn(
               "shrink-0 snap-start rounded-full border px-4 py-2 text-sm font-medium whitespace-nowrap transition-colors",
               isActive
-                ? "border-brand-lime bg-brand-lime text-background"
+                ? "border-primary bg-primary text-white"
                 : "border-border text-muted-foreground hover:text-foreground"
             )}
           >
@@ -50,7 +50,7 @@ function CarouselSlide({ photo, offset }) {
         opacity: distance > SIDE_SLOTS ? 0 : 1 - distance * 0.28,
         zIndex: SIDE_SLOTS + 1 - distance,
       }}
-      transition={{ duration: 0.5, ease: "easeOut" }}
+      transition={{ duration: 0.35, ease: "easeOut" }}
       className={cn(
         "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2",
         isCenter ? "pointer-events-auto" : "pointer-events-none"
@@ -178,7 +178,7 @@ export default function PhotoCarouselGallery() {
                 type="button"
                 onClick={goPrev}
                 aria-label="Previous photo"
-                className="glass flex size-11 items-center justify-center rounded-full text-foreground transition-colors hover:bg-white/10"
+                className="glass flex size-11 items-center justify-center rounded-full text-foreground transition-colors hover:bg-foreground/10"
               >
                 <ArrowLeft className="size-4" />
               </button>
@@ -186,7 +186,7 @@ export default function PhotoCarouselGallery() {
                 type="button"
                 onClick={goNext}
                 aria-label="Next photo"
-                className="glass flex size-11 items-center justify-center rounded-full text-foreground transition-colors hover:bg-white/10"
+                className="glass flex size-11 items-center justify-center rounded-full text-foreground transition-colors hover:bg-foreground/10"
               >
                 <ArrowRight className="size-4" />
               </button>

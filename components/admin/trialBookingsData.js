@@ -9,9 +9,11 @@ export const statusToKey = {
   NO_SHOW: "no-show",
 };
 
+// Status is semantic, not brand — ok/warn/danger read as meaning on white
+// where a neon brand hue (especially bg-brand-lime as text) did not.
 export const trialStatusMeta = {
-  new: { label: "New", dot: "bg-brand-mid", text: "text-brand-mid" },
-  attended: { label: "Attended", dot: "bg-brand-end", text: "text-brand-end" },
-  converted: { label: "Converted", dot: "bg-brand-lime", text: "text-brand-lime" },
-  "no-show": { label: "No-show", dot: "bg-brand-start", text: "text-brand-start" },
+  new: { label: "New", dot: "bg-warn", text: "text-warn" },
+  attended: { label: "Attended", dot: "bg-brand-mid", text: "text-brand-mid" },
+  converted: { label: "Converted", bg: "bg-brand-lime-tint", text: "text-brand-lime-ink" },
+  "no-show": { label: "No-show", dot: "bg-danger", text: "text-danger" },
 };

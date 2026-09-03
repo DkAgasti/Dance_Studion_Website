@@ -29,15 +29,15 @@ const NAV_ITEMS = [
 ];
 
 // Matches the active-tab style already used in the Settings page's own
-// sub-nav (components/admin/settings/SettingsNav.jsx) — a colored left
-// border on a large-radius rounded item, which reads as a curved bracket
-// hugging the left edge.
+// sub-nav (components/admin/settings/SettingsNav.jsx) — a colored right
+// border on a large-radius rounded item, which reads as a curved "half
+// moon" bracket hugging the edge, plus a soft tint so it's unmistakable.
 function navLinkClass(active) {
   return cn(
     "flex items-center gap-3 rounded-xl border-r-2 px-3 py-2.5 text-sm font-medium transition-colors",
     active
-      ? "border-brand-end bg-white/[0.04] text-brand-end"
-      : "border-transparent text-muted-foreground hover:bg-white/5 hover:text-foreground"
+      ? "border-primary bg-primary/10 text-primary"
+      : "border-transparent text-muted-foreground hover:bg-foreground/5 hover:text-foreground"
   );
 }
 

@@ -26,8 +26,8 @@ export default function SettingsNav({ active, onChange }) {
             className={cn(
               "flex items-center gap-3 rounded-xl border-l-2 px-3 py-2.5 text-left text-sm font-medium transition-colors",
               isActive
-                ? "border-brand-end bg-white/[0.04] text-brand-end"
-                : "border-transparent text-muted-foreground hover:bg-white/[0.02] hover:text-foreground"
+                ? "border-primary bg-primary/10 text-primary"
+                : "border-transparent text-muted-foreground hover:bg-foreground/5 hover:text-foreground"
             )}
           >
             <section.icon className="size-4 shrink-0" />

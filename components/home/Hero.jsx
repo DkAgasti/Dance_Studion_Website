@@ -12,7 +12,7 @@ const container = {
 };
 const item = {
   hidden: { opacity: 0, y: 24 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
+  show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" } },
 };
 
 const HERO_SUBTEXT =
@@ -22,7 +22,8 @@ const HERO_IMAGE_URL ="https://res.cloudinary.com/fexwwils/image/upload/v1787773
 const HERO_SMOKE_VIDEO_URL = "https://res.cloudinary.com/fexwwils/video/upload/v1788000662/From_Klickpin.com-_Earthy_flower_field_vibes_that_feel_fresh_and_shareable_on_a_budget_to_refresh_your_mood-pin-id-624100460884464450.mp4";
 const HERO_MOBILE_VIDEO_URL = "https://res.cloudinary.com/fexwwils/video/upload/v1788200626/hero_dance.mp4";
 
-const HEADING_CLASS = "font-display font-bold uppercase leading-[1.05] tracking-tight text-5xl md:text-7xl";
+const HEADING_CLASS =
+  "font-display font-bold uppercase leading-[1.05] tracking-tight text-5xl md:text-7xl max-lg:text-white";
 
 export default function Hero() {
   return (
@@ -66,14 +67,14 @@ export default function Hero() {
           <motion.h1 variants={item} className={HEADING_CLASS}>
             WHERE EVERY
             <br />
-            <span className="text-outline">RHYTHM</span> FINDS
+            <span className="text-outline max-lg:[-webkit-text-stroke-color:#fff]">RHYTHM</span> FINDS
             <br />
             <span className="text-gradient-brand">A HOME</span>
           </motion.h1>
 
           <motion.p
             variants={item}
-            className="mt-8 max-w-xl text-xl leading-relaxed text-muted-foreground md:text-2xl lg:mt-6"
+            className="mt-8 max-w-xl text-xl leading-relaxed text-muted-foreground md:text-2xl lg:mt-6 max-lg:text-white/85"
           >
             {HERO_SUBTEXT}
           </motion.p>
@@ -90,7 +91,7 @@ export default function Hero() {
               asChild
               variant="outline"
               size="lg"
-              className="h-14 flex-1 whitespace-nowrap rounded-full border-white/20 bg-transparent px-4 text-sm font-bold backdrop-blur-sm hover:bg-white/10 sm:h-[62px] sm:flex-none sm:px-10 sm:text-base"
+              className="h-14 flex-1 whitespace-nowrap rounded-full border-border bg-transparent px-4 text-sm font-bold backdrop-blur-sm hover:bg-accent sm:h-[62px] sm:flex-none sm:px-10 sm:text-base max-lg:border-white/40 max-lg:text-white max-lg:hover:bg-white/10"
             >
               <Link href="/classes">Explore Classes</Link>
             </Button>
@@ -98,18 +99,18 @@ export default function Hero() {
 
           <motion.div
             variants={item}
-            className="mt-16 flex flex-wrap items-center gap-x-8 gap-y-4 text-sm text-muted-foreground lg:mt-10"
+            className="mt-16 flex flex-wrap items-center gap-x-8 gap-y-4 text-sm text-muted-foreground lg:mt-10 max-lg:text-white/85"
           >
             <span className="flex items-center gap-2">
-              <span className="font-semibold text-foreground">⭐ 4.9</span>
+              <span className="font-semibold text-foreground max-lg:text-white">⭐ 4.9</span>
               117 Google reviews
             </span>
-            <span className="hidden size-1 rounded-full bg-border sm:block" />
+            <span className="hidden size-1 rounded-full bg-border sm:block max-lg:bg-white/30" />
             <span className="flex items-center gap-2">
-              <span className="font-semibold text-foreground">8+</span>
+              <span className="font-semibold text-foreground max-lg:text-white">8+</span>
               Dance styles
             </span>
-            <span className="hidden size-1 rounded-full bg-border sm:block" />
+            <span className="hidden size-1 rounded-full bg-border sm:block max-lg:bg-white/30" />
             <span>All ages</span>
           </motion.div>
         </motion.div>

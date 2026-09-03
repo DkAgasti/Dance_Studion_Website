@@ -104,7 +104,7 @@ function ScheduleForm({ students, onSubmit }) {
       <DialogFooter className="mt-2">
         <Button
           type="submit"
-          className="rounded-full bg-brand-end text-background hover:bg-brand-end/90"
+          className="rounded-full bg-brand-end text-white hover:bg-brand-end/90"
         >
           Create Schedule
         </Button>

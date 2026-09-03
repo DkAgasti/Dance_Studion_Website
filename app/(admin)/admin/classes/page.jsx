@@ -92,7 +92,7 @@ export default function AdminClassesPage() {
           </p>
         </div>
         <Button
-          className="w-fit gap-2 rounded-full bg-brand-end text-background hover:bg-brand-end/90"
+          className="w-fit gap-2 rounded-full bg-brand-end text-white hover:bg-brand-end/90"
           onClick={openAdd}
         >
           <Plus className="size-4" />

@@ -145,7 +145,7 @@ function ConvertForm({ booking, onConfirm }) {
         <Button
           onClick={handleConfirm}
           disabled={!classId || submitting}
-          className="rounded-full bg-brand-lime text-background hover:bg-brand-lime/90"
+          className="rounded-full bg-primary text-white hover:bg-primary/90"
         >
           {submitting ? "Creating..." : "Create Admission"}
         </Button>

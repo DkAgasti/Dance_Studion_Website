@@ -14,7 +14,7 @@ export default function ClassHero({ classItem }) {
         gradient="from-surface via-surface to-background"
         className="absolute inset-0"
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-background/10" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/10" />
 
       <p
         aria-hidden
@@ -28,10 +28,10 @@ export default function ClassHero({ classItem }) {
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
+          transition={{ duration: 0.4, ease: "easeOut" }}
         >
           <div className="flex flex-wrap gap-3 text-[11px] font-bold tracking-wide uppercase">
-            <span className="glass rounded-full px-3 py-1.5 text-brand-lime">
+            <span className="glass rounded-full px-3 py-1.5 text-brand-lime-ink">
               {classItem.level}
             </span>
             <span className="glass rounded-full px-3 py-1.5 text-white/80">
@@ -39,9 +39,9 @@ export default function ClassHero({ classItem }) {
             </span>
           </div>
 
-          <h1 className="h1-display mt-6 text-balance">{classItem.name}</h1>
+          <h1 className="h1-display mt-6 text-balance text-white">{classItem.name}</h1>
           {classItem.description ? (
-            <p className="mt-4 max-w-xl text-lg text-muted-foreground">
+            <p className="mt-4 max-w-xl text-lg text-white/70">
               {classItem.description}
             </p>
           ) : null}

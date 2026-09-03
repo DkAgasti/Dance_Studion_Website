@@ -26,7 +26,7 @@ export default function UpcomingTrials({ trials }) {
         <h3 className="font-medium">Upcoming Trials</h3>
         <Link
           href="/admin/trial-bookings"
-          className="text-xs font-bold text-brand-lime hover:underline"
+          className="text-xs font-bold text-brand-lime-ink hover:underline"
         >
           View All
         </Link>

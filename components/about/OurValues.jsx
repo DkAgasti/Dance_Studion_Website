@@ -24,15 +24,15 @@ const VALUES = [
   {
     name: "Community",
     icon: Users,
-    color: "bg-brand-lime",
-    iconColor: "text-background",
+    color: "bg-brand-lime-tint",
+    iconColor: "text-brand-lime-ink",
     description: "ASM is a family where we support, grow, and celebrate each other.",
   },
   {
     name: "Inclusivity",
     icon: Globe,
     color: "bg-brand-end",
-    iconColor: "text-background",
+    iconColor: "text-white",
     description:
       "Dance is for everyone, regardless of age, background, or ability.",
   },
@@ -45,8 +45,8 @@ export default function OurValues() {
       <motion.h2
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-80px" }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
+        viewport={{ once: true, margin: "120px" }}
+        transition={{ duration: 0.4, ease: "easeOut" }}
         className="h2-display text-center uppercase"
       >
         Our Values
@@ -58,8 +58,8 @@ export default function OurValues() {
             key={value.name}
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: 0.5, delay: i * 0.08, ease: "easeOut" }}
+            viewport={{ once: true, margin: "90px" }}
+            transition={{ duration: 0.35, delay: i * 0.08, ease: "easeOut" }}
             className="glass rounded-3xl p-10 transition-transform hover:-translate-y-1"
           >
             <div

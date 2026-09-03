@@ -24,8 +24,8 @@ export default function SocialRow() {
       <motion.h2
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-80px" }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
+        viewport={{ once: true, margin: "120px" }}
+        transition={{ duration: 0.4, ease: "easeOut" }}
         className="h3-display uppercase"
       >
         Follow Our Moves
@@ -34,8 +34,8 @@ export default function SocialRow() {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-60px" }}
-        transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
+        viewport={{ once: true, margin: "90px" }}
+        transition={{ duration: 0.35, delay: 0.1, ease: "easeOut" }}
         className="mt-8 flex items-center justify-center gap-6"
       >
         {SOCIALS.map((social) => (

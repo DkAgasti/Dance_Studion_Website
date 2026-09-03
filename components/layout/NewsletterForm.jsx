@@ -34,7 +34,7 @@ export default function NewsletterForm() {
 
   if (status === "success") {
     return (
-      <div className="mt-8 flex items-center gap-2 text-sm font-medium text-brand-lime">
+      <div className="mt-8 flex items-center gap-2 text-sm font-medium text-brand-lime-ink">
         <Check className="size-4" />
         You&apos;re subscribed — thanks!
       </div>
@@ -49,7 +49,7 @@ export default function NewsletterForm() {
         value={email}
         onChange={(e) => setEmail(e.target.value)}
         placeholder="Email Address"
-        className="h-[57px] rounded-full border border-border bg-white/[0.05] px-6 text-sm text-foreground placeholder:text-muted-foreground focus:border-ring focus:ring-3 focus:ring-ring/50 focus:outline-none"
+        className="h-[57px] rounded-full border border-border bg-foreground/[0.05] px-6 text-sm text-foreground placeholder:text-muted-foreground focus:border-ring focus:ring-3 focus:ring-ring/50 focus:outline-none"
       />
       {error ? <p className="text-xs text-destructive">{error}</p> : null}
       <Button type="submit" disabled={status === "submitting"} className="h-14 rounded-full font-bold">

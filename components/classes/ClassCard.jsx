@@ -26,9 +26,9 @@ export default function ClassCard({ classItem, gradient, index = 0 }) {
             gradient={gradient}
             className="absolute inset-0 motion-safe:transition-transform motion-safe:duration-500 motion-safe:group-hover:scale-105"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
           <div className="absolute inset-x-4 top-4 flex items-center justify-between text-[11px] font-bold tracking-wide uppercase">
-            <span className="text-brand-lime">{classItem.level}</span>
+            <span className="text-brand-lime-ink">{classItem.level}</span>
             <span className="text-white/70">{classItem.ageGroup}</span>
           </div>
         </div>
@@ -37,7 +37,7 @@ export default function ClassCard({ classItem, gradient, index = 0 }) {
           <p className="mt-2 line-clamp-2 min-h-[2.5rem] text-sm text-muted-foreground">
             {classItem.description}
           </p>
-          <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-bold text-brand-lime">
+          <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-bold text-brand-lime-ink">
             Explore classes
             <ArrowRight className="size-3.5 transition-transform group-hover:translate-x-1" />
           </span>

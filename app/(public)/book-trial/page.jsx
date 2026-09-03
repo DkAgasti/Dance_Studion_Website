@@ -7,5 +7,9 @@ export const metadata = {
 };
 
 export default function BookTrialPage() {
-  return <TrialWizard />;
+  return (
+    <div className="container-page flex justify-center pt-[calc(var(--header-h,88px)+24px)] pb-16">
+      <TrialWizard />
+    </div>
+  );
 }

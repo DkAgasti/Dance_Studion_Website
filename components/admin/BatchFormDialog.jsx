@@ -211,7 +211,7 @@ function BatchForm({ batch, onSubmit }) {
       <DialogFooter className="mt-2">
         <Button
           type="submit"
-          className="rounded-full bg-brand-end text-background hover:bg-brand-end/90"
+          className="rounded-full bg-brand-end text-white hover:bg-brand-end/90"
         >
           {batch ? "Save Changes" : "Add Batch"}
         </Button>

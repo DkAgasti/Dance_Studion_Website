@@ -4,7 +4,7 @@ import StepHeading from "@/components/forms/trial/StepHeading";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-const fieldClassName = "h-12 rounded-xl border-border bg-white/[0.04] px-4";
+const fieldClassName = "h-12 rounded-xl border-border bg-foreground/[0.04] px-4";
 
 export default function StepDetails({ register, errors }) {
   return (
@@ -33,7 +33,7 @@ export default function StepDetails({ register, errors }) {
 
         <div className="flex flex-col gap-2">
           <Label htmlFor="trial-phone">
-            Phone <span className="text-brand-lime">(primary contact)</span>
+            Phone <span className="text-brand-lime-ink">(primary contact)</span>
           </Label>
           <Input
             id="trial-phone"

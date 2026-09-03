@@ -60,7 +60,7 @@ export default function BatchRosterPanel({ batch, onClose }) {
         <div className="flex items-center justify-between">
           <p className="eyebrow !text-[10px]">Enrolled Students</p>
           <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
-            <span className="size-1.5 rounded-full bg-brand-lime" />
+            <span className="size-1.5 rounded-full bg-ok" />
             {presentCount} Present
           </span>
         </div>
@@ -89,7 +89,7 @@ export default function BatchRosterPanel({ batch, onClose }) {
                 className={cn(
                   "flex size-7 shrink-0 items-center justify-center rounded-md border transition-colors",
                   student.present
-                    ? "border-brand-lime bg-brand-lime/20 text-brand-lime"
+                    ? "border-ok bg-ok/15 text-ok"
                     : "border-border text-transparent hover:border-white/30"
                 )}
               >
@@ -100,7 +100,7 @@ export default function BatchRosterPanel({ batch, onClose }) {
         </ul>
       </div>
 
-      <Button className="mt-6 h-12 w-full gap-2 rounded-full bg-brand-end font-bold text-background hover:bg-brand-end/90">
+      <Button className="mt-6 h-12 w-full gap-2 rounded-full bg-brand-end font-bold text-white hover:bg-brand-end/90">
         <UserPlus className="size-4" />
         Enroll New Student
       </Button>

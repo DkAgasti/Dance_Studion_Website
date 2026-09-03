@@ -15,7 +15,7 @@ export default function StatusFilters({ tabs, active, onChange, counts }) {
           className={cn(
             "rounded-full px-4 py-1.5 text-sm font-medium transition-colors",
             active === tab.key
-              ? "bg-brand-end text-background"
+              ? "bg-primary text-white"
               : "glass-tile text-muted-foreground hover:text-foreground"
           )}
         >

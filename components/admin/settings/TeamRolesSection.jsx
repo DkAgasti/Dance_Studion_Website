@@ -78,7 +78,7 @@ function InviteForm({ onSubmit }) {
       </div>
 
       <DialogFooter className="mt-2">
-        <Button type="submit" className="rounded-full bg-brand-end text-background hover:bg-brand-end/90">
+        <Button type="submit" className="rounded-full bg-brand-end text-white hover:bg-brand-end/90">
           Send Invite
         </Button>
       </DialogFooter>
@@ -154,7 +154,7 @@ export default function TeamRolesSection() {
         <Button
           onClick={() => setDialogOpen(true)}
           size="sm"
-          className="gap-1.5 rounded-full bg-brand-end text-background hover:bg-brand-end/90"
+          className="gap-1.5 rounded-full bg-brand-end text-white hover:bg-brand-end/90"
         >
           <UserPlus className="size-3.5" />
           Invite User

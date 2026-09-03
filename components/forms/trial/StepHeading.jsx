@@ -4,7 +4,7 @@
 export default function StepHeading({ step, total, title, subtitle }) {
   return (
     <div>
-      <p className="eyebrow text-brand-lime">
+      <p className="eyebrow">
         Step {step} of {total}
       </p>
       <h2 className="h3-display mt-3 text-balance sm:text-3xl">{title}</h2>

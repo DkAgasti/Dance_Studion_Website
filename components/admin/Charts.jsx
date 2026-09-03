@@ -40,26 +40,26 @@ export function RevenueChart({ data }) {
         <AreaChart data={data} margin={{ top: 8, right: 8, left: 0, bottom: 0 }}>
           <defs>
             <linearGradient id="revenueFill" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#ff2d55" stopOpacity={0.35} />
-              <stop offset="100%" stopColor="#ff2d55" stopOpacity={0} />
+              <stop offset="0%" stopColor="#c8102e" stopOpacity={0.35} />
+              <stop offset="100%" stopColor="#c8102e" stopOpacity={0} />
             </linearGradient>
           </defs>
-          <CartesianGrid stroke="rgba(255,255,255,0.06)" vertical={false} />
+          <CartesianGrid stroke="rgba(34,31,28,0.08)" vertical={false} />
           <XAxis
             dataKey="month"
             axisLine={false}
             tickLine={false}
-            tick={{ fill: "#a1a1aa", fontSize: 12 }}
+            tick={{ fill: "#5b554e", fontSize: 12 }}
           />
           <YAxis hide domain={["dataMin - 20000", "dataMax + 20000"]} />
           <Tooltip
-            cursor={{ stroke: "rgba(255,255,255,0.1)" }}
+            cursor={{ stroke: "rgba(34,31,28,0.12)" }}
             content={<ChartTooltip formatter={(v) => `₹${v.toLocaleString("en-IN")}`} />}
           />
           <Area
             type="monotone"
             dataKey="revenue"
-            stroke="#ff2d55"
+            stroke="#c8102e"
             strokeWidth={2.5}
             fill="url(#revenueFill)"
           />
@@ -93,10 +93,10 @@ export function EnrollmentChart({ data }) {
             axisLine={false}
             tickLine={false}
             width={90}
-            tick={{ fill: "#f5f5f7", fontSize: 13 }}
+            tick={{ fill: "#221f1c", fontSize: 13 }}
           />
           <Tooltip
-            cursor={{ fill: "rgba(255,255,255,0.04)" }}
+            cursor={{ fill: "rgba(34,31,28,0.04)" }}
             content={<ChartTooltip formatter={(v) => `${v}%`} />}
           />
           <Bar

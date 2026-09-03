@@ -15,10 +15,10 @@ const ICONS = {
 // here (rather than built from Tailwind class strings) so per-tile accent
 // colors survive Tailwind's static class scan.
 const ACCENT_HEX = {
-  "brand-start": "#ff2d55",
-  "brand-mid": "#7c5cff",
-  "brand-end": "#22d3ee",
-  "brand-lime": "#c6ff3a",
+  "brand-start": "#c8102e",
+  "brand-mid": "#5b21b6",
+  "brand-end": "#0e7490",
+  "brand-lime": "#3f6212",
 };
 
 function FitnessTile({ item, index }) {
@@ -29,8 +29,8 @@ function FitnessTile({ item, index }) {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-60px" }}
-      transition={{ duration: 0.5, delay: index * 0.08, ease: "easeOut" }}
+      viewport={{ once: true, margin: "90px" }}
+      transition={{ duration: 0.35, delay: index * 0.08, ease: "easeOut" }}
       style={{ borderTopColor: hex }}
       className="glass-tile flex flex-col gap-4 rounded-xl border-t-2 p-6 transition-transform hover:-translate-y-1"
     >

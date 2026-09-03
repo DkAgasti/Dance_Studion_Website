@@ -9,7 +9,7 @@ export default function ContactHero() {
       <motion.div
         initial={{ opacity: 0, y: 24 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
+        transition={{ duration: 0.4, ease: "easeOut" }}
       >
         <p className="eyebrow">Ready to Dance?</p>
         <h1 className="h1-display mx-auto mt-4 max-w-3xl text-balance">

@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 
-const fieldClassName = "h-12 rounded-xl border-border bg-white/[0.04] px-4";
+const fieldClassName = "h-12 rounded-xl border-border bg-foreground/[0.04] px-4";
 
 export default function StepStudentDetails({ register, errors, photoName, onPhotoChange }) {
   const inputRef = useRef(null);
@@ -113,7 +113,7 @@ export default function StepStudentDetails({ register, errors, photoName, onPhot
           }}
           className={cn(
             "flex flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed px-6 py-8 text-center transition-colors",
-            dragActive ? "border-brand-lime bg-brand-lime/5" : "border-border hover:border-white/30"
+            dragActive ? "border-primary bg-primary/5" : "border-border hover:border-foreground/30"
           )}
         >
           <Upload className="size-6 text-muted-foreground" />

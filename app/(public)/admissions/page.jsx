@@ -9,8 +9,10 @@ export const metadata = {
 
 export default function AdmissionsPage() {
   return (
-    <Suspense fallback={null}>
-      <AdmissionForm />
-    </Suspense>
+    <div className="container-page flex justify-center pt-[calc(var(--header-h,88px)+24px)] pb-16">
+      <Suspense fallback={null}>
+        <AdmissionForm />
+      </Suspense>
+    </div>
   );
 }

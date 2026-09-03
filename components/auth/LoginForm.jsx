@@ -94,7 +94,7 @@ export default function LoginForm() {
       <Button
         type="submit"
         disabled={isSubmitting}
-        className="h-12 w-full gap-2 rounded-full bg-brand-end font-bold text-background hover:bg-brand-end/90 disabled:opacity-60"
+        className="h-12 w-full gap-2 rounded-full bg-brand-end font-bold text-white hover:bg-brand-end/90 disabled:opacity-60"
       >
         {isSubmitting ? <Loader2 className="size-4 animate-spin" /> : <LogIn className="size-4" />}
         {isSubmitting ? "Signing in..." : "Sign In"}

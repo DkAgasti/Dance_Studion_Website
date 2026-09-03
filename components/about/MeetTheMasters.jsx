@@ -18,8 +18,8 @@ function TrainerCard({ trainer, gradient, index, className }) {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-60px" }}
-      transition={{ duration: 0.5, delay: index * 0.1, ease: "easeOut" }}
+      viewport={{ once: true, margin: "90px" }}
+      transition={{ duration: 0.35, delay: index * 0.1, ease: "easeOut" }}
       whileHover={{ y: -8, scale: 1.03 }}
       className={
         "group relative aspect-[325/434] w-[260px] shrink-0 overflow-hidden rounded-2xl border border-border shadow-lg transition-shadow duration-300 hover:shadow-2xl hover:shadow-brand-lime/10 " +
@@ -27,18 +27,18 @@ function TrainerCard({ trainer, gradient, index, className }) {
       }
     >
       <ImageWithFallback src={trainer.photoUrl} gradient={gradient} className="absolute inset-0" />
-      <div className="absolute inset-0 bg-gradient-to-t from-background/95 via-background/20 to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/20 to-transparent" />
 
       <div className="absolute inset-x-0 bottom-0 p-6 motion-safe:transition-opacity motion-safe:duration-300 group-hover:opacity-0">
         <span className="glass inline-flex rounded-full px-3 py-1 text-[11px] font-bold tracking-wide text-foreground/80 uppercase">
           {trainer.specialty}
         </span>
-        <h3 className="h3-display mt-4">{trainer.name}</h3>
+        <h3 className="h3-display mt-4 text-white">{trainer.name}</h3>
       </div>
 
       <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 p-8 text-center opacity-0 motion-safe:transition-opacity motion-safe:duration-300 group-hover:opacity-100">
-        <h3 className="h4-display">{trainer.name}</h3>
-        <p className="text-sm leading-relaxed text-foreground/90">{trainer.bio}</p>
+        <h3 className="h4-display text-white">{trainer.name}</h3>
+        <p className="text-sm leading-relaxed text-white/90">{trainer.bio}</p>
       </div>
     </motion.div>
   );

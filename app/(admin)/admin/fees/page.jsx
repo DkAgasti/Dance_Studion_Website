@@ -189,7 +189,11 @@ export default function AdminFeesPage() {
       label: "Status",
       render: (row) => {
         const meta = feeStatusMeta[statusToKey[row.status]];
-        return (
+        return meta.bg ? (
+          <span className={`inline-flex items-center rounded-full px-2 py-1 text-xs font-bold ${meta.bg} ${meta.text}`}>
+            {meta.label}
+          </span>
+        ) : (
           <span className={`flex items-center gap-1.5 text-xs font-bold ${meta.text}`}>
             <span className={`size-1.5 rounded-full ${meta.dot}`} />
             {meta.label}
@@ -216,7 +220,7 @@ export default function AdminFeesPage() {
             size="sm"
             disabled={row.status === "PAID"}
             onClick={() => markPaid(row.id)}
-            className="rounded-full bg-brand-end text-background hover:bg-brand-end/90 disabled:bg-white/5 disabled:text-muted-foreground"
+            className="rounded-full bg-brand-end text-white hover:bg-brand-end/90 disabled:bg-white/5 disabled:text-muted-foreground"
           >
             Mark paid
           </Button>
@@ -235,7 +239,7 @@ export default function AdminFeesPage() {
           </p>
         </div>
         <Button
-          className="w-fit gap-2 rounded-full bg-brand-end text-background hover:bg-brand-end/90"
+          className="w-fit gap-2 rounded-full bg-brand-end text-white hover:bg-brand-end/90"
           onClick={() => setDialogOpen(true)}
         >
           <Plus className="size-4" />

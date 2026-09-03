@@ -8,8 +8,10 @@ export const statusToKey = {
   REJECTED: "rejected",
 };
 
+// Status is semantic, not brand — ok/warn/danger read as meaning on white
+// where a neon brand hue (especially bg-brand-lime as text) did not.
 export const statusMeta = {
-  pending: { label: "Pending", dot: "bg-brand-mid", text: "text-brand-mid" },
-  approved: { label: "Approved", dot: "bg-brand-lime", text: "text-brand-lime" },
-  rejected: { label: "Rejected", dot: "bg-brand-start", text: "text-brand-start" },
+  pending: { label: "Pending", dot: "bg-warn", text: "text-warn" },
+  approved: { label: "Approved", bg: "bg-brand-lime-tint", text: "text-brand-lime-ink" },
+  rejected: { label: "Rejected", dot: "bg-danger", text: "text-danger" },
 };

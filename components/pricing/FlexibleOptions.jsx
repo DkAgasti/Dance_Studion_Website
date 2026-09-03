@@ -34,8 +34,8 @@ export default function FlexibleOptions() {
       <motion.h2
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-80px" }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
+        viewport={{ once: true, margin: "120px" }}
+        transition={{ duration: 0.4, ease: "easeOut" }}
         className="h2-display text-center uppercase"
       >
         Flexible <span className="text-brand-end">Options</span>
@@ -47,8 +47,8 @@ export default function FlexibleOptions() {
             key={option.name}
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: 0.5, delay: i * 0.08, ease: "easeOut" }}
+            viewport={{ once: true, margin: "90px" }}
+            transition={{ duration: 0.35, delay: i * 0.08, ease: "easeOut" }}
             className="glass-tile rounded-2xl p-6 text-center transition-transform hover:-translate-y-1"
           >
             <div className="glass mx-auto flex size-12 items-center justify-center rounded-full">

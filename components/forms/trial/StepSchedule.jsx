@@ -42,7 +42,7 @@ export default function StepSchedule({
           min={today}
           value={date}
           onChange={(e) => onDateChange(e.target.value)}
-          className="h-12 w-full max-w-xs rounded-xl border-border bg-white/[0.04] px-4"
+          className="h-12 w-full max-w-xs rounded-xl border-border bg-foreground/[0.04] px-4"
         />
         {error ? <p className="text-xs text-destructive">{error}</p> : null}
       </div>

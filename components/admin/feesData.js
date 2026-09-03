@@ -9,7 +9,7 @@ export const statusToKey = {
 };
 
 export const feeStatusMeta = {
-  due: { label: "Due soon", dot: "bg-brand-mid", text: "text-brand-mid" },
-  overdue: { label: "Overdue", dot: "bg-brand-start", text: "text-brand-start" },
-  paid: { label: "Paid", dot: "bg-brand-lime", text: "text-brand-lime" },
+  due: { label: "Due soon", dot: "bg-warn", text: "text-warn" },
+  overdue: { label: "Overdue", dot: "bg-danger", text: "text-danger" },
+  paid: { label: "Paid", bg: "bg-brand-lime-tint", text: "text-brand-lime-ink" },
 };

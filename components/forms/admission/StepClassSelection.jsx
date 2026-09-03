@@ -42,7 +42,7 @@ export default function StepClassSelection({ value, onChange, register, classes,
           id="preferredBatchNote"
           rows={2}
           placeholder="e.g. Weekday evenings after 6 PM"
-          className="h-auto min-h-20 rounded-xl border-border bg-white/[0.04] px-4 py-3"
+          className="h-auto min-h-20 rounded-xl border-border bg-foreground/[0.04] px-4 py-3"
           {...register("preferredBatchNote")}
         />
       </div>

@@ -13,8 +13,8 @@ export default function Chip({ label, description, selected, onClick }) {
       className={cn(
         "rounded-xl border-2 px-4 py-3 text-left text-sm font-medium transition-colors",
         selected
-          ? "border-brand-lime bg-brand-lime/10 text-foreground"
-          : "glass-tile border-transparent text-foreground/90 hover:border-white/20"
+          ? "border-primary bg-primary/10 text-foreground"
+          : "glass-tile border-transparent text-foreground/90 hover:border-foreground/20"
       )}
     >
       {label}

@@ -18,8 +18,8 @@ export default function SectionHeading({
     <motion.div
       initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-80px" }}
-      transition={{ duration: 0.6, ease: "easeOut" }}
+      viewport={{ once: true, margin: "120px" }}
+      transition={{ duration: 0.4, ease: "easeOut" }}
       className={cn(
         "max-w-2xl",
         align === "center" && "mx-auto text-center",

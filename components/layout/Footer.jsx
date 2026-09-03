@@ -6,7 +6,7 @@ import { siteConfig } from "@/config/site";
 import { cldOptimize } from "@/lib/utils";
 import { useStudioSettings } from "@/lib/useStudioSettings";
 import NewsletterForm from "@/components/layout/NewsletterForm";
-import StudioLogo from "@/components/shared/StudioLogo";
+import StudioBadgeLogo from "@/components/shared/StudioBadgeLogo";
 import { InstagramIcon, FacebookIcon, YoutubeIcon, XIcon, PLATFORM_HOME } from "@/components/shared/SocialIcons";
 
 export default function Footer() {
@@ -27,14 +27,11 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="border-t border-border bg-white/[0.02]">
+    <footer className="border-t border-border bg-foreground/[0.02]">
       <div className="container-page grid grid-cols-1 gap-16 py-24 sm:grid-cols-2 lg:grid-cols-4">
         <div>
           <Link href="/">
-            <StudioLogo
-              className="font-display text-2xl font-bold text-gradient-brand"
-              imgClassName="h-16 w-auto object-contain"
-            />
+            <StudioBadgeLogo className="size-12" />
           </Link>
           {settings?.tagline ? (
             <p className="mt-6 max-w-xs text-sm leading-relaxed text-muted-foreground">

@@ -23,32 +23,32 @@ export default function GalleryHero() {
         gradient="from-brand-mid/20 via-surface to-brand-end/25"
         className="absolute inset-0"
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-background/40" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-black/40" />
 
       <motion.div
         initial={{ opacity: 0, y: 24 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
+        transition={{ duration: 0.4, ease: "easeOut" }}
         className="container-page relative pt-[calc(var(--header-h,88px)+24px)] md:pt-28"
       >
-        <h1 className="font-[family-name:var(--font-playfair)] text-5xl leading-[1.05] font-bold text-balance md:text-7xl">
+        <h1 className="font-[family-name:var(--font-playfair)] text-5xl leading-[1.05] font-bold text-balance text-white md:text-7xl">
           Capture
           <br />
           <span className="text-gradient-brand">The Moments</span>
         </h1>
-        <p className="eyebrow mt-4">With Our Team | ASM Dance Studio</p>
+        <p className="eyebrow mt-4 text-white/70">With Our Team | ASM Dance Studio</p>
       </motion.div>
 
       <motion.div
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 0.15, ease: "easeOut" }}
+        transition={{ duration: 0.4, delay: 0.15, ease: "easeOut" }}
         className="container-page relative flex flex-col gap-6 pb-10 sm:flex-row sm:items-center sm:justify-between"
       >
         {phone ? (
           <a
             href={`tel:${phone}`}
-            className="flex items-center gap-2 text-sm text-muted-foreground"
+            className="flex items-center gap-2 text-sm text-white/70"
           >
             <Phone className="size-4" />
             Call Center: {phone}
@@ -60,13 +60,13 @@ export default function GalleryHero() {
         <div className="flex items-center gap-3">
           <BookingLink
             href="/book-trial"
-            className="rounded-full bg-brand-lime px-6 py-2.5 text-sm font-bold text-background transition-transform hover:scale-105"
+            className="rounded-full bg-primary px-6 py-2.5 text-sm font-bold text-white transition-transform hover:scale-105"
           >
             Book a Class
           </BookingLink>
           <Link
             href="/contact"
-            className="rounded-full border border-border px-6 py-2.5 text-sm font-bold text-foreground transition-colors hover:bg-white/5"
+            className="rounded-full border border-white/40 px-6 py-2.5 text-sm font-bold text-white transition-colors hover:bg-white/10"
           >
             Contact Us
           </Link>

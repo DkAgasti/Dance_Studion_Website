@@ -37,8 +37,8 @@ const COLUMNS = [
         className={cn(
           "rounded-full px-2.5 py-1 text-xs font-bold",
           row.status === "APPROVED"
-            ? "bg-brand-lime/15 text-brand-lime"
-            : "bg-white/10 text-muted-foreground"
+            ? "bg-brand-lime-tint text-brand-lime-ink"
+            : "bg-foreground/5 text-muted-foreground"
         )}
       >
         {STATUS_LABEL[row.status] ?? row.status}
@@ -56,7 +56,7 @@ export default function RecentAdmissions({ admissions }) {
         <h3 className="font-medium">Recent Admissions</h3>
         <Link
           href="/admin/admissions"
-          className="text-xs font-bold text-brand-lime hover:underline"
+          className="text-xs font-bold text-brand-lime-ink hover:underline"
         >
           View All
         </Link>

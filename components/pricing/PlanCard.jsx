@@ -14,17 +14,17 @@ export default function PlanCard({ plan, period, index }) {
     <motion.div
       initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-60px" }}
-      transition={{ duration: 0.5, delay: index * 0.08, ease: "easeOut" }}
+      viewport={{ once: true, margin: "90px" }}
+      transition={{ duration: 0.35, delay: index * 0.08, ease: "easeOut" }}
       className={cn(
         "relative flex flex-col rounded-3xl border p-8 transition-transform hover:-translate-y-1",
         plan.highlighted
-          ? "border-brand-lime bg-surface/80 shadow-2xl"
+          ? "border-primary bg-surface/80 shadow-2xl"
           : "glass-tile"
       )}
     >
       {plan.highlighted ? (
-        <span className="bg-brand-lime absolute -top-4 left-1/2 -translate-x-1/2 rounded-full px-4 py-1.5 text-[11px] font-bold tracking-wide text-background uppercase">
+        <span className="bg-brand-lime-tint absolute -top-4 left-1/2 -translate-x-1/2 rounded-full px-4 py-1.5 text-[11px] font-bold tracking-wide text-brand-lime-ink uppercase">
           Most Popular
         </span>
       ) : null}
@@ -55,7 +55,7 @@ export default function PlanCard({ plan, period, index }) {
               className={cn(
                 "mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full",
                 plan.highlighted
-                  ? "bg-brand-lime text-background"
+                  ? "bg-primary text-white"
                   : "bg-brand-mid/15 text-brand-mid"
               )}
             >
@@ -72,8 +72,8 @@ export default function PlanCard({ plan, period, index }) {
         className={cn(
           "mt-10 h-14 rounded-full font-bold",
           plan.highlighted
-            ? "bg-brand-lime text-background hover:bg-brand-lime/90"
-            : "border border-border bg-transparent text-foreground hover:bg-white/5"
+            ? "bg-primary text-white hover:bg-primary/90"
+            : "border border-border bg-transparent text-foreground hover:bg-foreground/5"
         )}
       >
         <BookingLink href={`/admissions?plan=${plan.id}`}>{plan.ctaLabel}</BookingLink>

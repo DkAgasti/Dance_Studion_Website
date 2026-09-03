@@ -16,7 +16,7 @@ export default function Founder() {
         initial={{ opacity: 0, y: 32 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-100px" }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
+        transition={{ duration: 0.4, ease: "easeOut" }}
         className="glass-strong grid grid-cols-1 gap-10 rounded-3xl p-6 sm:p-10 md:grid-cols-[minmax(0,340px)_1fr] md:items-center md:rounded-4xl md:p-16"
       >
         <ImageWithFallback
@@ -26,7 +26,7 @@ export default function Founder() {
         />
 
         <div>
-          <p className="eyebrow text-brand-end">Meet the Visionary</p>
+          <p className="eyebrow">Meet the Visionary</p>
           <h2 className="h2-display mt-4">Trishna</h2>
           <blockquote className="font-display mt-6 max-w-xl text-2xl leading-snug text-foreground/90 md:text-3xl">
             &ldquo;Dance isn&apos;t just about the steps; it&apos;s about the

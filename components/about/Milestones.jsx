@@ -13,7 +13,7 @@ const PAGE_SIZE = 2;
 const STYLES = [
   { color: "text-brand-start", dot: "bg-brand-start", gradient: "from-[#3a2a1f] via-surface to-[#7a5320]" },
   { color: "text-brand-mid", dot: "bg-brand-mid", gradient: "from-[#1c1140] via-surface to-[#3a1f6b]" },
-  { color: "text-brand-lime", dot: "bg-brand-lime", gradient: "from-[#2a2a0f] via-surface to-[#5a5a1a]" },
+  { color: "text-brand-lime-ink", dot: "bg-brand-lime-ink", gradient: "from-[#2a2a0f] via-surface to-[#5a5a1a]" },
 ];
 
 function toEvent(m, i) {
@@ -49,8 +49,8 @@ function Milestone({ event, index }) {
         <motion.div
           initial={{ opacity: 0, x: reversed ? 24 : -24 }}
           whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
+          viewport={{ once: true, margin: "120px" }}
+          transition={{ duration: 0.4, ease: "easeOut" }}
           className={cn(
             "flex-1 text-center",
             !reversed ? "md:text-right" : "md:text-left"
@@ -73,8 +73,8 @@ function Milestone({ event, index }) {
         <motion.div
           initial={{ opacity: 0, x: reversed ? -24 : 24 }}
           whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
+          viewport={{ once: true, margin: "120px" }}
+          transition={{ duration: 0.4, ease: "easeOut" }}
           className="flex-1"
         >
           <ImageWithFallback
@@ -148,13 +148,13 @@ export default function Milestones() {
   if (!loading && !milestones.length) return null;
 
   return (
-    <section className="border-y border-border bg-white/[0.02]">
+    <section className="border-y border-border bg-foreground/[0.02]">
       <div className="container-page section-y">
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
+          viewport={{ once: true, margin: "120px" }}
+          transition={{ duration: 0.4, ease: "easeOut" }}
           className="h2-display text-center uppercase"
         >
           Milestones

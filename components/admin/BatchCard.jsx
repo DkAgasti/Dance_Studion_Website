@@ -6,21 +6,23 @@ import { cn } from "@/lib/utils";
 const ICONS = { music: Music, feather: Feather, zap: Zap, sparkles: Sparkles };
 
 const ACCENT_HEX = {
-  "brand-start": "#ff2d55",
-  "brand-mid": "#7c5cff",
-  "brand-end": "#22d3ee",
-  "brand-lime": "#c6ff3a",
+  "brand-start": "#c8102e",
+  "brand-mid": "#5b21b6",
+  "brand-end": "#0e7490",
+  "brand-lime": "#3f6212",
 };
 
+// Capacity is a status, not a brand accent — semantic ok/warn/danger colors
+// instead of borrowing a neon brand hue for meaning it never had.
 function capacityInfo(enrolled, capacity) {
   const percent = Math.min(100, Math.round((enrolled / capacity) * 100));
   if (enrolled >= capacity) {
-    return { label: "Full", percent: 100, color: "#ff2d55" };
+    return { label: "Full", percent: 100, color: "var(--danger)" };
   }
   if (percent >= 70) {
-    return { label: `${percent}% Capacity`, percent, color: "#7c5cff" };
+    return { label: `${percent}% Capacity`, percent, color: "var(--warn)" };
   }
-  return { label: `${percent}% Capacity`, percent, color: "#c6ff3a" };
+  return { label: `${percent}% Capacity`, percent, color: "var(--ok)" };
 }
 
 // A single batch/schedule card — click opens the roster panel; edit/delete

@@ -23,7 +23,7 @@ export default function CTABand({
         initial={{ opacity: 0, y: 32 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-100px" }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
+        transition={{ duration: 0.4, ease: "easeOut" }}
         className="bg-gradient-brand relative overflow-hidden rounded-3xl px-6 py-16 text-center sm:px-12 sm:py-20 md:rounded-4xl md:py-24"
       >
         <h2 className="h2-display mx-auto max-w-3xl text-white text-balance">
@@ -38,7 +38,7 @@ export default function CTABand({
           <Button
             asChild
             size="lg"
-            className="h-[68px] rounded-full bg-white px-10 text-base font-bold text-background shadow-2xl hover:bg-white/90"
+            className="h-[68px] rounded-full bg-white px-10 text-base font-bold text-foreground shadow-2xl hover:bg-white/90"
           >
             <BookingLink href={primaryHref}>{primaryLabel}</BookingLink>
           </Button>

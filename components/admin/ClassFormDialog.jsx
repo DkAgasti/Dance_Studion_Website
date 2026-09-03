@@ -260,7 +260,7 @@ function ClassForm({ danceClass, onSubmit }) {
       </div>
 
       <DialogFooter className="mx-0 mb-0 mt-4 rounded-none border-t-0 bg-transparent p-0">
-        <Button type="submit" className="rounded-full bg-brand-end text-background hover:bg-brand-end/90">
+        <Button type="submit" className="rounded-full bg-brand-end text-white hover:bg-brand-end/90">
           {danceClass ? "Save Changes" : "Add Class"}
         </Button>
       </DialogFooter>

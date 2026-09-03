@@ -69,7 +69,7 @@ export default function StepConfirm({ values, onEdit, services = [] }) {
             <button
               type="button"
               onClick={() => onEdit(row.step)}
-              className="shrink-0 text-xs font-bold text-brand-lime hover:underline"
+              className="shrink-0 text-xs font-bold text-brand-lime-ink hover:underline"
             >
               Edit
             </button>

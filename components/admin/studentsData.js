@@ -3,7 +3,7 @@
 // each already carries a computed `feeStatus` ("paid"/"due-soon"/"overdue",
 // see lib/feeStatus.js), so no enum-to-key mapping is needed here.
 export const feeStatusMeta = {
-  paid: { label: "Paid", dot: "bg-brand-lime", text: "text-brand-lime" },
+  paid: { label: "Paid", bg: "bg-brand-lime-tint", text: "text-brand-lime-ink" },
   overdue: { label: "Overdue", dot: "bg-brand-start", text: "text-brand-start" },
   "due-soon": { label: "Due soon", dot: "bg-brand-mid", text: "text-brand-mid" },
   "no-fee": { label: "No Fee Set", dot: "bg-muted-foreground", text: "text-muted-foreground" },

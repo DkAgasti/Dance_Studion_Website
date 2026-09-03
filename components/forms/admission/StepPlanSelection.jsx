@@ -36,7 +36,7 @@ export default function StepPlanSelection({ value, onChange, selectedClass }) {
             ))}
           </div>
         ) : (
-          <p className="rounded-xl border border-border bg-white/[0.03] px-4 py-3 text-sm text-muted-foreground">
+          <p className="rounded-xl border border-border bg-foreground/[0.03] px-4 py-3 text-sm text-muted-foreground">
             No batches are scheduled for this class yet — our team will reach out to set up a
             time and confirm pricing with you.
           </p>

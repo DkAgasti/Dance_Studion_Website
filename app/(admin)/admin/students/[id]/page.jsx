@@ -165,7 +165,7 @@ export default function AdminStudentDetailPage() {
               <span>#{student.code}</span>
               <span
                 className={`rounded-full px-2 py-0.5 text-xs font-bold ${
-                  student.active ? "bg-brand-lime/15 text-brand-lime" : "bg-white/10 text-muted-foreground"
+                  student.active ? "bg-brand-lime-tint text-brand-lime-ink" : "bg-foreground/5 text-muted-foreground"
                 }`}
               >
                 {student.active ? "Active" : "Inactive"}
@@ -249,7 +249,7 @@ export default function AdminStudentDetailPage() {
                   size="sm"
                   onClick={() => handleMarkFirstPaymentPaid(student.batch)}
                   disabled={markingPaid}
-                  className="mt-1 w-fit rounded-full bg-brand-lime text-background hover:bg-brand-lime/90"
+                  className="mt-1 w-fit rounded-full bg-primary text-white hover:bg-primary/90"
                 >
                   {markingPaid
                     ? "Marking..."

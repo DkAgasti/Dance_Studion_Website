@@ -79,11 +79,11 @@ export default function ClassGallery({ images = [] }) {
       <motion.h2
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-80px" }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
+        viewport={{ once: true, margin: "120px" }}
+        transition={{ duration: 0.4, ease: "easeOut" }}
         className="h2-display"
       >
-        Class <span className="text-brand-lime">Energy</span>
+        Class <span className="text-brand-lime-ink">Energy</span>
       </motion.h2>
 
       <div className="mt-10 grid grid-cols-2 gap-4 md:grid-cols-4">
@@ -92,8 +92,8 @@ export default function ClassGallery({ images = [] }) {
             key={`${src}-${i}`}
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: 0.5, delay: (i % 4) * 0.08, ease: "easeOut" }}
+            viewport={{ once: true, margin: "90px" }}
+            transition={{ duration: 0.35, delay: (i % 4) * 0.08, ease: "easeOut" }}
             className="group relative aspect-[3/4] overflow-hidden rounded-xl border border-border"
           >
             <GalleryTile src={src} />

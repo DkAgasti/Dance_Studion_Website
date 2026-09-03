@@ -8,7 +8,7 @@ export default function Marquee() {
   const names = danceStyles.map((s) => s.name);
 
   return (
-    <section className="overflow-hidden border-y border-border bg-white/[0.02] py-6">
+    <section className="overflow-hidden border-y border-border bg-foreground/[0.02] py-6">
       <motion.div
         className="flex w-max gap-16"
         animate={{ x: ["0%", "-50%"] }}

@@ -104,7 +104,7 @@ function TestimonialForm({ testimonial, onSubmit }) {
                 <Star
                   className={
                     n <= form.rating
-                      ? "size-6 fill-brand-lime text-brand-lime"
+                      ? "size-6 fill-gold text-gold"
                       : "size-6 text-muted-foreground"
                   }
                 />
@@ -137,7 +137,7 @@ function TestimonialForm({ testimonial, onSubmit }) {
       </div>
 
       <DialogFooter className="mt-2">
-        <Button type="submit" className="rounded-full bg-brand-end text-background hover:bg-brand-end/90">
+        <Button type="submit" className="rounded-full bg-brand-end text-white hover:bg-brand-end/90">
           {testimonial ? "Save Changes" : "Add Testimonial"}
         </Button>
       </DialogFooter>
@@ -267,7 +267,7 @@ const TestimonialsTab = forwardRef(function TestimonialsTab(_props, ref) {
         {testimonials.map((t) => (
           <div key={t.id} className="glass-tile flex flex-col rounded-2xl p-6">
             <div className="flex items-start justify-between">
-              <div className="flex gap-0.5 text-brand-lime">
+              <div className="flex gap-0.5 text-gold">
                 {Array.from({ length: t.rating }).map((_, i) => (
                   <Star key={i} className="size-4 fill-current" strokeWidth={0} />
                 ))}

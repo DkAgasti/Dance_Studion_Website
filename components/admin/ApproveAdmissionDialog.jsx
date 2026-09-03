@@ -94,7 +94,7 @@ function ApproveForm({ applicant, onConfirm }) {
         <Button
           onClick={handleConfirm}
           disabled={!batchId || submitting}
-          className="rounded-full bg-brand-end text-background hover:bg-brand-end/90"
+          className="rounded-full bg-brand-end text-white hover:bg-brand-end/90"
         >
           {submitting ? "Approving..." : "Approve & Enroll"}
         </Button>

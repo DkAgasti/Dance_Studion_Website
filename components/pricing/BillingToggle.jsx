@@ -25,7 +25,7 @@ export default function BillingToggle({ period, onChange }) {
         role="switch"
         aria-checked={isQuarterly}
         onClick={() => onChange(isQuarterly ? "monthly" : "quarterly")}
-        className="relative flex h-7 w-12 items-center rounded-full border border-border bg-white/[0.06] p-1"
+        className="relative flex h-7 w-12 items-center rounded-full border border-border bg-foreground/[0.06] p-1"
       >
         <motion.span
           layout
@@ -40,11 +40,11 @@ export default function BillingToggle({ period, onChange }) {
         onClick={() => onChange("quarterly")}
         className={cn(
           "flex items-center gap-2 text-sm font-bold tracking-wide uppercase transition-colors",
-          isQuarterly ? "text-brand-lime" : "text-muted-foreground"
+          isQuarterly ? "text-brand-lime-ink" : "text-muted-foreground"
         )}
       >
         Quarterly
-        <span className="bg-brand-lime rounded-full px-2 py-0.5 text-[10px] font-bold text-background">
+        <span className="bg-brand-lime-tint rounded-full px-2 py-0.5 text-[10px] font-bold text-brand-lime-ink">
           Save 10%
         </span>
       </button>

@@ -33,9 +33,10 @@ export default function DataTable({ columns, rows, onRowClick, selectedId }) {
               key={row.id ?? i}
               onClick={onRowClick ? () => onRowClick(row) : undefined}
               className={cn(
-                i !== rows.length - 1 && "border-b border-border/60",
-                onRowClick && "cursor-pointer hover:bg-white/[0.03]",
-                selectedId != null && row.id === selectedId && "bg-white/[0.05]"
+                i !== rows.length - 1 && "border-b border-border",
+                i % 2 === 1 && "bg-foreground/[0.015]",
+                onRowClick && "cursor-pointer hover:bg-foreground/[0.04]",
+                selectedId != null && row.id === selectedId && "bg-brand-end/10"
               )}
             >
               {columns.map((col) => (

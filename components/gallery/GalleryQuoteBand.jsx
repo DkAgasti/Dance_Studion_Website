@@ -22,8 +22,8 @@ export default function GalleryQuoteBand() {
         <motion.blockquote
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
+          viewport={{ once: true, margin: "120px" }}
+          transition={{ duration: 0.4, ease: "easeOut" }}
           className="font-[family-name:var(--font-playfair)] text-3xl leading-snug font-bold text-balance md:text-4xl"
         >
           &ldquo;Great art isn&apos;t just performed; it&apos;s the art you
@@ -36,8 +36,8 @@ export default function GalleryQuoteBand() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
+          viewport={{ once: true, margin: "120px" }}
+          transition={{ duration: 0.4, delay: 0.1, ease: "easeOut" }}
         >
           <p className="eyebrow text-brand-end">About ASM</p>
           <div className="mt-4 flex flex-col gap-4 text-muted-foreground">

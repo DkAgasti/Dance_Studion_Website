@@ -33,7 +33,7 @@ export default function VideoSourceInput({ value, onChange, label = "Video" }) {
           className={cn(
             "flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-bold transition-colors",
             value.type === "upload"
-              ? "bg-brand-end text-background"
+              ? "bg-brand-end text-white"
               : "glass-tile text-muted-foreground hover:text-foreground"
           )}
         >
@@ -46,7 +46,7 @@ export default function VideoSourceInput({ value, onChange, label = "Video" }) {
           className={cn(
             "flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-bold transition-colors",
             value.type === "embed"
-              ? "bg-brand-end text-background"
+              ? "bg-brand-end text-white"
               : "glass-tile text-muted-foreground hover:text-foreground"
           )}
         >

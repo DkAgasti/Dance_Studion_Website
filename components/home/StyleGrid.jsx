@@ -31,8 +31,8 @@ function StyleTile({ style, position, index }) {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-60px" }}
-      transition={{ duration: 0.5, delay: (index % 4) * 0.06, ease: "easeOut" }}
+      viewport={{ once: true, margin: "90px" }}
+      transition={{ duration: 0.35, delay: (index % 4) * 0.06, ease: "easeOut" }}
       className={cn(
         "h-64 md:h-auto",
         index >= MOBILE_VISIBLE_COUNT && "hidden md:block",
@@ -40,7 +40,7 @@ function StyleTile({ style, position, index }) {
       )}
     >
       {style.layout === "icon" && !style.imageUrl ? (
-        <div className="glass-tile flex h-full flex-col items-center justify-center gap-3 rounded-xl p-6 text-center transition-colors hover:border-white/20">
+        <div className="glass-tile flex h-full flex-col items-center justify-center gap-3 rounded-xl p-6 text-center transition-colors hover:border-foreground/20">
           {Icon ? <Icon className="size-7 text-brand-mid" strokeWidth={1.5} /> : null}
           <h3 className="h4-display">{style.name}</h3>
         </div>
@@ -52,7 +52,7 @@ function StyleTile({ style, position, index }) {
             className="absolute inset-0"
             imgClassName="transition-transform duration-700 ease-out group-hover:scale-110"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/10 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/10 to-transparent" />
           <div className="absolute inset-0 flex flex-col justify-end p-6">
             {style.badge ? (
               <span className="glass mb-4 inline-flex w-fit rounded-full px-3 py-1 text-xs font-bold tracking-wide text-white uppercase">

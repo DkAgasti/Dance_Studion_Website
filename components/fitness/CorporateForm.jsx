@@ -12,7 +12,7 @@ import { Label } from "@/components/ui/label";
 import { corporateSessionSchema } from "@/lib/validations/corporateSession";
 
 const fieldClassName =
-  "h-12 rounded-xl border-border bg-white/[0.04] px-4 focus-visible:ring-ring/40";
+  "h-12 rounded-xl border-border bg-foreground/[0.04] px-4 focus-visible:ring-ring/40";
 
 // "Request a Corporate Session" form — validated client-side, success state
 // shown on submit (no backend yet).
@@ -53,14 +53,14 @@ export default function CorporateForm() {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-80px" }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
+        viewport={{ once: true, margin: "120px" }}
+        transition={{ duration: 0.4, ease: "easeOut" }}
         className="glass-strong mx-auto max-w-2xl rounded-3xl p-8 sm:p-12"
       >
         <div className="text-center">
-          <p className="eyebrow text-brand-lime">Corporate Wellness</p>
+          <p className="eyebrow">Corporate Wellness</p>
           <h2 className="h2-display mt-4 text-2xl text-balance md:text-3xl">
-            Request a Corporate <span className="text-brand-lime">Session</span>
+            Request a Corporate <span className="text-brand-lime-ink">Session</span>
           </h2>
           <p className="mt-3 text-muted-foreground">
             Bring the energy of ASM to your workplace. Fill out the details
@@ -70,11 +70,11 @@ export default function CorporateForm() {
 
           <div className="mt-6 flex flex-col items-center justify-center gap-3 text-sm text-muted-foreground sm:flex-row sm:gap-8">
             <span className="flex items-center gap-2">
-              <Building2 className="size-4 text-brand-lime" />
+              <Building2 className="size-4 text-brand-lime-ink" />
               Tailored for 10-500+ employees
             </span>
             <span className="flex items-center gap-2">
-              <Clock className="size-4 text-brand-lime" />
+              <Clock className="size-4 text-brand-lime-ink" />
               Flexible scheduling (Weekday/Weekend)
             </span>
           </div>
@@ -89,7 +89,7 @@ export default function CorporateForm() {
               transition={{ duration: 0.4, ease: "easeOut" }}
               className="mt-10 flex flex-col items-center gap-4 py-6 text-center"
             >
-              <CheckCircle2 className="size-14 text-brand-lime" strokeWidth={1.5} />
+              <CheckCircle2 className="size-14 text-brand-lime-ink" strokeWidth={1.5} />
               <h3 className="h4-display">Request sent!</h3>
               <p className="max-w-sm text-sm text-muted-foreground">
                 Thanks for reaching out — our team will get back to you

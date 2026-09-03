@@ -20,7 +20,7 @@ export default function StepMedicalConsent({ register, errors, consent, onConsen
           id="medicalNotes"
           rows={4}
           placeholder="Let us know anything our trainers should be aware of."
-          className="h-auto min-h-28 rounded-xl border-border bg-white/[0.04] px-4 py-3"
+          className="h-auto min-h-28 rounded-xl border-border bg-foreground/[0.04] px-4 py-3"
           {...register("medicalNotes")}
         />
       </div>
@@ -30,7 +30,7 @@ export default function StepMedicalConsent({ register, errors, consent, onConsen
           type="checkbox"
           checked={consent}
           onChange={(e) => onConsentChange(e.target.checked)}
-          className="mt-0.5 size-4 shrink-0 accent-brand-lime"
+          className="mt-0.5 size-4 shrink-0 accent-primary"
         />
         <span className="text-sm text-foreground/90">
           I consent to ASM Dance Studio staff providing basic first aid in

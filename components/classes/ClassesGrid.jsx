@@ -53,8 +53,8 @@ export default function ClassesGrid({ initialClasses = [] }) {
       <motion.div
         initial={{ opacity: 0, y: 16 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-60px" }}
-        transition={{ duration: 0.5 }}
+        viewport={{ once: true, margin: "90px" }}
+        transition={{ duration: 0.35 }}
       >
         <ClassFilters
           age={age}

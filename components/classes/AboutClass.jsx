@@ -24,14 +24,14 @@ export default function AboutClass({ classItem, batches }) {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
+          viewport={{ once: true, margin: "120px" }}
+          transition={{ duration: 0.4, ease: "easeOut" }}
           className="lg:col-span-2"
         >
           {description ? (
             <>
               <h2 className="h2-display">
-                About This <span className="text-brand-lime">Class</span>
+                About This <span className="text-brand-lime-ink">Class</span>
               </h2>
               <div className="mt-6 max-w-2xl space-y-4 whitespace-pre-line text-muted-foreground">
                 {description}
@@ -47,7 +47,7 @@ export default function AboutClass({ classItem, batches }) {
               <ul className="mt-6 grid grid-cols-1 gap-x-8 gap-y-3 sm:grid-cols-2">
                 {learn.map((point) => (
                   <li key={point} className="flex items-start gap-3 text-sm text-foreground/90">
-                    <span className="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-brand-lime/15 text-brand-lime">
+                    <span className="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-brand-lime-tint text-brand-lime-ink">
                       <Check className="size-3" strokeWidth={3} />
                     </span>
                     {point}
@@ -61,8 +61,8 @@ export default function AboutClass({ classItem, batches }) {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
+          viewport={{ once: true, margin: "120px" }}
+          transition={{ duration: 0.4, delay: 0.1, ease: "easeOut" }}
           className="glass flex flex-col rounded-3xl p-8"
         >
           <h3 className="text-xs font-bold tracking-wide text-muted-foreground uppercase">
