@@ -1,0 +1,55 @@
+steps:
+  # Step 1: Build Docker image with Next.js public build args
+  - name: "gcr.io/cloud-builders/docker"
+    args:
+      - "build"
+      - "--build-arg"
+      - "NEXT_PUBLIC_SITE_URL=${_NEXT_PUBLIC_SITE_URL}"
+      - "--build-arg"
+      - "NEXT_PUBLIC_SUPABASE_URL=${_NEXT_PUBLIC_SUPABASE_URL}"
+      - "--build-arg"
+      - "NEXT_PUBLIC_SUPABASE_ANON_KEY=${_NEXT_PUBLIC_SUPABASE_ANON_KEY}"
+      - "--build-arg"
+      - "NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=${_NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}"
+      - "--build-arg"
+      - "NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET=${_NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET}"
+      - "-t"
+      - "${_AR_REGION}-docker.pkg.dev/$PROJECT_ID/${_AR_REPO}/${_SERVICE_NAME}:$COMMIT_SHA"
+      - "."
+
+  # Step 2: Push Docker image to Artifact Registry (asia-south1/freelance-apps)
+  - name: "gcr.io/cloud-builders/docker"
+    args:
+      - "push"
+      - "${_AR_REGION}-docker.pkg.dev/$PROJECT_ID/${_AR_REPO}/${_SERVICE_NAME}:$COMMIT_SHA"
+
+  - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
+    entrypoint: gcloud
+    args:
+      - "run"
+      - "deploy"
+      - "${_SERVICE_NAME}"
+      - "--image"
+      - "${_AR_REGION}-docker.pkg.dev/$PROJECT_ID/${_AR_REPO}/${_SERVICE_NAME}:$COMMIT_SHA"
+      - "--region"
+      - "${_RUN_REGION}"
+      - "--platform"
+      - "managed"
+      - "--allow-unauthenticated"
+
+images:
+  - "${_AR_REGION}-docker.pkg.dev/$PROJECT_ID/${_AR_REPO}/${_SERVICE_NAME}:$COMMIT_SHA"
+
+substitutions:
+  _SERVICE_NAME: "asm-dance-studio"
+  _RUN_REGION: "asia-southeast1"
+  _AR_REGION: "asia-south1"
+  _AR_REPO: "freelance-apps"
+  _NEXT_PUBLIC_SITE_URL: "https://asmdancestudioodisha.com"
+  _NEXT_PUBLIC_SUPABASE_URL: "https://skchvgppqrejpadurfnh.supabase.co"
+  _NEXT_PUBLIC_SUPABASE_ANON_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNrY2h2Z3BwcXJlanBhZHVyZm5oIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc1ODgyNzksImV4cCI6MjEwMzE2NDI3OX0.tflRcjFVEscqrBA8P6F9pxWaoNoSzGcOY9Lq7VhVUY4"
+  _NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME: "fexwwils"
+  _NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET: "asm_unsigned"
+
+options:
+  logging: CLOUD_LOGGING_ONLY

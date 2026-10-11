@@ -1,0 +1,15 @@
+{
+  "hosting": {
+    "public": "firebase-public",
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+    "rewrites": [
+      {
+        "source": "**",
+        "run": {
+          "serviceId": "asm-dance-studio",
+          "region": "asia-south1"
+        }
+      }
+    ]
+  }
+}
